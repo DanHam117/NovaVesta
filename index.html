@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -42,61 +43,68 @@
    ================================================== */
 
 :root {
+
     --bg: #07100b;
     --panel: #0d1a12;
     --panel-active: #102319;
-    --panel-light: #13271b;
-
     --green: #55d68a;
     --green-bright: #7affad;
     --green-dim: #347a50;
-
     --text: #edf8f0;
     --muted: #789080;
 
-    --border: rgba(85, 214, 138, 0.17);
+    --border:
+        rgba(85, 214, 138, 0.17);
 
     --danger: #d86b6b;
 
     --glow:
-        0 0 18px rgba(85, 214, 138, 0.18);
+        0 0 18px
+        rgba(85, 214, 138, 0.18);
 }
 
 
-/* ==================================================
-   BASIC RESET
-   ================================================== */
-
 * {
+
     box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
+
+    -webkit-tap-highlight-color:
+        transparent;
+
 }
 
 
 html {
+
     background: var(--bg);
 
     -webkit-text-size-adjust: 100%;
+
     text-size-adjust: 100%;
 
     min-height: 100%;
+
 }
 
 
 body {
+
     margin: 0;
 
     min-height: 100vh;
+
     min-height: 100dvh;
 
     overflow-x: hidden;
 
     background:
+
         radial-gradient(
             circle at 50% -10%,
             rgba(44, 130, 76, 0.18),
             transparent 45%
         ),
+
         var(--bg);
 
     color: var(--text);
@@ -109,15 +117,18 @@ body {
         sans-serif;
 
     touch-action: manipulation;
+
 }
 
 
 /* ==================================================
-   APP CONTAINER
+   APP
    ================================================== */
 
 .app {
+
     width: 100%;
+
     max-width: 680px;
 
     margin: 0 auto;
@@ -132,7 +143,11 @@ body {
         max(18px, env(safe-area-inset-right));
 
     padding-bottom:
-        calc(40px + env(safe-area-inset-bottom));
+        calc(
+            40px +
+            env(safe-area-inset-bottom)
+        );
+
 }
 
 
@@ -141,27 +156,33 @@ body {
    ================================================== */
 
 header {
+
     text-align: center;
 
     padding-top: 8px;
 
     margin-bottom: 24px;
+
 }
 
 
 .flame {
+
     font-size: 25px;
 
     color: var(--green-bright);
 
     text-shadow:
-        0 0 15px rgba(122, 255, 173, 0.5);
+        0 0 15px
+        rgba(122, 255, 173, 0.5);
 
     margin-bottom: 4px;
+
 }
 
 
 h1 {
+
     margin: 0;
 
     font-size: 29px;
@@ -171,15 +192,18 @@ h1 {
     font-weight: 600;
 
     letter-spacing: -0.4px;
+
 }
 
 
 .date {
+
     margin-top: 7px;
 
     color: var(--muted);
 
     font-size: 14px;
+
 }
 
 
@@ -188,6 +212,7 @@ h1 {
    ================================================== */
 
 .progress {
+
     text-align: center;
 
     margin-bottom: 14px;
@@ -195,33 +220,36 @@ h1 {
     color: var(--muted);
 
     font-size: 14px;
+
 }
 
 
 .progress strong {
+
     color: var(--green);
+
 }
 
 
 /* ==================================================
-   ROUTINE LIST
+   ROUTINE
    ================================================== */
 
 .routine {
+
     display: flex;
 
     flex-direction: column;
 
     gap: 9px;
+
 }
 
 
-/* ==================================================
-   TASK WRAPPER
-   ================================================== */
-
 .task-wrapper {
+
     width: 100%;
+
 }
 
 
@@ -230,6 +258,7 @@ h1 {
    ================================================== */
 
 .item {
+
     display: flex;
 
     align-items: center;
@@ -258,21 +287,24 @@ h1 {
         background 0.15s ease,
         border-color 0.15s ease,
         opacity 0.15s ease;
+
 }
 
 
 .item:active {
+
     background: var(--panel-active);
 
     border-color:
         rgba(85, 214, 138, 0.32);
 
-    transform: scale(0.995);
 }
 
 
 .item.completed {
+
     opacity: 0.67;
+
 }
 
 
@@ -281,10 +313,13 @@ h1 {
    ================================================== */
 
 .checkbox {
+
     appearance: none;
+
     -webkit-appearance: none;
 
     width: 30px;
+
     height: 30px;
 
     min-width: 30px;
@@ -292,7 +327,8 @@ h1 {
     margin: 0;
 
     border:
-        2px solid var(--green-dim);
+        2px solid
+        var(--green-dim);
 
     border-radius: 9px;
 
@@ -301,19 +337,23 @@ h1 {
     position: relative;
 
     cursor: pointer;
+
 }
 
 
 .checkbox::before {
+
     content: "";
 
     position: absolute;
 
     inset: -10px;
+
 }
 
 
 .checkbox:checked {
+
     background: var(--green);
 
     border-color: var(--green);
@@ -321,15 +361,18 @@ h1 {
     box-shadow:
         0 0 14px
         rgba(85, 214, 138, 0.32);
+
 }
 
 
 .checkbox:checked::after {
+
     content: "✓";
 
     position: absolute;
 
     left: 4px;
+
     top: -1px;
 
     color: #07100b;
@@ -337,21 +380,25 @@ h1 {
     font-size: 21px;
 
     font-weight: 800;
+
 }
 
 
 /* ==================================================
-   TASK TEXT
+   TASK CONTENT
    ================================================== */
 
 .item-content {
+
     flex: 1;
 
     min-width: 0;
+
 }
 
 
 .item-name {
+
     font-size: 17px;
 
     line-height: 1.3;
@@ -360,20 +407,29 @@ h1 {
 
     word-break: break-word;
 
-    outline: none;
+    cursor: pointer;
 
-    cursor: text;
+}
+
+
+.item-name:active {
+
+    color: var(--green);
+
 }
 
 
 .completed .item-name {
+
     text-decoration: line-through;
 
     color: #91a598;
+
 }
 
 
 .timestamp {
+
     margin-top: 3px;
 
     min-height: 15px;
@@ -381,15 +437,18 @@ h1 {
     color: var(--green-dim);
 
     font-size: 12px;
+
 }
 
 
 /* ==================================================
-   TASK ACTION BUTTONS
+   TASK BUTTONS
    ================================================== */
 
 .task-action {
+
     width: 32px;
+
     height: 32px;
 
     min-width: 32px;
@@ -397,6 +456,7 @@ h1 {
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     padding: 0;
@@ -412,29 +472,36 @@ h1 {
     cursor: pointer;
 
     font-size: 17px;
+
 }
 
 
 .task-action:active {
+
     background:
         rgba(85, 214, 138, 0.12);
 
     color: var(--green);
+
 }
 
 
 .delete {
+
     color: #405247;
 
     font-size: 21px;
+
 }
 
 
 .delete:active {
+
     background:
         rgba(216, 107, 107, 0.10);
 
     color: var(--danger);
+
 }
 
 
@@ -443,6 +510,7 @@ h1 {
    ================================================== */
 
 .schedule-panel {
+
     display: none;
 
     margin-top: 5px;
@@ -452,20 +520,25 @@ h1 {
     background: var(--panel);
 
     border:
-        1px solid var(--border);
+        1px solid
+        var(--border);
 
     border-radius: 12px;
 
     box-shadow: var(--glow);
+
 }
 
 
 .schedule-panel.open {
+
     display: block;
+
 }
 
 
 .schedule-title {
+
     margin-bottom: 9px;
 
     color: var(--muted);
@@ -475,19 +548,23 @@ h1 {
     text-transform: uppercase;
 
     letter-spacing: 0.6px;
+
 }
 
 
 .schedule-options {
+
     display: flex;
 
     flex-wrap: wrap;
 
     gap: 7px;
+
 }
 
 
 .day-button {
+
     min-height: 36px;
 
     padding:
@@ -507,22 +584,26 @@ h1 {
     font-size: 13px;
 
     cursor: pointer;
+
 }
 
 
 .day-button.selected {
+
     background:
         rgba(85, 214, 138, 0.16);
 
-    border-color:
-        var(--green-dim);
+    border-color: var(--green-dim);
 
     color: var(--green);
+
 }
 
 
 .day-button:active {
+
     transform: scale(0.97);
+
 }
 
 
@@ -531,15 +612,18 @@ h1 {
    ================================================== */
 
 .controls {
+
     display: flex;
 
     justify-content: center;
 
     margin-top: 18px;
+
 }
 
 
 .add-button {
+
     min-height: 46px;
 
     padding:
@@ -558,14 +642,17 @@ h1 {
     font-size: 15px;
 
     cursor: pointer;
+
 }
 
 
 .add-button:active {
+
     background:
         rgba(85, 214, 138, 0.16);
 
     transform: scale(0.98);
+
 }
 
 
@@ -574,6 +661,7 @@ h1 {
    ================================================== */
 
 .settings {
+
     margin-top: 27px;
 
     padding-top: 17px;
@@ -583,10 +671,12 @@ h1 {
         rgba(85, 214, 138, 0.08);
 
     text-align: center;
+
 }
 
 
 .settings button {
+
     min-height: 40px;
 
     padding:
@@ -599,14 +689,16 @@ h1 {
     color: #52675a;
 
     font-size: 13px;
+
 }
 
 
 /* ==================================================
-   EMPTY STATE
+   EMPTY
    ================================================== */
 
 .empty {
+
     text-align: center;
 
     color: var(--muted);
@@ -620,6 +712,296 @@ h1 {
     border-radius: 14px;
 
     line-height: 1.5;
+
+}
+
+
+/* ==================================================
+   EDIT MODAL
+   ================================================== */
+
+.modal-backdrop {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    display: none;
+
+    align-items: flex-end;
+
+    justify-content: center;
+
+    padding:
+        18px
+        18px
+        max(
+            18px,
+            env(safe-area-inset-bottom)
+        );
+
+    background:
+        rgba(0, 0, 0, 0.68);
+
+    backdrop-filter: blur(8px);
+
+    -webkit-backdrop-filter: blur(8px);
+
+}
+
+
+.modal-backdrop.open {
+
+    display: flex;
+
+}
+
+
+.modal {
+
+    width: 100%;
+
+    max-width: 600px;
+
+    background: #0d1a12;
+
+    border:
+        1px solid
+        rgba(85, 214, 138, 0.22);
+
+    border-radius: 20px;
+
+    padding: 20px;
+
+    box-shadow:
+
+        0 0 30px
+        rgba(85, 214, 138, 0.15),
+
+        0 -10px 50px
+        rgba(0, 0, 0, 0.4);
+
+    animation:
+        modalIn 0.18s ease-out;
+
+}
+
+
+@keyframes modalIn {
+
+    from {
+
+        transform: translateY(20px);
+
+        opacity: 0;
+
+    }
+
+    to {
+
+        transform: translateY(0);
+
+        opacity: 1;
+
+    }
+
+}
+
+
+.modal-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 18px;
+
+}
+
+
+.modal-title {
+
+    margin: 0;
+
+    font-size: 21px;
+
+    font-weight: 600;
+
+}
+
+
+.modal-close {
+
+    width: 36px;
+
+    height: 36px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        rgba(85, 214, 138, 0.06);
+
+    color: var(--muted);
+
+    font-size: 23px;
+
+    line-height: 1;
+
+}
+
+
+.modal-close:active {
+
+    background:
+        rgba(85, 214, 138, 0.15);
+
+    color: var(--green);
+
+}
+
+
+.form-group {
+
+    margin-bottom: 16px;
+
+}
+
+
+.form-label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+}
+
+
+.form-input,
+.form-textarea {
+
+    width: 100%;
+
+    border:
+        1px solid
+        rgba(85, 214, 138, 0.18);
+
+    border-radius: 11px;
+
+    background: #07100b;
+
+    color: var(--text);
+
+    font-family: inherit;
+
+    font-size: 16px;
+
+    outline: none;
+
+}
+
+
+.form-input {
+
+    height: 48px;
+
+    padding:
+        0 13px;
+
+}
+
+
+.form-textarea {
+
+    min-height: 110px;
+
+    resize: vertical;
+
+    padding:
+        12px 13px;
+
+    line-height: 1.45;
+
+}
+
+
+.form-input:focus,
+.form-textarea:focus {
+
+    border-color: var(--green-dim);
+
+    box-shadow:
+        0 0 12px
+        rgba(85, 214, 138, 0.12);
+
+}
+
+
+.modal-actions {
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 20px;
+
+}
+
+
+.modal-button {
+
+    flex: 1;
+
+    min-height: 48px;
+
+    border-radius: 11px;
+
+    font-size: 15px;
+
+    font-weight: 500;
+
+}
+
+
+.modal-cancel {
+
+    background:
+        rgba(85, 214, 138, 0.05);
+
+    border:
+        1px solid var(--border);
+
+    color: var(--muted);
+
+}
+
+
+.modal-save {
+
+    background:
+        rgba(85, 214, 138, 0.15);
+
+    border:
+        1px solid var(--green-dim);
+
+    color: var(--green-bright);
+
+}
+
+
+.modal-button:active {
+
+    transform: scale(0.98);
+
 }
 
 
@@ -630,45 +1012,66 @@ h1 {
 @media (max-width: 375px) {
 
     .app {
+
         padding-left:
-            max(14px, env(safe-area-inset-left));
+            max(
+                14px,
+                env(safe-area-inset-left)
+            );
 
         padding-right:
-            max(14px, env(safe-area-inset-right));
+            max(
+                14px,
+                env(safe-area-inset-right)
+            );
+
     }
 
 
     h1 {
+
         font-size: 27px;
+
     }
 
 
     .item {
+
         min-height: 64px;
 
         gap: 8px;
+
     }
 
 
     .item-name {
+
         font-size: 16px;
+
     }
 
 
     .checkbox {
+
         width: 28px;
+
         height: 28px;
 
         min-width: 28px;
+
     }
 
 
     .task-action {
+
         width: 30px;
+
         height: 30px;
 
         min-width: 30px;
+
     }
+
 }
 
 
@@ -679,35 +1082,45 @@ h1 {
 @media (min-width: 700px) {
 
     .app {
+
         padding-top: 50px;
 
         padding-left: 20px;
+
         padding-right: 20px;
+
     }
 
 
     h1 {
+
         font-size: 32px;
+
     }
 
 
     .item {
+
         padding:
             17px
             10px
             17px
             18px;
+
     }
 
 
     .item:hover {
+
         background: #112219;
 
         border-color:
             rgba(85, 214, 138, 0.30);
 
         box-shadow: var(--glow);
+
     }
+
 }
 
 </style>
@@ -773,6 +1186,103 @@ h1 {
 </div>
 
 
+<!-- ==================================================
+     EDIT TASK MODAL
+     ================================================== -->
+
+<div
+    class="modal-backdrop"
+    id="editModal"
+    onclick="handleBackdropClick(event)"
+>
+
+    <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+    >
+
+        <div class="modal-header">
+
+            <h2
+                class="modal-title"
+                id="modalTitle"
+            >
+                Edit Task
+            </h2>
+
+            <button
+                class="modal-close"
+                onclick="closeEditModal()"
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label
+                class="form-label"
+                for="editTaskName"
+            >
+                Task name
+            </label>
+
+            <input
+                class="form-input"
+                id="editTaskName"
+                type="text"
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label
+                class="form-label"
+                for="editTaskDetails"
+            >
+                Details
+            </label>
+
+            <textarea
+                class="form-textarea"
+                id="editTaskDetails"
+                placeholder="Optional notes about this task..."
+            ></textarea>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="modal-button modal-cancel"
+                onclick="closeEditModal()"
+            >
+                Cancel
+            </button>
+
+            <button
+                class="modal-button modal-save"
+                onclick="saveEditModal()"
+            >
+                Save
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <script>
 
 /* ==================================================
@@ -802,18 +1312,25 @@ const DEFAULT_ITEMS = [
 ];
 
 
-let data = loadData();
+let data =
+    loadData();
+
+
+let editingItemId =
+    null;
 
 
 /* ==================================================
-   DATE HELPERS
+   DATE
    ================================================== */
 
 function todayKey() {
 
-    const now = new Date();
+    const now =
+        new Date();
 
     return [
+
         now.getFullYear(),
 
         String(
@@ -825,29 +1342,19 @@ function todayKey() {
         ).padStart(2, "0")
 
     ].join("-");
+
 }
 
 
 function currentDay() {
 
-    /*
-     * JavaScript:
-     *
-     * Sunday = 0
-     * Monday = 1
-     * Tuesday = 2
-     * Wednesday = 3
-     * Thursday = 4
-     * Friday = 5
-     * Saturday = 6
-     */
-
     return new Date().getDay();
+
 }
 
 
 /* ==================================================
-   LOAD SAVED DATA
+   LOAD DATA
    ================================================== */
 
 function loadData() {
@@ -868,13 +1375,10 @@ function loadData() {
 
             if (
                 parsed &&
-                Array.isArray(parsed.items)
+                Array.isArray(
+                    parsed.items
+                )
             ) {
-
-                /*
-                 * Upgrade data from previous
-                 * versions of NovaVesta.
-                 */
 
                 parsed.items.forEach(
                     item => {
@@ -886,6 +1390,7 @@ function loadData() {
 
                             item.completed =
                                 false;
+
                         }
 
 
@@ -896,6 +1401,7 @@ function loadData() {
 
                             item.completedAt =
                                 null;
+
                         }
 
 
@@ -906,6 +1412,7 @@ function loadData() {
 
                             item.snoozed =
                                 false;
+
                         }
 
 
@@ -916,14 +1423,20 @@ function loadData() {
 
                             item.snoozedUntil =
                                 null;
+
                         }
 
 
-                        /*
-                         * Existing tasks from the
-                         * original version become
-                         * everyday tasks.
-                         */
+                        if (
+                            typeof item.details !==
+                            "string"
+                        ) {
+
+                            item.details =
+                                "";
+
+                        }
+
 
                         if (
                             !Array.isArray(
@@ -933,16 +1446,12 @@ function loadData() {
 
                             item.schedule =
                                 ["everyday"];
+
                         }
 
                     }
                 );
 
-
-                /*
-                 * Make sure the saved data has
-                 * a date property.
-                 */
 
                 if (
                     !parsed.date
@@ -950,10 +1459,12 @@ function loadData() {
 
                     parsed.date =
                         todayKey();
+
                 }
 
 
                 return parsed;
+
             }
 
         } catch (error) {
@@ -962,14 +1473,11 @@ function loadData() {
                 "NovaVesta could not read saved data:",
                 error
             );
+
         }
+
     }
 
-
-    /*
-     * No saved routine exists.
-     * Create the default routine.
-     */
 
     return {
 
@@ -985,6 +1493,9 @@ function loadData() {
 
                     text:
                         text,
+
+                    details:
+                        "",
 
                     completed:
                         false,
@@ -1005,11 +1516,12 @@ function loadData() {
             )
 
     };
+
 }
 
 
 /* ==================================================
-   ID GENERATOR
+   ID
    ================================================== */
 
 function createId() {
@@ -1020,15 +1532,20 @@ function createId() {
     ) {
 
         return crypto.randomUUID();
+
     }
 
 
     return (
+
         Date.now().toString(36) +
+
         Math.random()
             .toString(36)
             .substring(2)
+
     );
+
 }
 
 
@@ -1045,27 +1562,13 @@ function saveData() {
         JSON.stringify(data)
 
     );
+
 }
 
 
 /* ==================================================
-   NEW DAY CHECK
+   NEW DAY
    ================================================== */
-
-/*
- * We don't need to constantly watch the clock.
- *
- * NovaVesta checks the date when it loads and
- * whenever it renders the list.
- *
- * If you leave it open overnight, nothing
- * needs to happen at midnight itself.
- *
- * The next time you interact with it or
- * refresh/open it the following morning,
- * it notices that the date changed and
- * resets the daily state.
- */
 
 function checkForNewDay() {
 
@@ -1078,6 +1581,7 @@ function checkForNewDay() {
     ) {
 
         return;
+
     }
 
 
@@ -1088,20 +1592,11 @@ function checkForNewDay() {
     data.items.forEach(
         item => {
 
-            /*
-             * Completion is daily.
-             */
-
             item.completed =
                 false;
 
             item.completedAt =
                 null;
-
-
-            /*
-             * Snooze is also daily.
-             */
 
             item.snoozed =
                 false;
@@ -1114,6 +1609,7 @@ function checkForNewDay() {
 
 
     saveData();
+
 }
 
 
@@ -1123,18 +1619,15 @@ function checkForNewDay() {
 
 function isScheduledToday(item) {
 
-    /*
-     * An absent/empty schedule means
-     * every day. This also protects
-     * against old saved data.
-     */
-
     if (
-        !Array.isArray(item.schedule) ||
+        !Array.isArray(
+            item.schedule
+        ) ||
         item.schedule.length === 0
     ) {
 
         return true;
+
     }
 
 
@@ -1145,26 +1638,33 @@ function isScheduledToday(item) {
     ) {
 
         return true;
+
     }
 
 
     return item.schedule.includes(
         currentDay()
     );
+
 }
 
 
 /* ==================================================
-   GET VISIBLE ITEMS
+   VISIBLE ITEMS
    ================================================== */
 
 function getVisibleItems() {
 
     return data.items.filter(
+
         item =>
+
             isScheduledToday(item) &&
+
             !item.snoozed
+
     );
+
 }
 
 
@@ -1222,15 +1722,17 @@ function render() {
 
             }
         );
+
     }
 
 
     updateProgress();
+
 }
 
 
 /* ==================================================
-   RENDER ONE TASK
+   RENDER TASK
    ================================================== */
 
 function renderItem(
@@ -1263,10 +1765,6 @@ function renderItem(
         );
 
 
-    /*
-     * Build the main task row.
-     */
-
     element.innerHTML = `
 
         <input
@@ -1279,31 +1777,25 @@ function renderItem(
             aria-label="Complete task"
         >
 
-
         <div class="item-content">
 
             <div
                 class="item-name"
-                contenteditable="true"
-                spellcheck="false"
-                onblur="
-                    editItem(
-                        '${item.id}',
-                        this.innerText
-                    )
+                onclick="
+                    openEditModal('${item.id}')
                 "
-                onkeydown="
-                    handleEditKey(event)
-                "
-            >${escapeHtml(item.text)}</div>
-
+            >
+                ${escapeHtml(item.text)}
+            </div>
 
             <div class="timestamp">
 
                 ${
                     item.completed
                     ? "Completed at " +
-                      item.completedAt
+                      escapeHtml(
+                          item.completedAt
+                      )
                     : ""
                 }
 
@@ -1315,9 +1807,7 @@ function renderItem(
         <button
             class="task-action"
             onclick="
-                toggleSchedulePanel(
-                    '${item.id}'
-                )
+                toggleSchedulePanel('${item.id}')
             "
             title="Change schedule"
             aria-label="Change schedule"
@@ -1329,9 +1819,7 @@ function renderItem(
         <button
             class="task-action"
             onclick="
-                snoozeItem(
-                    '${item.id}'
-                )
+                snoozeItem('${item.id}')
             "
             title="Snooze until tomorrow"
             aria-label="Snooze until tomorrow"
@@ -1343,9 +1831,7 @@ function renderItem(
         <button
             class="task-action delete"
             onclick="
-                deleteItem(
-                    '${item.id}'
-                )
+                deleteItem('${item.id}')
             "
             title="Delete permanently"
             aria-label="Delete permanently"
@@ -1355,10 +1841,6 @@ function renderItem(
 
     `;
 
-
-    /*
-     * Create the schedule panel.
-     */
 
     const schedulePanel =
         document.createElement(
@@ -1394,6 +1876,7 @@ function renderItem(
     routine.appendChild(
         wrapper
     );
+
 }
 
 
@@ -1401,9 +1884,7 @@ function renderItem(
    SCHEDULE PICKER
    ================================================== */
 
-function createSchedulePicker(
-    item
-) {
+function createSchedulePicker(item) {
 
     const days = [
 
@@ -1456,7 +1937,6 @@ function createSchedulePicker(
             Repeat
         </div>
 
-
         <div class="schedule-options">
 
             ${days.map(
@@ -1471,6 +1951,7 @@ function createSchedulePicker(
                     return `
 
                         <button
+                            type="button"
                             class="day-button ${
                                 selected
                                 ? "selected"
@@ -1494,16 +1975,15 @@ function createSchedulePicker(
         </div>
 
     `;
+
 }
 
 
 /* ==================================================
-   OPEN / CLOSE SCHEDULE PANEL
+   SCHEDULE PANEL
    ================================================== */
 
-function toggleSchedulePanel(
-    id
-) {
+function toggleSchedulePanel(id) {
 
     const panel =
         document.getElementById(
@@ -1512,7 +1992,9 @@ function toggleSchedulePanel(
 
 
     if (!panel) {
+
         return;
+
     }
 
 
@@ -1521,10 +2003,6 @@ function toggleSchedulePanel(
             "open"
         );
 
-
-    /*
-     * Close all panels first.
-     */
 
     document
         .querySelectorAll(
@@ -1541,17 +2019,14 @@ function toggleSchedulePanel(
         );
 
 
-    /*
-     * Re-open the selected one
-     * if it wasn't already open.
-     */
-
     if (!wasOpen) {
 
         panel.classList.add(
             "open"
         );
+
     }
+
 }
 
 
@@ -1572,14 +2047,11 @@ function toggleSchedule(
 
 
     if (!item) {
+
         return;
+
     }
 
-
-    /*
-     * Convert weekday strings back
-     * into numbers.
-     */
 
     if (
         value !== "everyday"
@@ -1587,12 +2059,9 @@ function toggleSchedule(
 
         value =
             Number(value);
+
     }
 
-
-    /*
-     * "Every day" is exclusive.
-     */
 
     if (
         value === "everyday"
@@ -1602,12 +2071,6 @@ function toggleSchedule(
             ["everyday"];
 
     } else {
-
-        /*
-         * If it was previously
-         * every day, start a new
-         * specific-day schedule.
-         */
 
         if (
             item.schedule.includes(
@@ -1624,10 +2087,6 @@ function toggleSchedule(
             )
         ) {
 
-            /*
-             * Remove the selected day.
-             */
-
             item.schedule =
                 item.schedule.filter(
                     day =>
@@ -1636,24 +2095,12 @@ function toggleSchedule(
 
         } else {
 
-            /*
-             * Add the selected day.
-             */
-
             item.schedule.push(
                 value
             );
+
         }
 
-
-        /*
-         * Don't allow a task to have
-         * zero scheduled days.
-         *
-         * If the user removes the
-         * last day, return it to
-         * Every day.
-         */
 
         if (
             item.schedule.length === 0
@@ -1661,20 +2108,27 @@ function toggleSchedule(
 
             item.schedule =
                 ["everyday"];
+
         }
+
     }
 
 
     saveData();
 
 
-    render();
-
-
     /*
-     * Re-open the schedule panel
-     * after rendering.
+     * IMPORTANT:
+     *
+     * We intentionally do NOT call
+     * render() here.
+     *
+     * This allows the user to remove
+     * today's day and continue selecting
+     * other days without the task
+     * disappearing immediately.
      */
+
 
     const panel =
         document.getElementById(
@@ -1684,20 +2138,65 @@ function toggleSchedule(
 
     if (panel) {
 
+        panel.innerHTML =
+            createSchedulePicker(
+                item
+            );
+
         panel.classList.add(
             "open"
         );
+
     }
+
 }
 
 
 /* ==================================================
-   COMPLETE / UNCOMPLETE
+   CLOSE SCHEDULE WHEN TAPPING ELSEWHERE
    ================================================== */
 
-function toggleItem(
-    id
-) {
+document.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target.closest(
+                ".schedule-panel"
+            ) ||
+            event.target.closest(
+                ".task-action"
+            )
+        ) {
+
+            return;
+
+        }
+
+
+        document
+            .querySelectorAll(
+                ".schedule-panel.open"
+            )
+            .forEach(
+                panel => {
+
+                    panel.classList.remove(
+                        "open"
+                    );
+
+                }
+            );
+
+    }
+);
+
+
+/* ==================================================
+   COMPLETE
+   ================================================== */
+
+function toggleItem(id) {
 
     checkForNewDay();
 
@@ -1710,7 +2209,9 @@ function toggleItem(
 
 
     if (!item) {
+
         return;
+
     }
 
 
@@ -1729,7 +2230,6 @@ function toggleItem(
         item.completed =
             true;
 
-
         item.completedAt =
             new Date()
                 .toLocaleTimeString(
@@ -1742,12 +2242,14 @@ function toggleItem(
                             "2-digit"
                     }
                 );
+
     }
 
 
     saveData();
 
     render();
+
 }
 
 
@@ -1755,9 +2257,7 @@ function toggleItem(
    SNOOZE
    ================================================== */
 
-function snoozeItem(
-    id
-) {
+function snoozeItem(id) {
 
     checkForNewDay();
 
@@ -1770,19 +2270,15 @@ function snoozeItem(
 
 
     if (!item) {
+
         return;
+
     }
 
 
-    /*
-     * This does NOT change the schedule.
-     *
-     * It simply says:
-     * "Don't show this task today."
-     */
-
     item.snoozed =
         true;
+
 
     item.snoozedUntil =
         todayKey();
@@ -1791,17 +2287,18 @@ function snoozeItem(
     saveData();
 
     render();
+
 }
 
 
 /* ==================================================
-   EDIT TASK
+   EDIT TASK MODAL
    ================================================== */
 
-function editItem(
-    id,
-    text
-) {
+function openEditModal(id) {
+
+    checkForNewDay();
+
 
     const item =
         data.items.find(
@@ -1811,48 +2308,149 @@ function editItem(
 
 
     if (!item) {
+
         return;
+
     }
 
 
-    text =
-        text.trim();
+    editingItemId =
+        id;
 
 
-    /*
-     * Don't allow a blank task.
-     */
+    document.getElementById(
+        "editTaskName"
+    ).value =
+        item.text;
+
+
+    document.getElementById(
+        "editTaskDetails"
+    ).value =
+        item.details || "";
+
+
+    document.getElementById(
+        "editModal"
+    ).classList.add(
+        "open"
+    );
+
+}
+
+
+/* ==================================================
+   SAVE EDIT
+   ================================================== */
+
+function saveEditModal() {
 
     if (
-        text === ""
+        !editingItemId
     ) {
 
-        render();
+        return;
+
+    }
+
+
+    const item =
+        data.items.find(
+            item =>
+                item.id ===
+                editingItemId
+        );
+
+
+    if (!item) {
+
+        closeEditModal();
 
         return;
+
+    }
+
+
+    const nameInput =
+        document.getElementById(
+            "editTaskName"
+        );
+
+
+    const detailsInput =
+        document.getElementById(
+            "editTaskDetails"
+        );
+
+
+    const newName =
+        nameInput.value.trim();
+
+
+    if (
+        newName === ""
+    ) {
+
+        nameInput.focus();
+
+        return;
+
     }
 
 
     item.text =
-        text;
+        newName;
+
+
+    item.details =
+        detailsInput.value.trim();
 
 
     saveData();
+
+    closeEditModal();
+
+    render();
+
 }
 
 
-function handleEditKey(
-    event
-) {
+/* ==================================================
+   CLOSE EDIT MODAL
+   ================================================== */
+
+function closeEditModal() {
+
+    document
+        .getElementById(
+            "editModal"
+        )
+        .classList.remove(
+            "open"
+        );
+
+
+    editingItemId =
+        null;
+
+}
+
+
+/* ==================================================
+   TAP OUTSIDE MODAL
+   ================================================== */
+
+function handleBackdropClick(event) {
 
     if (
-        event.key === "Enter"
+        event.target.id ===
+        "editModal"
     ) {
 
-        event.preventDefault();
+        closeEditModal();
 
-        event.target.blur();
     }
+
 }
 
 
@@ -1871,7 +2469,10 @@ function addItem() {
             createId(),
 
         text:
-            "New routine item",
+            "New Routine Item",
+
+        details:
+            "",
 
         completed:
             false,
@@ -1900,58 +2501,6 @@ function addItem() {
 
     render();
 
-
-    /*
-     * Put the cursor into the new
-     * task immediately.
-     */
-
-    setTimeout(
-        function() {
-
-            const taskNames =
-                document.querySelectorAll(
-                    ".item-name"
-                );
-
-
-            const last =
-                taskNames[
-                    taskNames.length - 1
-                ];
-
-
-            if (!last) {
-                return;
-            }
-
-
-            last.focus();
-
-
-            const range =
-                document.createRange();
-
-
-            range.selectNodeContents(
-                last
-            );
-
-
-            const selection =
-                window.getSelection();
-
-
-            selection.removeAllRanges();
-
-
-            selection.addRange(
-                range
-            );
-
-        },
-        50
-    );
 }
 
 
@@ -1959,9 +2508,7 @@ function addItem() {
    DELETE TASK
    ================================================== */
 
-function deleteItem(
-    id
-) {
+function deleteItem(id) {
 
     const item =
         data.items.find(
@@ -1971,7 +2518,9 @@ function deleteItem(
 
 
     if (!item) {
+
         return;
+
     }
 
 
@@ -1985,6 +2534,7 @@ function deleteItem(
     saveData();
 
     render();
+
 }
 
 
@@ -2023,6 +2573,7 @@ function updateProgress() {
             "";
 
         return;
+
     }
 
 
@@ -2030,6 +2581,7 @@ function updateProgress() {
 
         `<strong>${completed}</strong>
          of ${total} completed`;
+
 }
 
 
@@ -2049,6 +2601,7 @@ function resetToday() {
     ) {
 
         return;
+
     }
 
 
@@ -2074,6 +2627,7 @@ function resetToday() {
     saveData();
 
     render();
+
 }
 
 
@@ -2104,6 +2658,7 @@ function updateDate() {
                     "numeric"
             }
         );
+
 }
 
 
@@ -2111,9 +2666,7 @@ function updateDate() {
    ESCAPE HTML
    ================================================== */
 
-function escapeHtml(
-    text
-) {
+function escapeHtml(text) {
 
     const div =
         document.createElement(
@@ -2126,11 +2679,12 @@ function escapeHtml(
 
 
     return div.innerHTML;
+
 }
 
 
 /* ==================================================
-   START NOVAVESTA
+   START
    ================================================== */
 
 checkForNewDay();
@@ -2142,4 +2696,5 @@ render();
 </script>
 
 </body>
+
 </html>
