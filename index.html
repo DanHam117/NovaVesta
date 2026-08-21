@@ -39,7 +39,7 @@
 <style>
 
 /* ==================================================
-   NOVAVESTA — VIRIDITAS VESTAE
+   NOVAVESTA
    ================================================== */
 
 :root {
@@ -76,6 +76,7 @@ html {
     background: var(--bg);
 
     -webkit-text-size-adjust: 100%;
+
     text-size-adjust: 100%;
 
     min-height: 100%;
@@ -88,6 +89,7 @@ body {
     margin: 0;
 
     min-height: 100vh;
+
     min-height: 100dvh;
 
     overflow-x: hidden;
@@ -105,7 +107,6 @@ body {
     color: var(--text);
 
     font-family:
-
         -apple-system,
         BlinkMacSystemFont,
         "SF Pro Display",
@@ -204,43 +205,6 @@ h1 {
 
 
 /* ==================================================
-   TIME OF DAY HEADINGS
-   ================================================== */
-
-.time-section {
-
-    margin-bottom: 22px;
-
-}
-
-
-.time-heading {
-
-    margin:
-
-        4px 0 9px 2px;
-
-    color: var(--muted);
-
-    font-size: 13px;
-
-    font-weight: 500;
-
-    text-transform: uppercase;
-
-    letter-spacing: 1px;
-
-}
-
-
-.time-heading.current {
-
-    color: var(--green);
-
-}
-
-
-/* ==================================================
    PROGRESS
    ================================================== */
 
@@ -248,7 +212,7 @@ h1 {
 
     text-align: center;
 
-    margin-bottom: 16px;
+    margin-bottom: 18px;
 
     color: var(--muted);
 
@@ -265,6 +229,43 @@ h1 {
 
 
 /* ==================================================
+   TIME OF DAY SECTIONS
+   ================================================== */
+
+.time-section {
+
+    margin-bottom: 22px;
+
+}
+
+
+.time-heading {
+
+    margin:
+
+        0 0 9px 4px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    font-weight: 500;
+
+    letter-spacing: 0.8px;
+
+    text-transform: uppercase;
+
+}
+
+
+.time-section.current .time-heading {
+
+    color: var(--green);
+
+}
+
+
+/* ==================================================
    ROUTINE
    ================================================== */
 
@@ -273,6 +274,8 @@ h1 {
     display: flex;
 
     flex-direction: column;
+
+    gap: 9px;
 
 }
 
@@ -285,10 +288,7 @@ h1 {
 
     width: 100%;
 
-    margin-bottom: 9px;
-
-    transition:
-        transform 0.12s ease;
+    position: relative;
 
 }
 
@@ -323,8 +323,15 @@ h1 {
         background 0.15s ease,
         border-color 0.15s ease,
         opacity 0.15s ease,
-        transform 0.12s ease,
-        box-shadow 0.12s ease;
+        transform 0.12s ease;
+
+    /*
+     * Important for iPhone dragging.
+     */
+    -webkit-user-select: none;
+    user-select: none;
+
+    touch-action: pan-y;
 
 }
 
@@ -351,44 +358,39 @@ h1 {
    DRAGGING
    ================================================== */
 
-.task-wrapper.dragging {
+.item.dragging {
+
+    position: relative;
 
     z-index: 100;
 
-}
-
-
-.task-wrapper.dragging .item {
+    opacity: 0.92;
 
     transform:
         scale(1.025);
 
     border-color:
-        var(--green-dim);
+        var(--green);
 
     box-shadow:
-        0 8px 28px
+        0 10px 30px
         rgba(0, 0, 0, 0.45),
 
         var(--glow);
 
-    opacity: 0.95;
+}
+
+
+.task-wrapper.drag-placeholder {
+
+    opacity: 0.35;
 
 }
 
 
-.task-wrapper.drag-over {
+.task-wrapper.drag-placeholder .item {
 
-    transform:
-        translateY(5px);
-
-}
-
-
-.task-wrapper.drag-over .item {
-
-    border-color:
-        var(--green);
+    border-style: dashed;
 
 }
 
@@ -422,6 +424,8 @@ h1 {
     position: relative;
 
     cursor: pointer;
+
+    touch-action: manipulation;
 
 }
 
@@ -501,8 +505,7 @@ h1 {
 
 .item-name:active {
 
-    color:
-        var(--green);
+    color: var(--green);
 
 }
 
@@ -522,10 +525,28 @@ h1 {
 
     min-height: 15px;
 
-    color:
-        var(--green-dim);
+    color: var(--green-dim);
 
     font-size: 12px;
+
+}
+
+
+.details-preview {
+
+    margin-top: 3px;
+
+    color: #64796c;
+
+    font-size: 12px;
+
+    line-height: 1.3;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
 
 }
 
@@ -562,6 +583,8 @@ h1 {
 
     font-size: 17px;
 
+    touch-action: manipulation;
+
 }
 
 
@@ -570,8 +593,7 @@ h1 {
     background:
         rgba(85, 214, 138, 0.12);
 
-    color:
-        var(--green);
+    color: var(--green);
 
 }
 
@@ -590,8 +612,7 @@ h1 {
     background:
         rgba(216, 107, 107, 0.10);
 
-    color:
-        var(--danger);
+    color: var(--danger);
 
 }
 
@@ -608,16 +629,14 @@ h1 {
 
     padding: 12px;
 
-    background:
-        var(--panel);
+    background: var(--panel);
 
     border:
         1px solid var(--border);
 
     border-radius: 12px;
 
-    box-shadow:
-        var(--glow);
+    box-shadow: var(--glow);
 
 }
 
@@ -688,39 +707,7 @@ h1 {
     border-color:
         var(--green-dim);
 
-    color:
-        var(--green);
-
-}
-
-
-.day-button:active {
-
-    transform:
-        scale(0.97);
-
-}
-
-
-/* ==================================================
-   EMPTY
-   ================================================== */
-
-.empty {
-
-    text-align: center;
-
-    color: var(--muted);
-
-    padding:
-        34px 20px;
-
-    border:
-        1px dashed var(--border);
-
-    border-radius: 14px;
-
-    line-height: 1.5;
+    color: var(--green);
 
 }
 
@@ -735,7 +722,7 @@ h1 {
 
     justify-content: center;
 
-    margin-top: 9px;
+    margin-top: 18px;
 
 }
 
@@ -755,8 +742,7 @@ h1 {
     background:
         rgba(85, 214, 138, 0.07);
 
-    color:
-        var(--green);
+    color: var(--green);
 
     font-size: 15px;
 
@@ -770,8 +756,42 @@ h1 {
     background:
         rgba(85, 214, 138, 0.16);
 
-    transform:
-        scale(0.98);
+    transform: scale(0.98);
+
+}
+
+
+/* ==================================================
+   EARLIER TODAY
+   ================================================== */
+
+.earlier-section {
+
+    margin-top: 28px;
+
+    padding-top: 18px;
+
+    border-top:
+        1px solid
+        rgba(85, 214, 138, 0.08);
+
+}
+
+
+.earlier-heading {
+
+    margin:
+        0 0 9px 4px;
+
+    color: #52675a;
+
+    font-size: 13px;
+
+    font-weight: 500;
+
+    letter-spacing: 0.8px;
+
+    text-transform: uppercase;
 
 }
 
@@ -814,6 +834,29 @@ h1 {
 
 
 /* ==================================================
+   EMPTY
+   ================================================== */
+
+.empty {
+
+    text-align: center;
+
+    color: var(--muted);
+
+    padding:
+        28px 20px;
+
+    border:
+        1px dashed var(--border);
+
+    border-radius: 14px;
+
+    line-height: 1.5;
+
+}
+
+
+/* ==================================================
    EDIT MODAL
    ================================================== */
 
@@ -832,11 +875,8 @@ h1 {
     justify-content: center;
 
     padding:
-
         18px
-
         18px
-
         max(
             18px,
             env(safe-area-inset-bottom)
@@ -867,8 +907,11 @@ h1 {
 
     max-width: 600px;
 
-    background:
-        #0d1a12;
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background: #0d1a12;
 
     border:
         1px solid
@@ -876,8 +919,7 @@ h1 {
 
     border-radius: 20px;
 
-    padding:
-        20px;
+    padding: 20px;
 
     box-shadow:
 
@@ -953,8 +995,7 @@ h1 {
     background:
         rgba(85, 214, 138, 0.06);
 
-    color:
-        var(--muted);
+    color: var(--muted);
 
     font-size: 23px;
 
@@ -976,8 +1017,7 @@ h1 {
 
     margin-bottom: 7px;
 
-    color:
-        var(--muted);
+    color: var(--muted);
 
     font-size: 13px;
 
@@ -995,11 +1035,9 @@ h1 {
 
     border-radius: 11px;
 
-    background:
-        #07100b;
+    background: #07100b;
 
-    color:
-        var(--text);
+    color: var(--text);
 
     font-family: inherit;
 
@@ -1022,7 +1060,7 @@ h1 {
 
 .form-textarea {
 
-    min-height: 110px;
+    min-height: 100px;
 
     resize: vertical;
 
@@ -1046,6 +1084,67 @@ h1 {
 
 }
 
+
+/* ==================================================
+   TIME OF DAY PICKER
+   ================================================== */
+
+.time-picker {
+
+    display: flex;
+
+    gap: 7px;
+
+}
+
+
+.time-option {
+
+    flex: 1;
+
+    min-height: 42px;
+
+    border:
+        1px solid
+        rgba(85, 214, 138, 0.14);
+
+    border-radius: 10px;
+
+    background:
+        rgba(85, 214, 138, 0.04);
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+}
+
+
+.time-option.selected {
+
+    background:
+        rgba(85, 214, 138, 0.16);
+
+    border-color:
+        var(--green-dim);
+
+    color: var(--green);
+
+}
+
+
+.time-option:active {
+
+    transform: scale(0.98);
+
+}
+
+
+/* ==================================================
+   MODAL ACTIONS
+   ================================================== */
 
 .modal-actions {
 
@@ -1079,11 +1178,9 @@ h1 {
         rgba(85, 214, 138, 0.05);
 
     border:
-        1px solid
-        var(--border);
+        1px solid var(--border);
 
-    color:
-        var(--muted);
+    color: var(--muted);
 
 }
 
@@ -1094,11 +1191,17 @@ h1 {
         rgba(85, 214, 138, 0.15);
 
     border:
-        1px solid
-        var(--green-dim);
+        1px solid var(--green-dim);
 
-    color:
-        var(--green-bright);
+    color: var(--green-bright);
+
+}
+
+
+.modal-button:active {
+
+    transform:
+        scale(0.98);
 
 }
 
@@ -1255,9 +1358,26 @@ h1 {
 
 
 <main
-    class="routine"
     id="routine"
 ></main>
+
+
+<div
+    class="earlier-section"
+    id="earlierSection"
+    style="display:none;"
+>
+
+    <div class="earlier-heading">
+        Earlier today
+    </div>
+
+    <div
+        class="routine"
+        id="earlierRoutine"
+    ></div>
+
+</div>
 
 
 <div class="controls">
@@ -1287,7 +1407,7 @@ h1 {
 
 
 <!-- ==================================================
-     EDIT TASK MODAL
+     EDIT MODAL
      ================================================== -->
 
 <div
@@ -1338,6 +1458,49 @@ h1 {
                 type="text"
                 autocomplete="off"
             >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label class="form-label">
+                Time of day
+            </label>
+
+            <div
+                class="time-picker"
+                id="timePicker"
+            >
+
+                <button
+                    type="button"
+                    class="time-option"
+                    data-time="morning"
+                    onclick="selectTimeOfDay('morning')"
+                >
+                    Morning
+                </button>
+
+                <button
+                    type="button"
+                    class="time-option"
+                    data-time="afternoon"
+                    onclick="selectTimeOfDay('afternoon')"
+                >
+                    Afternoon
+                </button>
+
+                <button
+                    type="button"
+                    class="time-option"
+                    data-time="night"
+                    onclick="selectTimeOfDay('night')"
+                >
+                    Night
+                </button>
+
+            </div>
 
         </div>
 
@@ -1395,19 +1558,40 @@ const STORAGE_KEY =
 
 const DEFAULT_ITEMS = [
 
-    "Get dressed",
+    {
+        text: "Get dressed",
+        timeOfDay: "morning"
+    },
 
-    "Brush teeth",
+    {
+        text: "Brush teeth",
+        timeOfDay: "morning"
+    },
 
-    "Take medications / vitamins",
+    {
+        text: "Take medications / vitamins",
+        timeOfDay: "morning"
+    },
 
-    "Eat breakfast",
+    {
+        text: "Eat breakfast",
+        timeOfDay: "morning"
+    },
 
-    "Pack everything I need",
+    {
+        text: "Pack everything I need",
+        timeOfDay: "morning"
+    },
 
-    "Check today's schedule",
+    {
+        text: "Check today's schedule",
+        timeOfDay: "morning"
+    },
 
-    "Leave for the day"
+    {
+        text: "Leave for the day",
+        timeOfDay: "morning"
+    }
 
 ];
 
@@ -1420,17 +1604,8 @@ let editingItemId =
     null;
 
 
-let dragState = {
-
-    id: null,
-
-    wrapper: null,
-
-    startY: 0,
-
-    active: false
-
-};
+let selectedTimeOfDay =
+    "morning";
 
 
 /* ==================================================
@@ -1470,7 +1645,7 @@ function currentDay() {
    TIME OF DAY
    ================================================== */
 
-function getTimePeriod() {
+function getCurrentTimeOfDay() {
 
     const hour =
         new Date().getHours();
@@ -1501,29 +1676,23 @@ function getTimePeriod() {
 }
 
 
-function getPeriodLabel(
-    period
+function timeOfDayLabel(
+    value
 ) {
 
-    if (
-        period === "morning"
-    ) {
+    const labels = {
 
-        return "Morning";
+        morning: "Morning",
 
-    }
+        afternoon: "Afternoon",
 
+        night: "Night"
 
-    if (
-        period === "afternoon"
-    ) {
-
-        return "Afternoon";
-
-    }
+    };
 
 
-    return "Night";
+    return labels[value] ||
+        "Morning";
 
 }
 
@@ -1556,7 +1725,7 @@ function loadData() {
             ) {
 
                 parsed.items.forEach(
-                    item => {
+                    (item, index) => {
 
                         if (
                             typeof item.completed !==
@@ -1625,12 +1794,38 @@ function loadData() {
                         }
 
 
+                        /*
+                         * New property:
+                         * permanent time-of-day.
+                         *
+                         * Existing tasks from older
+                         * versions are assigned to
+                         * morning so nothing disappears.
+                         */
+
                         if (
-                            !item.period
+                            ![
+                                "morning",
+                                "afternoon",
+                                "night"
+                            ].includes(
+                                item.timeOfDay
+                            )
                         ) {
 
-                            item.period =
+                            item.timeOfDay =
                                 "morning";
+
+                        }
+
+
+                        if (
+                            typeof item.order !==
+                            "number"
+                        ) {
+
+                            item.order =
+                                index;
 
                         }
 
@@ -1671,13 +1866,13 @@ function loadData() {
 
         items:
             DEFAULT_ITEMS.map(
-                text => ({
+                (item, index) => ({
 
                     id:
                         createId(),
 
                     text:
-                        text,
+                        item.text,
 
                     details:
                         "",
@@ -1697,8 +1892,11 @@ function loadData() {
                     schedule:
                         ["everyday"],
 
-                    period:
-                        "morning"
+                    timeOfDay:
+                        item.timeOfDay,
+
+                    order:
+                        index
 
                 })
             )
@@ -1840,50 +2038,20 @@ function isScheduledToday(
 
 
 /* ==================================================
-   VISIBLE ITEMS
+   SORT
    ================================================== */
 
-function getVisibleItems() {
-
-    return data.items.filter(
-
-        item =>
-
-            isScheduledToday(item) &&
-
-            !item.snoozed
-
-    );
-
-}
-
-
-/* ==================================================
-   ORDER
-   ================================================== */
-
-function sortItemsBySavedOrder(
+function sortItems(
     items
 ) {
 
     return [...items].sort(
         (a, b) => {
 
-            const aOrder =
-                Number.isFinite(
-                    a.order
-                )
-                ? a.order
-                : 999999;
-
-            const bOrder =
-                Number.isFinite(
-                    b.order
-                )
-                ? b.order
-                : 999999;
-
-            return aOrder - bOrder;
+            return (
+                (a.order ?? 0) -
+                (b.order ?? 0)
+            );
 
         }
     );
@@ -1891,52 +2059,18 @@ function sortItemsBySavedOrder(
 }
 
 
-function normalizeOrders() {
+/* ==================================================
+   VISIBLE ITEMS
+   ================================================== */
 
-    const periods = [
+function getVisibleItems() {
 
-        "morning",
-        "afternoon",
-        "night"
-
-    ];
-
-
-    periods.forEach(
-        period => {
-
-            const items =
-                data.items
-                    .filter(
-                        item =>
-                            item.period ===
-                            period
-                    )
-                    .sort(
-                        (a, b) =>
-                            (
-                                Number.isFinite(a.order)
-                                ? a.order
-                                : 999999
-                            ) -
-                            (
-                                Number.isFinite(b.order)
-                                ? b.order
-                                : 999999
-                            )
-                    );
-
-
-            items.forEach(
-                (item, index) => {
-
-                    item.order =
-                        index;
-
-                }
-            );
-
-        }
+    return sortItems(
+        data.items.filter(
+            item =>
+                isScheduledToday(item) &&
+                !item.snoozed
+        )
     );
 
 }
@@ -1950,10 +2084,6 @@ function render() {
 
     checkForNewDay();
 
-    normalizeOrders();
-
-    saveData();
-
 
     const routine =
         document.getElementById(
@@ -1966,41 +2096,66 @@ function render() {
 
 
     const visibleItems =
-        sortItemsBySavedOrder(
-            getVisibleItems()
-        );
+        getVisibleItems();
 
 
-    const periods = [
+    const groups = {
 
-        "morning",
-        "afternoon",
-        "night"
+        morning:
+            visibleItems.filter(
+                item =>
+                    item.timeOfDay ===
+                    "morning"
+            ),
+
+        afternoon:
+            visibleItems.filter(
+                item =>
+                    item.timeOfDay ===
+                    "afternoon"
+            ),
+
+        night:
+            visibleItems.filter(
+                item =>
+                    item.timeOfDay ===
+                    "night"
+            )
+
+    };
+
+
+    const current =
+        getCurrentTimeOfDay();
+
+
+    /*
+     * Sections are always displayed in
+     * chronological order, but the current
+     * section is moved to the top.
+     */
+
+    const order = [
+
+        current,
+
+        ...[
+            "morning",
+            "afternoon",
+            "night"
+        ].filter(
+            section =>
+                section !== current
+        )
 
     ];
 
 
-    const currentPeriod =
-        getTimePeriod();
-
-
-    let renderedAnything =
-        false;
-
-
-    periods.forEach(
-        period => {
-
-            const periodItems =
-                visibleItems.filter(
-                    item =>
-                        item.period ===
-                        period
-                );
-
+    order.forEach(
+        section => {
 
             if (
-                periodItems.length === 0
+                groups[section].length === 0
             ) {
 
                 return;
@@ -2008,100 +2163,68 @@ function render() {
             }
 
 
-            renderedAnything =
-                true;
-
-
-            const section =
+            const sectionElement =
                 document.createElement(
                     "section"
                 );
 
 
-            section.className =
-                "time-section";
-
-
-            const heading =
-                document.createElement(
-                    "div"
-                );
-
-
-            heading.className =
-                "time-heading" +
-
+            sectionElement.className =
+                "time-section" +
                 (
-                    period ===
-                    currentPeriod
+                    section === current
                     ? " current"
                     : ""
                 );
 
 
-            heading.textContent =
-                getPeriodLabel(
-                    period
-                );
+            sectionElement.dataset.time =
+                section;
 
 
-            section.appendChild(
-                heading
+            sectionElement.innerHTML = `
+
+                <div class="time-heading">
+
+                    ${timeOfDayLabel(section)}
+
+                </div>
+
+                <div
+                    class="routine"
+                    data-section="${section}"
+                ></div>
+
+            `;
+
+
+            routine.appendChild(
+                sectionElement
             );
 
 
-            const list =
-                document.createElement(
-                    "div"
+            const container =
+                sectionElement.querySelector(
+                    ".routine"
                 );
 
 
-            periodItems.forEach(
+            groups[section].forEach(
                 item => {
 
                     renderItem(
                         item,
-                        list
+                        container
                     );
 
                 }
-            );
-
-
-            section.appendChild(
-                list
-            );
-
-
-            routine.appendChild(
-                section
             );
 
         }
     );
 
 
-    if (
-        !renderedAnything
-    ) {
-
-        routine.innerHTML = `
-
-            <div class="empty">
-
-                Nothing left on
-                today's routine.
-
-                <br><br>
-
-                Enjoy the day.
-
-            </div>
-
-        `;
-
-    }
-
+    renderEarlierToday();
 
     updateProgress();
 
@@ -2114,7 +2237,7 @@ function render() {
 
 function renderItem(
     item,
-    list
+    routine
 ) {
 
     const wrapper =
@@ -2139,12 +2262,25 @@ function renderItem(
 
     element.className =
         "item" +
-
         (
             item.completed
             ? " completed"
             : ""
         );
+
+
+    element.dataset.id =
+        item.id;
+
+
+    const detailsHTML =
+        item.details
+        ? `
+            <div class="details-preview">
+                ${escapeHtml(item.details)}
+            </div>
+          `
+        : "";
 
 
     element.innerHTML = `
@@ -2159,9 +2295,7 @@ function renderItem(
 
         <div class="item-content">
 
-            <div
-                class="item-name"
-            >
+            <div class="item-name">
                 ${escapeHtml(item.text)}
             </div>
 
@@ -2179,11 +2313,14 @@ function renderItem(
 
             </div>
 
+
+            ${detailsHTML}
+
         </div>
 
 
         <button
-            class="task-action schedule-action"
+            class="task-action schedule-button"
             title="Change schedule"
             aria-label="Change schedule"
         >
@@ -2192,7 +2329,7 @@ function renderItem(
 
 
         <button
-            class="task-action snooze-action"
+            class="task-action snooze-button"
             title="Snooze until tomorrow"
             aria-label="Snooze until tomorrow"
         >
@@ -2201,7 +2338,7 @@ function renderItem(
 
 
         <button
-            class="task-action delete delete-action"
+            class="task-action delete delete-button"
             title="Delete permanently"
             aria-label="Delete permanently"
         >
@@ -2209,88 +2346,6 @@ function renderItem(
         </button>
 
     `;
-
-
-    const checkbox =
-        element.querySelector(
-            ".checkbox"
-        );
-
-
-    checkbox.addEventListener(
-        "change",
-        () => {
-
-            toggleItem(
-                item.id
-            );
-
-        }
-    );
-
-
-    element
-        .querySelector(
-            ".item-name"
-        )
-        .addEventListener(
-            "click",
-            () => {
-
-                openEditModal(
-                    item.id
-                );
-
-            }
-        );
-
-
-    element
-        .querySelector(
-            ".schedule-action"
-        )
-        .addEventListener(
-            "click",
-            () => {
-
-                toggleSchedulePanel(
-                    item.id
-                );
-
-            }
-        );
-
-
-    element
-        .querySelector(
-            ".snooze-action"
-        )
-        .addEventListener(
-            "click",
-            () => {
-
-                snoozeItem(
-                    item.id
-                );
-
-            }
-        );
-
-
-    element
-        .querySelector(
-            ".delete-action"
-        )
-        .addEventListener(
-            "click",
-            () => {
-
-                deleteItem(
-                    item.id
-                );
-
-            }
-        );
 
 
     const schedulePanel =
@@ -2324,8 +2379,79 @@ function renderItem(
     );
 
 
-    list.appendChild(
+    routine.appendChild(
         wrapper
+    );
+
+
+    /*
+     * Event listeners instead of inline
+     * onclick handlers. This makes the
+     * drag system much more reliable.
+     */
+
+    const checkbox =
+        element.querySelector(
+            ".checkbox"
+        );
+
+
+    checkbox.addEventListener(
+        "change",
+        () =>
+            toggleItem(item.id)
+    );
+
+
+    const name =
+        element.querySelector(
+            ".item-name"
+        );
+
+
+    name.addEventListener(
+        "click",
+        () =>
+            openEditModal(item.id)
+    );
+
+
+    const scheduleButton =
+        element.querySelector(
+            ".schedule-button"
+        );
+
+
+    scheduleButton.addEventListener(
+        "click",
+        () =>
+            toggleSchedulePanel(item.id)
+    );
+
+
+    const snoozeButton =
+        element.querySelector(
+            ".snooze-button"
+        );
+
+
+    snoozeButton.addEventListener(
+        "click",
+        () =>
+            snoozeItem(item.id)
+    );
+
+
+    const deleteButton =
+        element.querySelector(
+            ".delete-button"
+        );
+
+
+    deleteButton.addEventListener(
+        "click",
+        () =>
+            deleteItem(item.id)
     );
 
 
@@ -2333,59 +2459,6 @@ function renderItem(
         wrapper,
         item.id
     );
-
-}
-
-
-/* ==================================================
-   SCHEDULE PANEL
-   ================================================== */
-
-function toggleSchedulePanel(
-    id
-) {
-
-    const panel =
-        document.getElementById(
-            "schedule-" + id
-        );
-
-
-    if (!panel) {
-
-        return;
-
-    }
-
-
-    const wasOpen =
-        panel.classList.contains(
-            "open"
-        );
-
-
-    document
-        .querySelectorAll(
-            ".schedule-panel"
-        )
-        .forEach(
-            otherPanel => {
-
-                otherPanel.classList.remove(
-                    "open"
-                );
-
-            }
-        );
-
-
-    if (!wasOpen) {
-
-        panel.classList.add(
-            "open"
-        );
-
-    }
 
 }
 
@@ -2449,6 +2522,7 @@ function createSchedulePicker(
             Repeat
         </div>
 
+
         <div class="schedule-options">
 
             ${days.map(
@@ -2468,12 +2542,7 @@ function createSchedulePicker(
                                 ? "selected"
                                 : ""
                             }"
-                            onclick="
-                                toggleSchedule(
-                                    '${item.id}',
-                                    '${day.value}'
-                                )
-                            "
+                            data-day="${day.value}"
                         >
                             ${day.label}
                         </button>
@@ -2486,6 +2555,79 @@ function createSchedulePicker(
         </div>
 
     `;
+
+}
+
+
+/* ==================================================
+   SCHEDULE PANEL
+   ================================================== */
+
+function toggleSchedulePanel(
+    id
+) {
+
+    const panel =
+        document.getElementById(
+            "schedule-" + id
+        );
+
+
+    if (!panel) {
+
+        return;
+
+    }
+
+
+    const wasOpen =
+        panel.classList.contains(
+            "open"
+        );
+
+
+    document
+        .querySelectorAll(
+            ".schedule-panel"
+        )
+        .forEach(
+            otherPanel => {
+
+                otherPanel.classList.remove(
+                    "open"
+                );
+
+            }
+        );
+
+
+    if (!wasOpen) {
+
+        panel.classList.add(
+            "open"
+        );
+
+
+        panel
+            .querySelectorAll(
+                ".day-button"
+            )
+            .forEach(
+                button => {
+
+                    button.onclick = () => {
+
+                        toggleSchedule(
+                            id,
+                            button.dataset.day
+                        );
+
+                    };
+
+                }
+            );
+
+    }
 
 }
 
@@ -2590,9 +2732,30 @@ function toggleSchedule(
                 item
             );
 
+
         panel.classList.add(
             "open"
         );
+
+
+        panel
+            .querySelectorAll(
+                ".day-button"
+            )
+            .forEach(
+                button => {
+
+                    button.onclick = () => {
+
+                        toggleSchedule(
+                            id,
+                            button.dataset.day
+                        );
+
+                    };
+
+                }
+            );
 
     }
 
@@ -2703,579 +2866,139 @@ function snoozeItem(
 
 
 /* ==================================================
-   DRAG / REORDER
+   EARLIER TODAY
    ================================================== */
 
-function attachDragHandlers(
-    wrapper,
-    id
-) {
-
-    let holdTimer =
-        null;
-
-
-    let pointerDown =
-        false;
-
-
-    let startY =
-        0;
-
-
-    wrapper.addEventListener(
-        "pointerdown",
-        event => {
-
-            if (
-                event.target.closest(
-                    "button"
-                ) ||
-                event.target.closest(
-                    "input"
-                ) ||
-                event.target.closest(
-                    ".item-name"
-                )
-            ) {
-
-                return;
-
-            }
-
-
-            pointerDown =
-                true;
-
-            startY =
-                event.clientY;
-
-
-            holdTimer =
-                setTimeout(
-                    () => {
-
-                        if (
-                            pointerDown
-                        ) {
-
-                            beginDrag(
-                                wrapper,
-                                id,
-                                event.clientY
-                            );
-
-                        }
-
-                    },
-                    420
-                );
-
-        }
-    );
-
-
-    wrapper.addEventListener(
-        "pointermove",
-        event => {
-
-            if (
-                dragState.active
-            ) {
-
-                moveDrag(
-                    event.clientY
-                );
-
-                return;
-
-            }
-
-
-            if (
-                pointerDown &&
-                Math.abs(
-                    event.clientY -
-                    startY
-                ) > 10
-            ) {
-
-                clearTimeout(
-                    holdTimer
-                );
-
-            }
-
-        }
-    );
-
-
-    wrapper.addEventListener(
-        "pointerup",
-        () => {
-
-            pointerDown =
-                false;
-
-            clearTimeout(
-                holdTimer
-            );
-
-
-            if (
-                dragState.active
-            ) {
-
-                finishDrag();
-
-            }
-
-        }
-    );
-
-
-    wrapper.addEventListener(
-        "pointercancel",
-        () => {
-
-            pointerDown =
-                false;
-
-            clearTimeout(
-                holdTimer
-            );
-
-
-            if (
-                dragState.active
-            ) {
-
-                cancelDrag();
-
-            }
-
-        }
-    );
-
-}
-
-
-function beginDrag(
-    wrapper,
-    id,
-    y
-) {
-
-    dragState.id =
-        id;
-
-    dragState.wrapper =
-        wrapper;
-
-    dragState.startY =
-        y;
-
-    dragState.active =
-        true;
-
-
-    wrapper.classList.add(
-        "dragging"
-    );
-
-
-    if (
-        navigator.vibrate
-    ) {
-
-        navigator.vibrate(
-            30
-        );
-
-    }
-
-}
-
-
-function moveDrag(
-    y
-) {
-
-    if (
-        !dragState.active ||
-        !dragState.wrapper
-    ) {
-
-        return;
-
-    }
-
-
-    const wrapper =
-        dragState.wrapper;
-
-
-    const list =
-        wrapper.parentElement;
-
-
-    const siblings =
-        Array.from(
-            list.children
-        ).filter(
-            child =>
-                child !== wrapper &&
-                child.classList.contains(
-                    "task-wrapper"
-                )
+function renderEarlierToday() {
+
+    const section =
+        document.getElementById(
+            "earlierSection"
         );
 
 
-    siblings.forEach(
-        sibling => {
-
-            sibling.classList.remove(
-                "drag-over"
-            );
-
-        }
-    );
-
-
-    let closest =
-        null;
-
-    let closestDistance =
-        Infinity;
-
-
-    siblings.forEach(
-        sibling => {
-
-            const rect =
-                sibling.getBoundingClientRect();
-
-
-            const center =
-                rect.top +
-                rect.height / 2;
-
-
-            const distance =
-                Math.abs(
-                    y - center
-                );
-
-
-            if (
-                distance <
-                closestDistance
-            ) {
-
-                closestDistance =
-                    distance;
-
-                closest =
-                    sibling;
-
-            }
-
-        }
-    );
-
-
-    if (!closest) {
-
-        return;
-
-    }
-
-
-    const rect =
-        closest.getBoundingClientRect();
-
-
-    if (
-        y <
-        rect.top +
-        rect.height / 2
-    ) {
-
-        list.insertBefore(
-            wrapper,
-            closest
-        );
-
-    } else {
-
-        list.insertBefore(
-            wrapper,
-            closest.nextSibling
-        );
-
-    }
-
-
-    closest.classList.add(
-        "drag-over"
-    );
-
-}
-
-
-function finishDrag() {
-
-    if (
-        !dragState.wrapper
-    ) {
-
-        return;
-
-    }
-
-
-    const wrapper =
-        dragState.wrapper;
-
-
-    wrapper.classList.remove(
-        "dragging"
-    );
-
-
-    document
-        .querySelectorAll(
-            ".drag-over"
-        )
-        .forEach(
-            element => {
-
-                element.classList.remove(
-                    "drag-over"
-                );
-
-            }
+    const container =
+        document.getElementById(
+            "earlierRoutine"
         );
 
 
-    saveCurrentVisualOrder();
+    container.innerHTML =
+        "";
 
 
-    dragState.id =
-        null;
+    const current =
+        getCurrentTimeOfDay();
 
-    dragState.wrapper =
-        null;
 
-    dragState.active =
-        false;
+    const earlierSections = {
 
-}
+        morning:
+            current !== "morning",
 
+        afternoon:
+            current === "night"
 
-function cancelDrag() {
+    };
 
-    if (
-        dragState.wrapper
-    ) {
 
-        dragState.wrapper.classList.remove(
-            "dragging"
-        );
+    const earlierItems =
+        sortItems(
+            data.items.filter(
+                item => {
 
-    }
+                    if (
+                        !item.completed
+                    ) {
 
-
-    document
-        .querySelectorAll(
-            ".drag-over"
-        )
-        .forEach(
-            element => {
-
-                element.classList.remove(
-                    "drag-over"
-                );
-
-            }
-        );
-
-
-    dragState.id =
-        null;
-
-    dragState.wrapper =
-        null;
-
-    dragState.active =
-        false;
-
-
-    render();
-
-}
-
-
-function saveCurrentVisualOrder() {
-
-    const wrappers =
-        document.querySelectorAll(
-            ".time-section .task-wrapper"
-        );
-
-
-    wrappers.forEach(
-        wrapper => {
-
-            const id =
-                wrapper.dataset.id;
-
-
-            const item =
-                data.items.find(
-                    item =>
-                        item.id === id
-                );
-
-
-            if (!item) {
-
-                return;
-
-            }
-
-
-            const section =
-                wrapper.closest(
-                    ".time-section"
-                );
-
-
-            const heading =
-                section
-                    ? section
-                        .querySelector(
-                            ".time-heading"
-                        )
-                    : null;
-
-
-            if (!heading) {
-
-                return;
-
-            }
-
-
-            const periodText =
-                heading.textContent
-                    .trim()
-                    .toLowerCase();
-
-
-            if (
-                periodText ===
-                "morning"
-            ) {
-
-                item.period =
-                    "morning";
-
-            } else if (
-                periodText ===
-                "afternoon"
-            ) {
-
-                item.period =
-                    "afternoon";
-
-            } else if (
-                periodText ===
-                "night"
-            ) {
-
-                item.period =
-                    "night";
-
-            }
-
-        }
-    );
-
-
-    const periods = [
-
-        "morning",
-        "afternoon",
-        "night"
-
-    ];
-
-
-    periods.forEach(
-        period => {
-
-            const wrappers =
-                Array.from(
-                    document.querySelectorAll(
-                        ".time-section"
-                    )
-                )
-                .filter(
-                    section =>
-                        section
-                            .querySelector(
-                                ".time-heading"
-                            )
-                            ?.textContent
-                            .trim()
-                            .toLowerCase()
-                            === period
-                )
-                .flatMap(
-                    section =>
-                        Array.from(
-                            section.querySelectorAll(
-                                ".task-wrapper"
-                            )
-                        )
-                );
-
-
-            wrappers.forEach(
-                (wrapper, index) => {
-
-                    const item =
-                        data.items.find(
-                            item =>
-                                item.id ===
-                                wrapper.dataset.id
-                        );
-
-
-                    if (item) {
-
-                        item.order =
-                            index;
+                        return false;
 
                     }
 
+
+                    if (
+                        !isScheduledToday(item)
+                    ) {
+
+                        return false;
+
+                    }
+
+
+                    if (
+                        item.snoozed
+                    ) {
+
+                        return false;
+
+                    }
+
+
+                    if (
+                        current === "afternoon"
+                    ) {
+
+                        return (
+                            item.timeOfDay ===
+                            "morning"
+                        );
+
+                    }
+
+
+                    if (
+                        current === "night"
+                    ) {
+
+                        return (
+                            item.timeOfDay ===
+                                "morning" ||
+                            item.timeOfDay ===
+                                "afternoon"
+                        );
+
+                    }
+
+
+                    return false;
+
                 }
+            )
+        );
+
+
+    if (
+        earlierItems.length === 0
+    ) {
+
+        section.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    section.style.display =
+        "block";
+
+
+    earlierItems.forEach(
+        item => {
+
+            renderItem(
+                item,
+                container
             );
 
         }
     );
-
-
-    normalizeOrders();
-
-    saveData();
 
 }
 
 
 /* ==================================================
-   EDIT TASK MODAL
+   EDIT MODAL
    ================================================== */
 
 function openEditModal(
@@ -3303,23 +3026,69 @@ function openEditModal(
         id;
 
 
-    document.getElementById(
-        "editTaskName"
-    ).value =
+    const nameInput =
+        document.getElementById(
+            "editTaskName"
+        );
+
+
+    const detailsInput =
+        document.getElementById(
+            "editTaskDetails"
+        );
+
+
+    nameInput.value =
         item.text;
 
 
-    document.getElementById(
-        "editTaskDetails"
-    ).value =
+    detailsInput.value =
         item.details || "";
 
 
-    document.getElementById(
-        "editModal"
-    ).classList.add(
-        "open"
+    selectTimeOfDay(
+        item.timeOfDay || "morning"
     );
+
+
+    document
+        .getElementById(
+            "editModal"
+        )
+        .classList.add(
+            "open"
+        );
+
+}
+
+
+/* ==================================================
+   TIME SELECTOR
+   ================================================== */
+
+function selectTimeOfDay(
+    value
+) {
+
+    selectedTimeOfDay =
+        value;
+
+
+    document
+        .querySelectorAll(
+            ".time-option"
+        )
+        .forEach(
+            button => {
+
+                button.classList.toggle(
+                    "selected",
+                    button.dataset.time ===
+                        value
+                );
+
+            }
+        );
 
 }
 
@@ -3391,6 +3160,10 @@ function saveEditModal() {
         detailsInput.value.trim();
 
 
+    item.timeOfDay =
+        selectedTimeOfDay;
+
+
     saveData();
 
     closeEditModal();
@@ -3406,13 +3179,15 @@ function saveEditModal() {
 
 function closeEditModal() {
 
-    document
-        .getElementById(
+    const modal =
+        document.getElementById(
             "editModal"
-        )
-        .classList.remove(
-            "open"
         );
+
+
+    modal.classList.remove(
+        "open"
+    );
 
 
     editingItemId =
@@ -3422,7 +3197,7 @@ function closeEditModal() {
 
 
 /* ==================================================
-   BACKDROP
+   TAP OUTSIDE MODAL
    ================================================== */
 
 function handleBackdropClick(
@@ -3450,25 +3225,13 @@ function addItem() {
     checkForNewDay();
 
 
-    const period =
-        getTimePeriod();
-
-
-    const periodItems =
-        data.items.filter(
-            item =>
-                item.period ===
-                period
-        );
-
-
     const newItem = {
 
         id:
             createId(),
 
         text:
-            "New Routine Item",
+            "",
 
         details:
             "",
@@ -3488,11 +3251,11 @@ function addItem() {
         schedule:
             ["everyday"],
 
-        period:
-            period,
+        timeOfDay:
+            getCurrentTimeOfDay(),
 
         order:
-            periodItems.length
+            getNextOrder()
 
     };
 
@@ -3504,12 +3267,90 @@ function addItem() {
 
     saveData();
 
-    render();
+
+    /*
+     * Instead of showing a placeholder
+     * task first, immediately open the
+     * editing window.
+     */
+
+    editingItemId =
+        newItem.id;
 
 
-    openEditModal(
-        newItem.id
+    selectedTimeOfDay =
+        newItem.timeOfDay;
+
+
+    document.getElementById(
+        "editTaskName"
+    ).value = "";
+
+
+    document.getElementById(
+        "editTaskDetails"
+    ).value = "";
+
+
+    selectTimeOfDay(
+        newItem.timeOfDay
     );
+
+
+    document
+        .getElementById(
+            "editModal"
+        )
+        .classList.add(
+            "open"
+        );
+
+
+    /*
+     * Put the cursor directly in the
+     * empty task-name field.
+     */
+
+    setTimeout(
+        () => {
+
+            document
+                .getElementById(
+                    "editTaskName"
+                )
+                .focus();
+
+        },
+        100
+    );
+
+}
+
+
+/* ==================================================
+   NEXT ORDER
+   ================================================== */
+
+function getNextOrder() {
+
+    if (
+        data.items.length === 0
+    ) {
+
+        return 0;
+
+    }
+
+
+    return Math.max(
+        ...data.items.map(
+            item =>
+                typeof item.order ===
+                "number"
+                ? item.order
+                : 0
+        )
+    ) + 1;
 
 }
 
@@ -3542,8 +3383,6 @@ function deleteItem(
                 item.id !== id
         );
 
-
-    normalizeOrders();
 
     saveData();
 
@@ -3700,6 +3539,568 @@ function escapeHtml(
 
 
 /* ==================================================
+   IPHONE DRAG / REORDER
+   ================================================== */
+
+let dragState = null;
+
+
+function attachDragHandlers(
+    wrapper,
+    id
+) {
+
+    let timer = null;
+
+    let longPressTriggered =
+        false;
+
+
+    function startPress(
+        event
+    ) {
+
+        /*
+         * Don't start dragging when the
+         * user touches a control.
+         */
+
+        if (
+            event.target.closest(
+                "button,input,textarea"
+            )
+        ) {
+
+            return;
+
+        }
+
+
+        const touch =
+            event.touches
+                ? event.touches[0]
+                : event;
+
+
+        timer =
+            setTimeout(
+                () => {
+
+                    longPressTriggered =
+                        true;
+
+                    startDragging(
+                        wrapper,
+                        id,
+                        touch.clientY
+                    );
+
+                },
+                420
+            );
+
+    }
+
+
+    function cancelPress() {
+
+        if (timer) {
+
+            clearTimeout(timer);
+
+            timer =
+                null;
+
+        }
+
+    }
+
+
+    function moveBeforeDrag(
+        event
+    ) {
+
+        if (
+            !longPressTriggered
+        ) {
+
+            cancelPress();
+
+        }
+
+    }
+
+
+    function endPress() {
+
+        cancelPress();
+
+        if (
+            longPressTriggered &&
+            dragState
+        ) {
+
+            finishDragging();
+
+        }
+
+        longPressTriggered =
+            false;
+
+    }
+
+
+    wrapper.addEventListener(
+        "touchstart",
+        startPress,
+        {
+            passive: true
+        }
+    );
+
+
+    wrapper.addEventListener(
+        "touchmove",
+        moveBeforeDrag,
+        {
+            passive: true
+        }
+    );
+
+
+    wrapper.addEventListener(
+        "touchend",
+        endPress,
+        {
+            passive: true
+        }
+    );
+
+
+    wrapper.addEventListener(
+        "touchcancel",
+        endPress,
+        {
+            passive: true
+        }
+    );
+
+}
+
+
+function startDragging(
+    wrapper,
+    id,
+    startY
+) {
+
+    if (
+        dragState
+    ) {
+
+        return;
+
+    }
+
+
+    const item =
+        data.items.find(
+            item =>
+                item.id === id
+        );
+
+
+    if (!item) {
+
+        return;
+
+    }
+
+
+    const section =
+        wrapper.closest(
+            ".routine[data-section]"
+        );
+
+
+    if (!section) {
+
+        return;
+
+    }
+
+
+    dragState = {
+
+        id:
+            id,
+
+        wrapper:
+            wrapper,
+
+        section:
+            section,
+
+        startY:
+            startY
+
+    };
+
+
+    wrapper
+        .querySelector(
+            ".item"
+        )
+        .classList.add(
+            "dragging"
+        );
+
+
+    document.body.style
+        .userSelect =
+        "none";
+
+    document.body.style
+        .webkitUserSelect =
+        "none";
+
+
+    document.addEventListener(
+        "touchmove",
+        handleDragMove,
+        {
+            passive: false
+        }
+    );
+
+
+    document.addEventListener(
+        "touchend",
+        finishDragging,
+        {
+            passive: true,
+            once: true
+        }
+    );
+
+}
+
+
+function handleDragMove(
+    event
+) {
+
+    if (
+        !dragState
+    ) {
+
+        return;
+
+    }
+
+
+    event.preventDefault();
+
+
+    const touch =
+        event.touches[0];
+
+
+    const y =
+        touch.clientY;
+
+
+    const section =
+        dragState.section;
+
+
+    const wrappers =
+        [
+            ...section.querySelectorAll(
+                ".task-wrapper"
+            )
+        ]
+        .filter(
+            wrapper =>
+                wrapper !==
+                dragState.wrapper
+        );
+
+
+    let closest =
+        null;
+
+    let closestDistance =
+        Infinity;
+
+
+    wrappers.forEach(
+        wrapper => {
+
+            const rect =
+                wrapper.getBoundingClientRect();
+
+
+            const center =
+                rect.top +
+                rect.height / 2;
+
+
+            const distance =
+                Math.abs(
+                    y - center
+                );
+
+
+            if (
+                distance <
+                closestDistance
+            ) {
+
+                closestDistance =
+                    distance;
+
+                closest =
+                    wrapper;
+
+            }
+
+        }
+    );
+
+
+    if (
+        closest
+    ) {
+
+        const rect =
+            closest.getBoundingClientRect();
+
+
+        if (
+            y <
+            rect.top +
+            rect.height / 2
+        ) {
+
+            section.insertBefore(
+                dragState.wrapper,
+                closest
+            );
+
+        } else {
+
+            section.insertBefore(
+                dragState.wrapper,
+                closest.nextSibling
+            );
+
+        }
+
+    }
+
+
+    saveCurrentVisualOrder();
+
+}
+
+
+function finishDragging() {
+
+    if (
+        !dragState
+    ) {
+
+        return;
+
+    }
+
+
+    document.removeEventListener(
+        "touchmove",
+        handleDragMove
+    );
+
+
+    document.body.style
+        .userSelect =
+        "";
+
+    document.body.style
+        .webkitUserSelect =
+        "";
+
+
+    const itemElement =
+        dragState.wrapper
+            .querySelector(
+                ".item"
+            );
+
+
+    if (itemElement) {
+
+        itemElement.classList.remove(
+            "dragging"
+        );
+
+    }
+
+
+    saveCurrentVisualOrder();
+
+
+    dragState =
+        null;
+
+
+    render();
+
+}
+
+
+/* ==================================================
+   SAVE VISUAL ORDER
+   ================================================== */
+
+function saveCurrentVisualOrder() {
+
+    if (
+        !dragState
+    ) {
+
+        return;
+
+    }
+
+
+    const wrappers =
+        [
+            ...dragState.section
+                .querySelectorAll(
+                    ".task-wrapper"
+                )
+        ];
+
+
+    wrappers.forEach(
+        (wrapper, index) => {
+
+            const id =
+                wrapper.dataset.id;
+
+
+            const item =
+                data.items.find(
+                    item =>
+                        item.id === id
+                );
+
+
+            if (item) {
+
+                item.order =
+                    index;
+
+            }
+
+        }
+    );
+
+
+    /*
+     * Give tasks in other time-of-day
+     * sections enough separation that
+     * moving one section doesn't
+     * accidentally affect another.
+     */
+
+    normalizeOrders();
+
+    saveData();
+
+}
+
+
+/* ==================================================
+   NORMALIZE ORDERS
+   ================================================== */
+
+function normalizeOrders() {
+
+    const sections = [
+
+        "morning",
+        "afternoon",
+        "night"
+
+    ];
+
+
+    let order =
+        0;
+
+
+    sections.forEach(
+        section => {
+
+            sortItems(
+                data.items.filter(
+                    item =>
+                        item.timeOfDay ===
+                        section
+                )
+            ).forEach(
+                item => {
+
+                    item.order =
+                        order++;
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* ==================================================
+   PERIODIC TIME CHECK
+   ==================================================
+
+   This allows NovaVesta to move the
+   appropriate section to the top even
+   if the app remains open across noon
+   or 5 PM.
+
+   ================================================== */
+
+setInterval(
+    () => {
+
+        const current =
+            getCurrentTimeOfDay();
+
+
+        if (
+            current !==
+            window.lastKnownTimeOfDay
+        ) {
+
+            window.lastKnownTimeOfDay =
+                current;
+
+            render();
+
+        }
+
+    },
+    30000
+);
+
+
+/* ==================================================
    START
    ================================================== */
 
@@ -3707,25 +4108,10 @@ checkForNewDay();
 
 updateDate();
 
+window.lastKnownTimeOfDay =
+    getCurrentTimeOfDay();
+
 render();
-
-
-/*
- * Keep the time-of-day display current
- * if the app remains open across noon
- * or 5:00 PM.
- */
-
-setInterval(
-    () => {
-
-        updateDate();
-
-        render();
-
-    },
-    60000
-);
 
 </script>
 
