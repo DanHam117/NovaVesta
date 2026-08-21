@@ -47,18 +47,12 @@
     --bg: #07100b;
     --panel: #0d1a12;
     --panel-active: #102319;
-    --panel-light: #13271b;
-
     --green: #55d68a;
     --green-bright: #7affad;
     --green-dim: #347a50;
-
     --text: #edf8f0;
     --muted: #789080;
-
-    --border:
-        rgba(85, 214, 138, 0.17);
-
+    --border: rgba(85, 214, 138, 0.17);
     --danger: #d86b6b;
 
     --glow:
@@ -111,6 +105,7 @@ body {
     color: var(--text);
 
     font-family:
+
         -apple-system,
         BlinkMacSystemFont,
         "SF Pro Display",
@@ -171,8 +166,7 @@ header {
 
     font-size: 25px;
 
-    color:
-        var(--green-bright);
+    color: var(--green-bright);
 
     text-shadow:
         0 0 15px
@@ -210,6 +204,43 @@ h1 {
 
 
 /* ==================================================
+   TIME OF DAY HEADINGS
+   ================================================== */
+
+.time-section {
+
+    margin-bottom: 22px;
+
+}
+
+
+.time-heading {
+
+    margin:
+
+        4px 0 9px 2px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    font-weight: 500;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+}
+
+
+.time-heading.current {
+
+    color: var(--green);
+
+}
+
+
+/* ==================================================
    PROGRESS
    ================================================== */
 
@@ -217,7 +248,7 @@ h1 {
 
     text-align: center;
 
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 
     color: var(--muted);
 
@@ -234,42 +265,6 @@ h1 {
 
 
 /* ==================================================
-   TIME-OF-DAY SECTION
-   ================================================== */
-
-.time-section {
-
-    margin-bottom: 22px;
-
-}
-
-
-.section-heading {
-
-    margin:
-
-        0
-
-        0
-
-        9px
-
-        3px;
-
-    color: var(--muted);
-
-    font-size: 12px;
-
-    font-weight: 600;
-
-    letter-spacing: 1.2px;
-
-    text-transform: uppercase;
-
-}
-
-
-/* ==================================================
    ROUTINE
    ================================================== */
 
@@ -278,8 +273,6 @@ h1 {
     display: flex;
 
     flex-direction: column;
-
-    gap: 9px;
 
 }
 
@@ -291,6 +284,11 @@ h1 {
 .task-wrapper {
 
     width: 100%;
+
+    margin-bottom: 9px;
+
+    transition:
+        transform 0.12s ease;
 
 }
 
@@ -324,7 +322,9 @@ h1 {
     transition:
         background 0.15s ease,
         border-color 0.15s ease,
-        opacity 0.15s ease;
+        opacity 0.15s ease,
+        transform 0.12s ease,
+        box-shadow 0.12s ease;
 
 }
 
@@ -348,6 +348,52 @@ h1 {
 
 
 /* ==================================================
+   DRAGGING
+   ================================================== */
+
+.task-wrapper.dragging {
+
+    z-index: 100;
+
+}
+
+
+.task-wrapper.dragging .item {
+
+    transform:
+        scale(1.025);
+
+    border-color:
+        var(--green-dim);
+
+    box-shadow:
+        0 8px 28px
+        rgba(0, 0, 0, 0.45),
+
+        var(--glow);
+
+    opacity: 0.95;
+
+}
+
+
+.task-wrapper.drag-over {
+
+    transform:
+        translateY(5px);
+
+}
+
+
+.task-wrapper.drag-over .item {
+
+    border-color:
+        var(--green);
+
+}
+
+
+/* ==================================================
    CHECKBOX
    ================================================== */
 
@@ -358,6 +404,7 @@ h1 {
     -webkit-appearance: none;
 
     width: 30px;
+
     height: 30px;
 
     min-width: 30px;
@@ -490,6 +537,7 @@ h1 {
 .task-action {
 
     width: 32px;
+
     height: 32px;
 
     min-width: 32px;
@@ -497,6 +545,7 @@ h1 {
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     padding: 0;
@@ -647,7 +696,31 @@ h1 {
 
 .day-button:active {
 
-    transform: scale(0.97);
+    transform:
+        scale(0.97);
+
+}
+
+
+/* ==================================================
+   EMPTY
+   ================================================== */
+
+.empty {
+
+    text-align: center;
+
+    color: var(--muted);
+
+    padding:
+        34px 20px;
+
+    border:
+        1px dashed var(--border);
+
+    border-radius: 14px;
+
+    line-height: 1.5;
 
 }
 
@@ -662,7 +735,7 @@ h1 {
 
     justify-content: center;
 
-    margin-top: 18px;
+    margin-top: 9px;
 
 }
 
@@ -697,7 +770,8 @@ h1 {
     background:
         rgba(85, 214, 138, 0.16);
 
-    transform: scale(0.98);
+    transform:
+        scale(0.98);
 
 }
 
@@ -740,29 +814,6 @@ h1 {
 
 
 /* ==================================================
-   EMPTY
-   ================================================== */
-
-.empty {
-
-    text-align: center;
-
-    color: var(--muted);
-
-    padding:
-        34px 20px;
-
-    border:
-        1px dashed var(--border);
-
-    border-radius: 14px;
-
-    line-height: 1.5;
-
-}
-
-
-/* ==================================================
    EDIT MODAL
    ================================================== */
 
@@ -781,8 +832,11 @@ h1 {
     justify-content: center;
 
     padding:
+
         18px
+
         18px
+
         max(
             18px,
             env(safe-area-inset-bottom)
@@ -889,6 +943,7 @@ h1 {
 .modal-close {
 
     width: 36px;
+
     height: 36px;
 
     border: none;
@@ -904,17 +959,6 @@ h1 {
     font-size: 23px;
 
     line-height: 1;
-
-}
-
-
-.modal-close:active {
-
-    background:
-        rgba(85, 214, 138, 0.15);
-
-    color:
-        var(--green);
 
 }
 
@@ -941,8 +985,7 @@ h1 {
 
 
 .form-input,
-.form-textarea,
-.form-select {
+.form-textarea {
 
     width: 100%;
 
@@ -991,19 +1034,8 @@ h1 {
 }
 
 
-.form-select {
-
-    height: 48px;
-
-    padding:
-        0 13px;
-
-}
-
-
 .form-input:focus,
-.form-textarea:focus,
-.form-select:focus {
+.form-textarea:focus {
 
     border-color:
         var(--green-dim);
@@ -1071,14 +1103,6 @@ h1 {
 }
 
 
-.modal-button:active {
-
-    transform:
-        scale(0.98);
-
-}
-
-
 /* ==================================================
    SMALL IPHONES
    ================================================== */
@@ -1128,6 +1152,7 @@ h1 {
     .checkbox {
 
         width: 28px;
+
         height: 28px;
 
         min-width: 28px;
@@ -1138,6 +1163,7 @@ h1 {
     .task-action {
 
         width: 30px;
+
         height: 30px;
 
         min-width: 30px;
@@ -1158,6 +1184,7 @@ h1 {
         padding-top: 50px;
 
         padding-left: 20px;
+
         padding-right: 20px;
 
     }
@@ -1228,6 +1255,7 @@ h1 {
 
 
 <main
+    class="routine"
     id="routine"
 ></main>
 
@@ -1332,37 +1360,6 @@ h1 {
         </div>
 
 
-        <div class="form-group">
-
-            <label
-                class="form-label"
-                for="editTaskPeriod"
-            >
-                Time of day
-            </label>
-
-            <select
-                class="form-select"
-                id="editTaskPeriod"
-            >
-
-                <option value="morning">
-                    Morning
-                </option>
-
-                <option value="afternoon">
-                    Afternoon
-                </option>
-
-                <option value="night">
-                    Night
-                </option>
-
-            </select>
-
-        </div>
-
-
         <div class="modal-actions">
 
             <button
@@ -1398,40 +1395,19 @@ const STORAGE_KEY =
 
 const DEFAULT_ITEMS = [
 
-    {
-        text: "Get dressed",
-        period: "morning"
-    },
+    "Get dressed",
 
-    {
-        text: "Brush teeth",
-        period: "morning"
-    },
+    "Brush teeth",
 
-    {
-        text: "Take medications / vitamins",
-        period: "morning"
-    },
+    "Take medications / vitamins",
 
-    {
-        text: "Eat breakfast",
-        period: "morning"
-    },
+    "Eat breakfast",
 
-    {
-        text: "Pack everything I need",
-        period: "morning"
-    },
+    "Pack everything I need",
 
-    {
-        text: "Check today's schedule",
-        period: "morning"
-    },
+    "Check today's schedule",
 
-    {
-        text: "Leave for the day",
-        period: "morning"
-    }
+    "Leave for the day"
 
 ];
 
@@ -1442,6 +1418,19 @@ let data =
 
 let editingItemId =
     null;
+
+
+let dragState = {
+
+    id: null,
+
+    wrapper: null,
+
+    startY: 0,
+
+    active: false
+
+};
 
 
 /* ==================================================
@@ -1478,37 +1467,14 @@ function currentDay() {
 
 
 /* ==================================================
-   CURRENT TIME PERIOD
+   TIME OF DAY
    ================================================== */
 
-function currentPeriod() {
-
-    const now =
-        new Date();
+function getTimePeriod() {
 
     const hour =
-        now.getHours();
+        new Date().getHours();
 
-
-    /*
-     * Morning:
-     * 2:00 AM through 11:59 AM
-     */
-
-    if (
-        hour >= 2 &&
-        hour < 12
-    ) {
-
-        return "morning";
-
-    }
-
-
-    /*
-     * Afternoon:
-     * 12:00 PM through 4:59 PM
-     */
 
     if (
         hour >= 12 &&
@@ -1520,66 +1486,22 @@ function currentPeriod() {
     }
 
 
-    /*
-     * Night:
-     * 5:00 PM through 1:59 AM
-     */
-
-    return "night";
-
-}
-
-
-/* ==================================================
-   PERIOD ORDER
-   ================================================== */
-
-function getPeriodOrder() {
-
-    const current =
-        currentPeriod();
-
-
     if (
-        current === "morning"
+        hour >= 17 ||
+        hour < 2
     ) {
 
-        return [
-            "morning",
-            "afternoon",
-            "night"
-        ];
+        return "night";
 
     }
 
 
-    if (
-        current === "afternoon"
-    ) {
-
-        return [
-            "afternoon",
-            "morning",
-            "night"
-        ];
-
-    }
-
-
-    return [
-        "night",
-        "afternoon",
-        "morning"
-    ];
+    return "morning";
 
 }
 
 
-/* ==================================================
-   PERIOD LABEL
-   ================================================== */
-
-function periodLabel(
+function getPeriodLabel(
     period
 ) {
 
@@ -1703,19 +1625,8 @@ function loadData() {
                         }
 
 
-                        /*
-                         * Existing NovaVesta
-                         * tasks did not have
-                         * a time period.
-                         *
-                         * Put those tasks
-                         * into Morning.
-                         */
-
                         if (
-                            item.period !== "morning" &&
-                            item.period !== "afternoon" &&
-                            item.period !== "night"
+                            !item.period
                         ) {
 
                             item.period =
@@ -1760,19 +1671,16 @@ function loadData() {
 
         items:
             DEFAULT_ITEMS.map(
-                item => ({
+                text => ({
 
                     id:
                         createId(),
 
                     text:
-                        item.text,
+                        text,
 
                     details:
                         "",
-
-                    period:
-                        item.period,
 
                     completed:
                         false,
@@ -1787,7 +1695,10 @@ function loadData() {
                         null,
 
                     schedule:
-                        ["everyday"]
+                        ["everyday"],
+
+                    period:
+                        "morning"
 
                 })
             )
@@ -1932,20 +1843,100 @@ function isScheduledToday(
    VISIBLE ITEMS
    ================================================== */
 
-function getVisibleItems(
-    period
-) {
+function getVisibleItems() {
 
     return data.items.filter(
 
         item =>
 
-            item.period === period &&
-
             isScheduledToday(item) &&
 
             !item.snoozed
 
+    );
+
+}
+
+
+/* ==================================================
+   ORDER
+   ================================================== */
+
+function sortItemsBySavedOrder(
+    items
+) {
+
+    return [...items].sort(
+        (a, b) => {
+
+            const aOrder =
+                Number.isFinite(
+                    a.order
+                )
+                ? a.order
+                : 999999;
+
+            const bOrder =
+                Number.isFinite(
+                    b.order
+                )
+                ? b.order
+                : 999999;
+
+            return aOrder - bOrder;
+
+        }
+    );
+
+}
+
+
+function normalizeOrders() {
+
+    const periods = [
+
+        "morning",
+        "afternoon",
+        "night"
+
+    ];
+
+
+    periods.forEach(
+        period => {
+
+            const items =
+                data.items
+                    .filter(
+                        item =>
+                            item.period ===
+                            period
+                    )
+                    .sort(
+                        (a, b) =>
+                            (
+                                Number.isFinite(a.order)
+                                ? a.order
+                                : 999999
+                            ) -
+                            (
+                                Number.isFinite(b.order)
+                                ? b.order
+                                : 999999
+                            )
+                    );
+
+
+            items.forEach(
+                (item, index) => {
+
+                    item.order =
+                        index;
+
+                }
+            );
+
+        }
     );
 
 }
@@ -1959,6 +1950,10 @@ function render() {
 
     checkForNewDay();
 
+    normalizeOrders();
+
+    saveData();
+
 
     const routine =
         document.getElementById(
@@ -1970,26 +1965,42 @@ function render() {
         "";
 
 
-    const order =
-        getPeriodOrder();
+    const visibleItems =
+        sortItemsBySavedOrder(
+            getVisibleItems()
+        );
 
 
-    order.forEach(
+    const periods = [
+
+        "morning",
+        "afternoon",
+        "night"
+
+    ];
+
+
+    const currentPeriod =
+        getTimePeriod();
+
+
+    let renderedAnything =
+        false;
+
+
+    periods.forEach(
         period => {
 
-            const items =
-                getVisibleItems(
-                    period
+            const periodItems =
+                visibleItems.filter(
+                    item =>
+                        item.period ===
+                        period
                 );
 
 
-            /*
-             * Do not display completely
-             * empty sections.
-             */
-
             if (
-                items.length === 0
+                periodItems.length === 0
             ) {
 
                 return;
@@ -1997,90 +2008,102 @@ function render() {
             }
 
 
-            renderSection(
-                period,
-                items,
-                routine
+            renderedAnything =
+                true;
+
+
+            const section =
+                document.createElement(
+                    "section"
+                );
+
+
+            section.className =
+                "time-section";
+
+
+            const heading =
+                document.createElement(
+                    "div"
+                );
+
+
+            heading.className =
+                "time-heading" +
+
+                (
+                    period ===
+                    currentPeriod
+                    ? " current"
+                    : ""
+                );
+
+
+            heading.textContent =
+                getPeriodLabel(
+                    period
+                );
+
+
+            section.appendChild(
+                heading
             );
 
-        }
-    );
+
+            const list =
+                document.createElement(
+                    "div"
+                );
 
 
-    updateProgress();
+            periodItems.forEach(
+                item => {
 
-}
+                    renderItem(
+                        item,
+                        list
+                    );
 
-
-/* ==================================================
-   RENDER SECTION
-   ================================================== */
-
-function renderSection(
-    period,
-    items,
-    routine
-) {
-
-    const section =
-        document.createElement(
-            "section"
-        );
+                }
+            );
 
 
-    section.className =
-        "time-section";
-
-
-    const heading =
-        document.createElement(
-            "h2"
-        );
-
-
-    heading.className =
-        "section-heading";
-
-
-    heading.textContent =
-        periodLabel(period);
-
-
-    section.appendChild(
-        heading
-    );
-
-
-    const list =
-        document.createElement(
-            "div"
-        );
-
-
-    list.className =
-        "routine";
-
-
-    items.forEach(
-        item => {
-
-            renderItem(
-                item,
+            section.appendChild(
                 list
             );
 
+
+            routine.appendChild(
+                section
+            );
+
         }
     );
 
 
-    section.appendChild(
-        list
-    );
+    if (
+        !renderedAnything
+    ) {
+
+        routine.innerHTML = `
+
+            <div class="empty">
+
+                Nothing left on
+                today's routine.
+
+                <br><br>
+
+                Enjoy the day.
+
+            </div>
+
+        `;
+
+    }
 
 
-    routine.appendChild(
-        section
-    );
+    updateProgress();
 
 }
 
@@ -2091,7 +2114,7 @@ function renderSection(
 
 function renderItem(
     item,
-    routine
+    list
 ) {
 
     const wrapper =
@@ -2102,6 +2125,10 @@ function renderItem(
 
     wrapper.className =
         "task-wrapper";
+
+
+    wrapper.dataset.id =
+        item.id;
 
 
     const element =
@@ -2126,9 +2153,6 @@ function renderItem(
             class="checkbox"
             type="checkbox"
             ${item.completed ? "checked" : ""}
-            onchange="
-                toggleItem('${item.id}')
-            "
             aria-label="Complete task"
         >
 
@@ -2137,11 +2161,6 @@ function renderItem(
 
             <div
                 class="item-name"
-                onclick="
-                    openEditModal(
-                        '${item.id}'
-                    )
-                "
             >
                 ${escapeHtml(item.text)}
             </div>
@@ -2164,12 +2183,7 @@ function renderItem(
 
 
         <button
-            class="task-action"
-            onclick="
-                toggleSchedulePanel(
-                    '${item.id}'
-                )
-            "
+            class="task-action schedule-action"
             title="Change schedule"
             aria-label="Change schedule"
         >
@@ -2178,12 +2192,7 @@ function renderItem(
 
 
         <button
-            class="task-action"
-            onclick="
-                snoozeItem(
-                    '${item.id}'
-                )
-            "
+            class="task-action snooze-action"
             title="Snooze until tomorrow"
             aria-label="Snooze until tomorrow"
         >
@@ -2192,12 +2201,7 @@ function renderItem(
 
 
         <button
-            class="task-action delete"
-            onclick="
-                deleteItem(
-                    '${item.id}'
-                )
-            "
+            class="task-action delete delete-action"
             title="Delete permanently"
             aria-label="Delete permanently"
         >
@@ -2205,6 +2209,88 @@ function renderItem(
         </button>
 
     `;
+
+
+    const checkbox =
+        element.querySelector(
+            ".checkbox"
+        );
+
+
+    checkbox.addEventListener(
+        "change",
+        () => {
+
+            toggleItem(
+                item.id
+            );
+
+        }
+    );
+
+
+    element
+        .querySelector(
+            ".item-name"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                openEditModal(
+                    item.id
+                );
+
+            }
+        );
+
+
+    element
+        .querySelector(
+            ".schedule-action"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                toggleSchedulePanel(
+                    item.id
+                );
+
+            }
+        );
+
+
+    element
+        .querySelector(
+            ".snooze-action"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                snoozeItem(
+                    item.id
+                );
+
+            }
+        );
+
+
+    element
+        .querySelector(
+            ".delete-action"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                deleteItem(
+                    item.id
+                );
+
+            }
+        );
 
 
     const schedulePanel =
@@ -2238,9 +2324,68 @@ function renderItem(
     );
 
 
-    routine.appendChild(
+    list.appendChild(
         wrapper
     );
+
+
+    attachDragHandlers(
+        wrapper,
+        item.id
+    );
+
+}
+
+
+/* ==================================================
+   SCHEDULE PANEL
+   ================================================== */
+
+function toggleSchedulePanel(
+    id
+) {
+
+    const panel =
+        document.getElementById(
+            "schedule-" + id
+        );
+
+
+    if (!panel) {
+
+        return;
+
+    }
+
+
+    const wasOpen =
+        panel.classList.contains(
+            "open"
+        );
+
+
+    document
+        .querySelectorAll(
+            ".schedule-panel"
+        )
+        .forEach(
+            otherPanel => {
+
+                otherPanel.classList.remove(
+                    "open"
+                );
+
+            }
+        );
+
+
+    if (!wasOpen) {
+
+        panel.classList.add(
+            "open"
+        );
+
+    }
 
 }
 
@@ -2304,7 +2449,6 @@ function createSchedulePicker(
             Repeat
         </div>
 
-
         <div class="schedule-options">
 
             ${days.map(
@@ -2342,59 +2486,6 @@ function createSchedulePicker(
         </div>
 
     `;
-
-}
-
-
-/* ==================================================
-   SCHEDULE PANEL
-   ================================================== */
-
-function toggleSchedulePanel(
-    id
-) {
-
-    const panel =
-        document.getElementById(
-            "schedule-" + id
-        );
-
-
-    if (!panel) {
-
-        return;
-
-    }
-
-
-    const wasOpen =
-        panel.classList.contains(
-            "open"
-        );
-
-
-    document
-        .querySelectorAll(
-            ".schedule-panel"
-        )
-        .forEach(
-            panel => {
-
-                panel.classList.remove(
-                    "open"
-                );
-
-            }
-        );
-
-
-    if (!wasOpen) {
-
-        panel.classList.add(
-            "open"
-        );
-
-    }
 
 }
 
@@ -2612,6 +2703,578 @@ function snoozeItem(
 
 
 /* ==================================================
+   DRAG / REORDER
+   ================================================== */
+
+function attachDragHandlers(
+    wrapper,
+    id
+) {
+
+    let holdTimer =
+        null;
+
+
+    let pointerDown =
+        false;
+
+
+    let startY =
+        0;
+
+
+    wrapper.addEventListener(
+        "pointerdown",
+        event => {
+
+            if (
+                event.target.closest(
+                    "button"
+                ) ||
+                event.target.closest(
+                    "input"
+                ) ||
+                event.target.closest(
+                    ".item-name"
+                )
+            ) {
+
+                return;
+
+            }
+
+
+            pointerDown =
+                true;
+
+            startY =
+                event.clientY;
+
+
+            holdTimer =
+                setTimeout(
+                    () => {
+
+                        if (
+                            pointerDown
+                        ) {
+
+                            beginDrag(
+                                wrapper,
+                                id,
+                                event.clientY
+                            );
+
+                        }
+
+                    },
+                    420
+                );
+
+        }
+    );
+
+
+    wrapper.addEventListener(
+        "pointermove",
+        event => {
+
+            if (
+                dragState.active
+            ) {
+
+                moveDrag(
+                    event.clientY
+                );
+
+                return;
+
+            }
+
+
+            if (
+                pointerDown &&
+                Math.abs(
+                    event.clientY -
+                    startY
+                ) > 10
+            ) {
+
+                clearTimeout(
+                    holdTimer
+                );
+
+            }
+
+        }
+    );
+
+
+    wrapper.addEventListener(
+        "pointerup",
+        () => {
+
+            pointerDown =
+                false;
+
+            clearTimeout(
+                holdTimer
+            );
+
+
+            if (
+                dragState.active
+            ) {
+
+                finishDrag();
+
+            }
+
+        }
+    );
+
+
+    wrapper.addEventListener(
+        "pointercancel",
+        () => {
+
+            pointerDown =
+                false;
+
+            clearTimeout(
+                holdTimer
+            );
+
+
+            if (
+                dragState.active
+            ) {
+
+                cancelDrag();
+
+            }
+
+        }
+    );
+
+}
+
+
+function beginDrag(
+    wrapper,
+    id,
+    y
+) {
+
+    dragState.id =
+        id;
+
+    dragState.wrapper =
+        wrapper;
+
+    dragState.startY =
+        y;
+
+    dragState.active =
+        true;
+
+
+    wrapper.classList.add(
+        "dragging"
+    );
+
+
+    if (
+        navigator.vibrate
+    ) {
+
+        navigator.vibrate(
+            30
+        );
+
+    }
+
+}
+
+
+function moveDrag(
+    y
+) {
+
+    if (
+        !dragState.active ||
+        !dragState.wrapper
+    ) {
+
+        return;
+
+    }
+
+
+    const wrapper =
+        dragState.wrapper;
+
+
+    const list =
+        wrapper.parentElement;
+
+
+    const siblings =
+        Array.from(
+            list.children
+        ).filter(
+            child =>
+                child !== wrapper &&
+                child.classList.contains(
+                    "task-wrapper"
+                )
+        );
+
+
+    siblings.forEach(
+        sibling => {
+
+            sibling.classList.remove(
+                "drag-over"
+            );
+
+        }
+    );
+
+
+    let closest =
+        null;
+
+    let closestDistance =
+        Infinity;
+
+
+    siblings.forEach(
+        sibling => {
+
+            const rect =
+                sibling.getBoundingClientRect();
+
+
+            const center =
+                rect.top +
+                rect.height / 2;
+
+
+            const distance =
+                Math.abs(
+                    y - center
+                );
+
+
+            if (
+                distance <
+                closestDistance
+            ) {
+
+                closestDistance =
+                    distance;
+
+                closest =
+                    sibling;
+
+            }
+
+        }
+    );
+
+
+    if (!closest) {
+
+        return;
+
+    }
+
+
+    const rect =
+        closest.getBoundingClientRect();
+
+
+    if (
+        y <
+        rect.top +
+        rect.height / 2
+    ) {
+
+        list.insertBefore(
+            wrapper,
+            closest
+        );
+
+    } else {
+
+        list.insertBefore(
+            wrapper,
+            closest.nextSibling
+        );
+
+    }
+
+
+    closest.classList.add(
+        "drag-over"
+    );
+
+}
+
+
+function finishDrag() {
+
+    if (
+        !dragState.wrapper
+    ) {
+
+        return;
+
+    }
+
+
+    const wrapper =
+        dragState.wrapper;
+
+
+    wrapper.classList.remove(
+        "dragging"
+    );
+
+
+    document
+        .querySelectorAll(
+            ".drag-over"
+        )
+        .forEach(
+            element => {
+
+                element.classList.remove(
+                    "drag-over"
+                );
+
+            }
+        );
+
+
+    saveCurrentVisualOrder();
+
+
+    dragState.id =
+        null;
+
+    dragState.wrapper =
+        null;
+
+    dragState.active =
+        false;
+
+}
+
+
+function cancelDrag() {
+
+    if (
+        dragState.wrapper
+    ) {
+
+        dragState.wrapper.classList.remove(
+            "dragging"
+        );
+
+    }
+
+
+    document
+        .querySelectorAll(
+            ".drag-over"
+        )
+        .forEach(
+            element => {
+
+                element.classList.remove(
+                    "drag-over"
+                );
+
+            }
+        );
+
+
+    dragState.id =
+        null;
+
+    dragState.wrapper =
+        null;
+
+    dragState.active =
+        false;
+
+
+    render();
+
+}
+
+
+function saveCurrentVisualOrder() {
+
+    const wrappers =
+        document.querySelectorAll(
+            ".time-section .task-wrapper"
+        );
+
+
+    wrappers.forEach(
+        wrapper => {
+
+            const id =
+                wrapper.dataset.id;
+
+
+            const item =
+                data.items.find(
+                    item =>
+                        item.id === id
+                );
+
+
+            if (!item) {
+
+                return;
+
+            }
+
+
+            const section =
+                wrapper.closest(
+                    ".time-section"
+                );
+
+
+            const heading =
+                section
+                    ? section
+                        .querySelector(
+                            ".time-heading"
+                        )
+                    : null;
+
+
+            if (!heading) {
+
+                return;
+
+            }
+
+
+            const periodText =
+                heading.textContent
+                    .trim()
+                    .toLowerCase();
+
+
+            if (
+                periodText ===
+                "morning"
+            ) {
+
+                item.period =
+                    "morning";
+
+            } else if (
+                periodText ===
+                "afternoon"
+            ) {
+
+                item.period =
+                    "afternoon";
+
+            } else if (
+                periodText ===
+                "night"
+            ) {
+
+                item.period =
+                    "night";
+
+            }
+
+        }
+    );
+
+
+    const periods = [
+
+        "morning",
+        "afternoon",
+        "night"
+
+    ];
+
+
+    periods.forEach(
+        period => {
+
+            const wrappers =
+                Array.from(
+                    document.querySelectorAll(
+                        ".time-section"
+                    )
+                )
+                .filter(
+                    section =>
+                        section
+                            .querySelector(
+                                ".time-heading"
+                            )
+                            ?.textContent
+                            .trim()
+                            .toLowerCase()
+                            === period
+                )
+                .flatMap(
+                    section =>
+                        Array.from(
+                            section.querySelectorAll(
+                                ".task-wrapper"
+                            )
+                        )
+                );
+
+
+            wrappers.forEach(
+                (wrapper, index) => {
+
+                    const item =
+                        data.items.find(
+                            item =>
+                                item.id ===
+                                wrapper.dataset.id
+                        );
+
+
+                    if (item) {
+
+                        item.order =
+                            index;
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+    normalizeOrders();
+
+    saveData();
+
+}
+
+
+/* ==================================================
    EDIT TASK MODAL
    ================================================== */
 
@@ -2650,12 +3313,6 @@ function openEditModal(
         "editTaskDetails"
     ).value =
         item.details || "";
-
-
-    document.getElementById(
-        "editTaskPeriod"
-    ).value =
-        item.period || "morning";
 
 
     document.getElementById(
@@ -2711,12 +3368,6 @@ function saveEditModal() {
         );
 
 
-    const periodInput =
-        document.getElementById(
-            "editTaskPeriod"
-        );
-
-
     const newName =
         nameInput.value.trim();
 
@@ -2740,10 +3391,6 @@ function saveEditModal() {
         detailsInput.value.trim();
 
 
-    item.period =
-        periodInput.value;
-
-
     saveData();
 
     closeEditModal();
@@ -2754,16 +3401,18 @@ function saveEditModal() {
 
 
 /* ==================================================
-   CLOSE EDIT MODAL
+   CLOSE MODAL
    ================================================== */
 
 function closeEditModal() {
 
-    document.getElementById(
-        "editModal"
-    ).classList.remove(
-        "open"
-    );
+    document
+        .getElementById(
+            "editModal"
+        )
+        .classList.remove(
+            "open"
+        );
 
 
     editingItemId =
@@ -2773,7 +3422,7 @@ function closeEditModal() {
 
 
 /* ==================================================
-   TAP OUTSIDE MODAL
+   BACKDROP
    ================================================== */
 
 function handleBackdropClick(
@@ -2801,6 +3450,18 @@ function addItem() {
     checkForNewDay();
 
 
+    const period =
+        getTimePeriod();
+
+
+    const periodItems =
+        data.items.filter(
+            item =>
+                item.period ===
+                period
+        );
+
+
     const newItem = {
 
         id:
@@ -2811,9 +3472,6 @@ function addItem() {
 
         details:
             "",
-
-        period:
-            currentPeriod(),
 
         completed:
             false,
@@ -2828,7 +3486,13 @@ function addItem() {
             null,
 
         schedule:
-            ["everyday"]
+            ["everyday"],
+
+        period:
+            period,
+
+        order:
+            periodItems.length
 
     };
 
@@ -2843,12 +3507,6 @@ function addItem() {
     render();
 
 
-    /*
-     * Open the editor immediately so
-     * the user can name the new task
-     * and change its time period.
-     */
-
     openEditModal(
         newItem.id
     );
@@ -2857,7 +3515,7 @@ function addItem() {
 
 
 /* ==================================================
-   DELETE TASK
+   DELETE
    ================================================== */
 
 function deleteItem(
@@ -2885,6 +3543,8 @@ function deleteItem(
         );
 
 
+    normalizeOrders();
+
     saveData();
 
     render();
@@ -2899,15 +3559,7 @@ function deleteItem(
 function updateProgress() {
 
     const visibleItems =
-        data.items.filter(
-
-            item =>
-
-                isScheduledToday(item) &&
-
-                !item.snoozed
-
-        );
+        getVisibleItems();
 
 
     const total =
@@ -3048,50 +3700,6 @@ function escapeHtml(
 
 
 /* ==================================================
-   AUTOMATIC TIME UPDATE
-   ================================================== */
-
-/*
- * This does NOT constantly reset anything.
- *
- * It simply checks periodically whether
- * the current time-of-day section has changed.
- *
- * This means NovaVesta can automatically
- * move from Morning → Afternoon → Night
- * while the app is open.
- */
-
-let lastPeriod =
-    currentPeriod();
-
-
-setInterval(
-    () => {
-
-        checkForNewDay();
-
-        const period =
-            currentPeriod();
-
-
-        if (
-            period !== lastPeriod
-        ) {
-
-            lastPeriod =
-                period;
-
-            render();
-
-        }
-
-    },
-    30000
-);
-
-
-/* ==================================================
    START
    ================================================== */
 
@@ -3100,6 +3708,24 @@ checkForNewDay();
 updateDate();
 
 render();
+
+
+/*
+ * Keep the time-of-day display current
+ * if the app remains open across noon
+ * or 5:00 PM.
+ */
+
+setInterval(
+    () => {
+
+        updateDate();
+
+        render();
+
+    },
+    60000
+);
 
 </script>
 
