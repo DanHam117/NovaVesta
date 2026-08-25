@@ -35,11 +35,10 @@
 
 <title>NovaVesta</title>
 
-
 <style>
 
 /* ==================================================
-   NOVAVESTA
+   NOVAVESTA — VIRIDITAS VESTAE
    ================================================== */
 
 :root {
@@ -47,12 +46,18 @@
     --bg: #07100b;
     --panel: #0d1a12;
     --panel-active: #102319;
+    --panel-light: #13271b;
+
     --green: #55d68a;
     --green-bright: #7affad;
     --green-dim: #347a50;
+
     --text: #edf8f0;
     --muted: #789080;
-    --border: rgba(85, 214, 138, 0.17);
+
+    --border:
+        rgba(85, 214, 138, 0.17);
+
     --danger: #d86b6b;
 
     --glow:
@@ -107,6 +112,7 @@ body {
     color: var(--text);
 
     font-family:
+
         -apple-system,
         BlinkMacSystemFont,
         "SF Pro Display",
@@ -167,7 +173,8 @@ header {
 
     font-size: 25px;
 
-    color: var(--green-bright);
+    color:
+        var(--green-bright);
 
     text-shadow:
         0 0 15px
@@ -234,33 +241,106 @@ h1 {
 
 .time-section {
 
-    margin-bottom: 22px;
+    margin-bottom: 18px;
 
 }
 
 
 .time-heading {
 
-    margin:
+    display: flex;
 
-        0 0 9px 4px;
+    align-items: center;
 
-    color: var(--muted);
+    justify-content: space-between;
 
-    font-size: 13px;
+    width: 100%;
 
-    font-weight: 500;
+    min-height: 42px;
 
-    letter-spacing: 0.8px;
+    padding: 8px 4px;
 
-    text-transform: uppercase;
+    background: transparent;
+
+    border: none;
+
+    color: var(--text);
+
+    font-family: inherit;
+
+    font-size: 18px;
+
+    font-weight: 550;
+
+    text-align: left;
+
+    cursor: pointer;
 
 }
 
 
-.time-section.current .time-heading {
+.time-heading:active {
 
     color: var(--green);
+
+}
+
+
+.time-heading-left {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+}
+
+
+.time-heading-arrow {
+
+    color: var(--green-dim);
+
+    font-size: 13px;
+
+    width: 14px;
+
+    transition:
+        transform 0.15s ease;
+
+}
+
+
+.time-section.collapsed
+.time-heading-arrow {
+
+    transform:
+        rotate(-90deg);
+
+}
+
+
+.time-section-content {
+
+    overflow: hidden;
+
+    max-height: 5000px;
+
+    opacity: 1;
+
+    transition:
+        max-height 0.2s ease,
+        opacity 0.15s ease;
+
+}
+
+
+.time-section.collapsed
+.time-section-content {
+
+    max-height: 0;
+
+    opacity: 0;
 
 }
 
@@ -288,7 +368,7 @@ h1 {
 
     width: 100%;
 
-    position: relative;
+    touch-action: pan-y;
 
 }
 
@@ -323,15 +403,20 @@ h1 {
         background 0.15s ease,
         border-color 0.15s ease,
         opacity 0.15s ease,
-        transform 0.12s ease;
+        transform 0.15s ease;
 
-    /*
-     * Important for iPhone dragging.
-     */
-    -webkit-user-select: none;
-    user-select: none;
+}
 
-    touch-action: pan-y;
+
+.item.dragging {
+
+    opacity: 0.55;
+
+    transform:
+        scale(1.02);
+
+    box-shadow:
+        var(--glow);
 
 }
 
@@ -350,47 +435,6 @@ h1 {
 .item.completed {
 
     opacity: 0.67;
-
-}
-
-
-/* ==================================================
-   DRAGGING
-   ================================================== */
-
-.item.dragging {
-
-    position: relative;
-
-    z-index: 100;
-
-    opacity: 0.92;
-
-    transform:
-        scale(1.025);
-
-    border-color:
-        var(--green);
-
-    box-shadow:
-        0 10px 30px
-        rgba(0, 0, 0, 0.45),
-
-        var(--glow);
-
-}
-
-
-.task-wrapper.drag-placeholder {
-
-    opacity: 0.35;
-
-}
-
-
-.task-wrapper.drag-placeholder .item {
-
-    border-style: dashed;
 
 }
 
@@ -424,8 +468,6 @@ h1 {
     position: relative;
 
     cursor: pointer;
-
-    touch-action: manipulation;
 
 }
 
@@ -505,7 +547,8 @@ h1 {
 
 .item-name:active {
 
-    color: var(--green);
+    color:
+        var(--green);
 
 }
 
@@ -525,7 +568,8 @@ h1 {
 
     min-height: 15px;
 
-    color: var(--green-dim);
+    color:
+        var(--green-dim);
 
     font-size: 12px;
 
@@ -534,19 +578,13 @@ h1 {
 
 .details-preview {
 
-    margin-top: 3px;
+    margin-top: 4px;
 
-    color: #64796c;
+    color: #667a6c;
 
     font-size: 12px;
 
     line-height: 1.3;
-
-    white-space: nowrap;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
 
 }
 
@@ -583,8 +621,6 @@ h1 {
 
     font-size: 17px;
 
-    touch-action: manipulation;
-
 }
 
 
@@ -593,7 +629,8 @@ h1 {
     background:
         rgba(85, 214, 138, 0.12);
 
-    color: var(--green);
+    color:
+        var(--green);
 
 }
 
@@ -612,7 +649,42 @@ h1 {
     background:
         rgba(216, 107, 107, 0.10);
 
-    color: var(--danger);
+    color:
+        var(--danger);
+
+}
+
+
+/* ==================================================
+   DRAG HANDLE
+   ================================================== */
+
+.drag-handle {
+
+    width: 22px;
+
+    min-width: 22px;
+
+    color: #405247;
+
+    font-size: 15px;
+
+    text-align: center;
+
+    cursor: grab;
+
+    user-select: none;
+
+    -webkit-user-select: none;
+
+}
+
+
+.drag-handle:active {
+
+    color: var(--green);
+
+    cursor: grabbing;
 
 }
 
@@ -629,14 +701,16 @@ h1 {
 
     padding: 12px;
 
-    background: var(--panel);
+    background:
+        var(--panel);
 
     border:
         1px solid var(--border);
 
     border-radius: 12px;
 
-    box-shadow: var(--glow);
+    box-shadow:
+        var(--glow);
 
 }
 
@@ -707,7 +781,142 @@ h1 {
     border-color:
         var(--green-dim);
 
-    color: var(--green);
+    color:
+        var(--green);
+
+}
+
+
+.day-button:active {
+
+    transform: scale(0.97);
+
+}
+
+
+/* ==================================================
+   TOGGLE
+   ================================================== */
+
+.toggle-row {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+}
+
+
+.toggle-label {
+
+    color: var(--muted);
+
+    font-size: 14px;
+
+}
+
+
+.toggle {
+
+    position: relative;
+
+    width: 48px;
+
+    height: 28px;
+
+    flex-shrink: 0;
+
+}
+
+
+.toggle input {
+
+    opacity: 0;
+
+    width: 0;
+
+    height: 0;
+
+}
+
+
+.toggle-slider {
+
+    position: absolute;
+
+    inset: 0;
+
+    border-radius: 20px;
+
+    background:
+        #1a2b20;
+
+    border:
+        1px solid
+        rgba(85, 214, 138, 0.18);
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease;
+
+}
+
+
+.toggle-slider::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 20px;
+
+    height: 20px;
+
+    left: 3px;
+
+    top: 3px;
+
+    border-radius: 50%;
+
+    background:
+        #789080;
+
+    transition:
+        transform 0.15s ease,
+        background 0.15s ease;
+
+}
+
+
+.toggle input:checked
++ .toggle-slider {
+
+    background:
+        rgba(85, 214, 138, 0.20);
+
+    border-color:
+        var(--green-dim);
+
+}
+
+
+.toggle input:checked
++ .toggle-slider::before {
+
+    transform:
+        translateX(20px);
+
+    background:
+        var(--green);
+
+    box-shadow:
+        0 0 10px
+        rgba(85, 214, 138, 0.3);
 
 }
 
@@ -742,7 +951,8 @@ h1 {
     background:
         rgba(85, 214, 138, 0.07);
 
-    color: var(--green);
+    color:
+        var(--green);
 
     font-size: 15px;
 
@@ -757,41 +967,6 @@ h1 {
         rgba(85, 214, 138, 0.16);
 
     transform: scale(0.98);
-
-}
-
-
-/* ==================================================
-   EARLIER TODAY
-   ================================================== */
-
-.earlier-section {
-
-    margin-top: 28px;
-
-    padding-top: 18px;
-
-    border-top:
-        1px solid
-        rgba(85, 214, 138, 0.08);
-
-}
-
-
-.earlier-heading {
-
-    margin:
-        0 0 9px 4px;
-
-    color: #52675a;
-
-    font-size: 13px;
-
-    font-weight: 500;
-
-    letter-spacing: 0.8px;
-
-    text-transform: uppercase;
 
 }
 
@@ -875,8 +1050,11 @@ h1 {
     justify-content: center;
 
     padding:
+
         18px
+
         18px
+
         max(
             18px,
             env(safe-area-inset-bottom)
@@ -911,7 +1089,8 @@ h1 {
 
     overflow-y: auto;
 
-    background: #0d1a12;
+    background:
+        #0d1a12;
 
     border:
         1px solid
@@ -919,7 +1098,8 @@ h1 {
 
     border-radius: 20px;
 
-    padding: 20px;
+    padding:
+        20px;
 
     box-shadow:
 
@@ -995,11 +1175,23 @@ h1 {
     background:
         rgba(85, 214, 138, 0.06);
 
-    color: var(--muted);
+    color:
+        var(--muted);
 
     font-size: 23px;
 
     line-height: 1;
+
+}
+
+
+.modal-close:active {
+
+    background:
+        rgba(85, 214, 138, 0.15);
+
+    color:
+        var(--green);
 
 }
 
@@ -1017,7 +1209,8 @@ h1 {
 
     margin-bottom: 7px;
 
-    color: var(--muted);
+    color:
+        var(--muted);
 
     font-size: 13px;
 
@@ -1035,9 +1228,11 @@ h1 {
 
     border-radius: 11px;
 
-    background: #07100b;
+    background:
+        #07100b;
 
-    color: var(--text);
+    color:
+        var(--text);
 
     font-family: inherit;
 
@@ -1086,58 +1281,41 @@ h1 {
 
 
 /* ==================================================
-   TIME OF DAY PICKER
+   COMPLETION TIME EDITOR
    ================================================== */
 
-.time-picker {
+.time-edit-row {
 
     display: flex;
 
-    gap: 7px;
+    gap: 8px;
 
 }
 
 
-.time-option {
+.time-edit-row input {
 
     flex: 1;
 
-    min-height: 42px;
+}
 
-    border:
-        1px solid
-        rgba(85, 214, 138, 0.14);
+
+.time-edit-button {
+
+    min-width: 90px;
 
     border-radius: 10px;
 
-    background:
-        rgba(85, 214, 138, 0.04);
+    border:
+        1px solid var(--border);
 
-    color: var(--muted);
+    background:
+        rgba(85, 214, 138, 0.06);
+
+    color:
+        var(--green);
 
     font-size: 13px;
-
-    cursor: pointer;
-
-}
-
-
-.time-option.selected {
-
-    background:
-        rgba(85, 214, 138, 0.16);
-
-    border-color:
-        var(--green-dim);
-
-    color: var(--green);
-
-}
-
-
-.time-option:active {
-
-    transform: scale(0.98);
 
 }
 
@@ -1180,7 +1358,8 @@ h1 {
     border:
         1px solid var(--border);
 
-    color: var(--muted);
+    color:
+        var(--muted);
 
 }
 
@@ -1193,7 +1372,8 @@ h1 {
     border:
         1px solid var(--green-dim);
 
-    color: var(--green-bright);
+    color:
+        var(--green-bright);
 
 }
 
@@ -1358,26 +1538,8 @@ h1 {
 
 
 <main
-    id="routine"
+    id="sections"
 ></main>
-
-
-<div
-    class="earlier-section"
-    id="earlierSection"
-    style="display:none;"
->
-
-    <div class="earlier-heading">
-        Earlier today
-    </div>
-
-    <div
-        class="routine"
-        id="earlierRoutine"
-    ></div>
-
-</div>
 
 
 <div class="controls">
@@ -1407,7 +1569,7 @@ h1 {
 
 
 <!-- ==================================================
-     EDIT MODAL
+     EDIT TASK MODAL
      ================================================== -->
 
 <div
@@ -1464,49 +1626,6 @@ h1 {
 
         <div class="form-group">
 
-            <label class="form-label">
-                Time of day
-            </label>
-
-            <div
-                class="time-picker"
-                id="timePicker"
-            >
-
-                <button
-                    type="button"
-                    class="time-option"
-                    data-time="morning"
-                    onclick="selectTimeOfDay('morning')"
-                >
-                    Morning
-                </button>
-
-                <button
-                    type="button"
-                    class="time-option"
-                    data-time="afternoon"
-                    onclick="selectTimeOfDay('afternoon')"
-                >
-                    Afternoon
-                </button>
-
-                <button
-                    type="button"
-                    class="time-option"
-                    data-time="night"
-                    onclick="selectTimeOfDay('night')"
-                >
-                    Night
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="form-group">
-
             <label
                 class="form-label"
                 for="editTaskDetails"
@@ -1519,6 +1638,68 @@ h1 {
                 id="editTaskDetails"
                 placeholder="Optional notes about this task..."
             ></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <div class="toggle-row">
+
+                <span class="toggle-label">
+                    Recurring task
+                </span>
+
+                <label class="toggle">
+
+                    <input
+                        type="checkbox"
+                        id="editTaskRecurring"
+                    >
+
+                    <span class="toggle-slider"></span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="form-group"
+            id="scheduleGroup"
+        >
+
+            <label class="form-label">
+                Repeat on
+            </label>
+
+            <div
+                class="schedule-options"
+                id="editScheduleOptions"
+            ></div>
+
+        </div>
+
+
+        <div
+            class="form-group"
+            id="completionTimeGroup"
+        >
+
+            <label
+                class="form-label"
+                for="editCompletionTime"
+            >
+                Completion time
+            </label>
+
+            <input
+                class="form-input"
+                id="editCompletionTime"
+                type="time"
+            >
 
         </div>
 
@@ -1558,40 +1739,19 @@ const STORAGE_KEY =
 
 const DEFAULT_ITEMS = [
 
-    {
-        text: "Get dressed",
-        timeOfDay: "morning"
-    },
+    "Get dressed",
 
-    {
-        text: "Brush teeth",
-        timeOfDay: "morning"
-    },
+    "Brush teeth",
 
-    {
-        text: "Take medications / vitamins",
-        timeOfDay: "morning"
-    },
+    "Take medications / vitamins",
 
-    {
-        text: "Eat breakfast",
-        timeOfDay: "morning"
-    },
+    "Eat breakfast",
 
-    {
-        text: "Pack everything I need",
-        timeOfDay: "morning"
-    },
+    "Pack everything I need",
 
-    {
-        text: "Check today's schedule",
-        timeOfDay: "morning"
-    },
+    "Check today's schedule",
 
-    {
-        text: "Leave for the day",
-        timeOfDay: "morning"
-    }
+    "Leave for the day"
 
 ];
 
@@ -1604,8 +1764,56 @@ let editingItemId =
     null;
 
 
-let selectedTimeOfDay =
-    "morning";
+/* ==================================================
+   TIME OF DAY
+   ================================================== */
+
+const TIME_SECTIONS = [
+
+    {
+        id: "morning",
+        label: "Morning",
+        start: 0
+    },
+
+    {
+        id: "afternoon",
+        label: "Afternoon",
+        start: 12
+    },
+
+    {
+        id: "evening",
+        label: "Evening",
+        start: 17
+    }
+
+];
+
+
+function getCurrentTimeSection() {
+
+    const hour =
+        new Date().getHours();
+
+
+    if (hour >= 17) {
+
+        return "evening";
+
+    }
+
+
+    if (hour >= 12) {
+
+        return "afternoon";
+
+    }
+
+
+    return "morning";
+
+}
 
 
 /* ==================================================
@@ -1616,6 +1824,7 @@ function todayKey() {
 
     const now =
         new Date();
+
 
     return [
 
@@ -1642,57 +1851,28 @@ function currentDay() {
 
 
 /* ==================================================
-   TIME OF DAY
+   TIME
    ================================================== */
 
-function getCurrentTimeOfDay() {
-
-    const hour =
-        new Date().getHours();
-
-
-    if (
-        hour >= 12 &&
-        hour < 17
-    ) {
-
-        return "afternoon";
-
-    }
-
-
-    if (
-        hour >= 17 ||
-        hour < 2
-    ) {
-
-        return "night";
-
-    }
-
-
-    return "morning";
-
-}
-
-
-function timeOfDayLabel(
-    value
+function timeToMinutes(
+    time
 ) {
 
-    const labels = {
+    if (!time) {
 
-        morning: "Morning",
+        return 0;
 
-        afternoon: "Afternoon",
-
-        night: "Night"
-
-    };
+    }
 
 
-    return labels[value] ||
-        "Morning";
+    const parts =
+        time.split(":");
+
+
+    return (
+        Number(parts[0]) * 60 +
+        Number(parts[1])
+    );
 
 }
 
@@ -1725,7 +1905,7 @@ function loadData() {
             ) {
 
                 parsed.items.forEach(
-                    (item, index) => {
+                    item => {
 
                         if (
                             typeof item.completed !==
@@ -1794,27 +1974,35 @@ function loadData() {
                         }
 
 
-                        /*
-                         * New property:
-                         * permanent time-of-day.
-                         *
-                         * Existing tasks from older
-                         * versions are assigned to
-                         * morning so nothing disappears.
-                         */
+                        if (
+                            typeof item.recurring !==
+                            "boolean"
+                        ) {
+
+                            item.recurring =
+                                true;
+
+                        }
+
 
                         if (
-                            ![
-                                "morning",
-                                "afternoon",
-                                "night"
-                            ].includes(
-                                item.timeOfDay
-                            )
+                            typeof item.timeOfDay !==
+                            "string"
                         ) {
 
                             item.timeOfDay =
-                                "morning";
+                                getCurrentTimeSection();
+
+                        }
+
+
+                        if (
+                            typeof item.createdDate !==
+                            "string"
+                        ) {
+
+                            item.createdDate =
+                                todayKey();
 
                         }
 
@@ -1825,7 +2013,7 @@ function loadData() {
                         ) {
 
                             item.order =
-                                index;
+                                0;
 
                         }
 
@@ -1839,6 +2027,25 @@ function loadData() {
 
                     parsed.date =
                         todayKey();
+
+                }
+
+
+                if (
+                    !parsed.collapsed ||
+                    typeof parsed.collapsed !==
+                    "object"
+                ) {
+
+                    parsed.collapsed = {
+
+                        morning: false,
+
+                        afternoon: true,
+
+                        evening: true
+
+                    };
 
                 }
 
@@ -1864,15 +2071,28 @@ function loadData() {
         date:
             todayKey(),
 
+        collapsed: {
+
+            morning: false,
+
+            afternoon: true,
+
+            evening: true
+
+        },
+
         items:
             DEFAULT_ITEMS.map(
-                (item, index) => ({
+                (
+                    text,
+                    index
+                ) => ({
 
                     id:
                         createId(),
 
                     text:
-                        item.text,
+                        text,
 
                     details:
                         "",
@@ -1892,8 +2112,14 @@ function loadData() {
                     schedule:
                         ["everyday"],
 
+                    recurring:
+                        true,
+
                     timeOfDay:
-                        item.timeOfDay,
+                        "morning",
+
+                    createdDate:
+                        todayKey(),
 
                     order:
                         index
@@ -1953,7 +2179,7 @@ function saveData() {
 
 
 /* ==================================================
-   NEW DAY
+   MIDNIGHT RESET
    ================================================== */
 
 function checkForNewDay() {
@@ -1973,6 +2199,13 @@ function checkForNewDay() {
 
     data.date =
         today;
+
+
+    data.items =
+        data.items.filter(
+            item =>
+                item.recurring !== false
+        );
 
 
     data.items.forEach(
@@ -2008,6 +2241,18 @@ function isScheduledToday(
 ) {
 
     if (
+        item.recurring === false
+    ) {
+
+        return (
+            item.createdDate ===
+            todayKey()
+        );
+
+    }
+
+
+    if (
         !Array.isArray(
             item.schedule
         ) ||
@@ -2038,40 +2283,53 @@ function isScheduledToday(
 
 
 /* ==================================================
-   SORT
+   VISIBLE ITEMS
    ================================================== */
 
-function sortItems(
-    items
-) {
+function getVisibleItems() {
 
-    return [...items].sort(
-        (a, b) => {
+    return data.items.filter(
 
-            return (
-                (a.order ?? 0) -
-                (b.order ?? 0)
-            );
+        item =>
 
-        }
+            isScheduledToday(item) &&
+
+            !item.snoozed
+
     );
 
 }
 
 
 /* ==================================================
-   VISIBLE ITEMS
+   ORDER
    ================================================== */
 
-function getVisibleItems() {
+function getSectionItems(
+    sectionId
+) {
 
-    return sortItems(
-        data.items.filter(
+    return getVisibleItems()
+
+        .filter(
             item =>
-                isScheduledToday(item) &&
-                !item.snoozed
+                item.timeOfDay ===
+                sectionId
         )
-    );
+
+        .sort(
+            (
+                a,
+                b
+            ) => {
+
+                return (
+                    (a.order || 0) -
+                    (b.order || 0)
+                );
+
+            }
+        );
 
 }
 
@@ -2085,148 +2343,226 @@ function render() {
     checkForNewDay();
 
 
-    const routine =
+    const sections =
         document.getElementById(
-            "routine"
+            "sections"
         );
 
 
-    routine.innerHTML =
+    sections.innerHTML =
         "";
 
 
-    const visibleItems =
-        getVisibleItems();
-
-
-    const groups = {
-
-        morning:
-            visibleItems.filter(
-                item =>
-                    item.timeOfDay ===
-                    "morning"
-            ),
-
-        afternoon:
-            visibleItems.filter(
-                item =>
-                    item.timeOfDay ===
-                    "afternoon"
-            ),
-
-        night:
-            visibleItems.filter(
-                item =>
-                    item.timeOfDay ===
-                    "night"
-            )
-
-    };
-
-
     const current =
-        getCurrentTimeOfDay();
+        getCurrentTimeSection();
 
 
     /*
-     * Sections are always displayed in
-     * chronological order, but the current
-     * section is moved to the top.
+     * Current time-of-day section always
+     * appears first.
+     *
+     * The remaining sections follow in
+     * chronological order.
      */
 
-    const order = [
-
-        current,
-
-        ...[
-            "morning",
-            "afternoon",
-            "night"
-        ].filter(
-            section =>
-                section !== current
-        )
-
-    ];
-
-
-    order.forEach(
-        section => {
-
-            if (
-                groups[section].length === 0
-            ) {
-
-                return;
-
-            }
-
-
-            const sectionElement =
-                document.createElement(
-                    "section"
-                );
-
-
-            sectionElement.className =
-                "time-section" +
+    const orderedSections =
+        TIME_SECTIONS.slice()
+            .sort(
                 (
-                    section === current
-                    ? " current"
-                    : ""
-                );
+                    a,
+                    b
+                ) => {
 
+                    if (
+                        a.id === current
+                    ) {
 
-            sectionElement.dataset.time =
-                section;
+                        return -1;
 
+                    }
 
-            sectionElement.innerHTML = `
+                    if (
+                        b.id === current
+                    ) {
 
-                <div class="time-heading">
+                        return 1;
 
-                    ${timeOfDayLabel(section)}
+                    }
 
-                </div>
-
-                <div
-                    class="routine"
-                    data-section="${section}"
-                ></div>
-
-            `;
-
-
-            routine.appendChild(
-                sectionElement
-            );
-
-
-            const container =
-                sectionElement.querySelector(
-                    ".routine"
-                );
-
-
-            groups[section].forEach(
-                item => {
-
-                    renderItem(
-                        item,
-                        container
+                    return (
+                        a.start -
+                        b.start
                     );
 
                 }
+            );
+
+
+    orderedSections.forEach(
+        section => {
+
+            renderSection(
+                section,
+                sections
             );
 
         }
     );
 
 
-    renderEarlierToday();
-
     updateProgress();
+
+}
+
+
+/* ==================================================
+   RENDER SECTION
+   ================================================== */
+
+function renderSection(
+    section,
+    container
+) {
+
+    const sectionElement =
+        document.createElement(
+            "section"
+        );
+
+
+    sectionElement.className =
+        "time-section";
+
+
+    if (
+        data.collapsed &&
+        data.collapsed[
+            section.id
+        ]
+    ) {
+
+        sectionElement.classList.add(
+            "collapsed"
+        );
+
+    }
+
+
+    const heading =
+        document.createElement(
+            "button"
+        );
+
+
+    heading.className =
+        "time-heading";
+
+
+    heading.type =
+        "button";
+
+
+    heading.onclick =
+        () => toggleSection(
+            section.id
+        );
+
+
+    heading.innerHTML = `
+
+        <span class="time-heading-left">
+
+            <span class="time-heading-arrow">
+                ▼
+            </span>
+
+            <span>
+                ${section.label}
+            </span>
+
+        </span>
+
+    `;
+
+
+    sectionElement.appendChild(
+        heading
+    );
+
+
+    const content =
+        document.createElement(
+            "div"
+        );
+
+
+    content.className =
+        "time-section-content";
+
+
+    const routine =
+        document.createElement(
+            "div"
+        );
+
+
+    routine.className =
+        "routine";
+
+
+    routine.dataset.section =
+        section.id;
+
+
+    const items =
+        getSectionItems(
+            section.id
+        );
+
+
+    if (
+        items.length === 0
+    ) {
+
+        routine.innerHTML = `
+
+            <div class="empty">
+
+                No tasks scheduled.
+
+            </div>
+
+        `;
+
+    } else {
+
+        items.forEach(
+            item => {
+
+                renderItem(
+                    item,
+                    routine
+                );
+
+            }
+        );
+
+    }
+
+
+    content.appendChild(
+        routine
+    );
+
+
+    sectionElement.appendChild(
+        content
+    );
+
+
+    container.appendChild(
+        sectionElement
+    );
 
 }
 
@@ -2262,6 +2598,7 @@ function renderItem(
 
     element.className =
         "item" +
+
         (
             item.completed
             ? " completed"
@@ -2269,21 +2606,15 @@ function renderItem(
         );
 
 
-    element.dataset.id =
-        item.id;
-
-
-    const detailsHTML =
-        item.details
-        ? `
-            <div class="details-preview">
-                ${escapeHtml(item.details)}
-            </div>
-          `
-        : "";
-
-
     element.innerHTML = `
+
+        <div
+            class="drag-handle"
+            title="Drag to rearrange"
+        >
+            ⋮⋮
+        </div>
+
 
         <input
             class="checkbox"
@@ -2295,7 +2626,9 @@ function renderItem(
 
         <div class="item-content">
 
-            <div class="item-name">
+            <div
+                class="item-name"
+            >
                 ${escapeHtml(item.text)}
             </div>
 
@@ -2306,7 +2639,9 @@ function renderItem(
                     item.completed
                     ? "Completed at " +
                       escapeHtml(
-                          item.completedAt
+                          formatCompletionTime(
+                              item.completedAt
+                          )
                       )
                     : ""
                 }
@@ -2314,13 +2649,22 @@ function renderItem(
             </div>
 
 
-            ${detailsHTML}
+            ${
+                item.details
+                ? `
+                    <div class="details-preview">
+                        ${escapeHtml(item.details)}
+                    </div>
+                `
+                : ""
+            }
 
         </div>
 
 
         <button
-            class="task-action schedule-button"
+            class="task-action"
+            data-action="schedule"
             title="Change schedule"
             aria-label="Change schedule"
         >
@@ -2329,7 +2673,8 @@ function renderItem(
 
 
         <button
-            class="task-action snooze-button"
+            class="task-action"
+            data-action="snooze"
             title="Snooze until tomorrow"
             aria-label="Snooze until tomorrow"
         >
@@ -2338,7 +2683,8 @@ function renderItem(
 
 
         <button
-            class="task-action delete delete-button"
+            class="task-action delete"
+            data-action="delete"
             title="Delete permanently"
             aria-label="Delete permanently"
         >
@@ -2346,6 +2692,70 @@ function renderItem(
         </button>
 
     `;
+
+
+    const checkbox =
+        element.querySelector(
+            ".checkbox"
+        );
+
+
+    checkbox.addEventListener(
+        "change",
+        () => toggleItem(
+            item.id
+        )
+    );
+
+
+    const name =
+        element.querySelector(
+            ".item-name"
+        );
+
+
+    name.addEventListener(
+        "click",
+        () => openEditModal(
+            item.id
+        )
+    );
+
+
+    element
+        .querySelector(
+            '[data-action="schedule"]'
+        )
+        .addEventListener(
+            "click",
+            () => toggleSchedulePanel(
+                item.id
+            )
+        );
+
+
+    element
+        .querySelector(
+            '[data-action="snooze"]'
+        )
+        .addEventListener(
+            "click",
+            () => snoozeItem(
+                item.id
+            )
+        );
+
+
+    element
+        .querySelector(
+            '[data-action="delete"]'
+        )
+        .addEventListener(
+            "click",
+            () => deleteItem(
+                item.id
+            )
+        );
 
 
     const schedulePanel =
@@ -2384,79 +2794,9 @@ function renderItem(
     );
 
 
-    /*
-     * Event listeners instead of inline
-     * onclick handlers. This makes the
-     * drag system much more reliable.
-     */
-
-    const checkbox =
-        element.querySelector(
-            ".checkbox"
-        );
-
-
-    checkbox.addEventListener(
-        "change",
-        () =>
-            toggleItem(item.id)
-    );
-
-
-    const name =
-        element.querySelector(
-            ".item-name"
-        );
-
-
-    name.addEventListener(
-        "click",
-        () =>
-            openEditModal(item.id)
-    );
-
-
-    const scheduleButton =
-        element.querySelector(
-            ".schedule-button"
-        );
-
-
-    scheduleButton.addEventListener(
-        "click",
-        () =>
-            toggleSchedulePanel(item.id)
-    );
-
-
-    const snoozeButton =
-        element.querySelector(
-            ".snooze-button"
-        );
-
-
-    snoozeButton.addEventListener(
-        "click",
-        () =>
-            snoozeItem(item.id)
-    );
-
-
-    const deleteButton =
-        element.querySelector(
-            ".delete-button"
-        );
-
-
-    deleteButton.addEventListener(
-        "click",
-        () =>
-            deleteItem(item.id)
-    );
-
-
-    attachDragHandlers(
+    setupDragBehavior(
         wrapper,
+        routine,
         item.id
     );
 
@@ -2518,41 +2858,55 @@ function createSchedulePicker(
 
     return `
 
-        <div class="schedule-title">
-            Repeat
-        </div>
+        ${
+            item.recurring
+            ? `
+                <div class="schedule-title">
+                    Repeat
+                </div>
+
+                <div class="schedule-options">
+
+                    ${days.map(
+                        day => {
+
+                            const selected =
+                                item.schedule.includes(
+                                    day.value
+                                );
 
 
-        <div class="schedule-options">
+                            return `
 
-            ${days.map(
-                day => {
+                                <button
+                                    class="day-button ${
+                                        selected
+                                        ? "selected"
+                                        : ""
+                                    }"
+                                    onclick="
+                                        toggleSchedule(
+                                            '${item.id}',
+                                            '${day.value}'
+                                        )
+                                    "
+                                >
+                                    ${day.label}
+                                </button>
 
-                    const selected =
-                        item.schedule.includes(
-                            day.value
-                        );
+                            `;
 
+                        }
+                    ).join("")}
 
-                    return `
-
-                        <button
-                            class="day-button ${
-                                selected
-                                ? "selected"
-                                : ""
-                            }"
-                            data-day="${day.value}"
-                        >
-                            ${day.label}
-                        </button>
-
-                    `;
-
-                }
-            ).join("")}
-
-        </div>
+                </div>
+            `
+            : `
+                <div class="schedule-title">
+                    One-time task
+                </div>
+            `
+        }
 
     `;
 
@@ -2591,9 +2945,9 @@ function toggleSchedulePanel(
             ".schedule-panel"
         )
         .forEach(
-            otherPanel => {
+            other => {
 
-                otherPanel.classList.remove(
+                other.classList.remove(
                     "open"
                 );
 
@@ -2606,26 +2960,6 @@ function toggleSchedulePanel(
         panel.classList.add(
             "open"
         );
-
-
-        panel
-            .querySelectorAll(
-                ".day-button"
-            )
-            .forEach(
-                button => {
-
-                    button.onclick = () => {
-
-                        toggleSchedule(
-                            id,
-                            button.dataset.day
-                        );
-
-                    };
-
-                }
-            );
 
     }
 
@@ -2648,7 +2982,7 @@ function toggleSchedule(
         );
 
 
-    if (!item) {
+    if (!item || !item.recurring) {
 
         return;
 
@@ -2732,30 +3066,9 @@ function toggleSchedule(
                 item
             );
 
-
         panel.classList.add(
             "open"
         );
-
-
-        panel
-            .querySelectorAll(
-                ".day-button"
-            )
-            .forEach(
-                button => {
-
-                    button.onclick = () => {
-
-                        toggleSchedule(
-                            id,
-                            button.dataset.day
-                        );
-
-                    };
-
-                }
-            );
 
     }
 
@@ -2803,17 +3116,7 @@ function toggleItem(
             true;
 
         item.completedAt =
-            new Date()
-                .toLocaleTimeString(
-                    [],
-                    {
-                        hour:
-                            "numeric",
-
-                        minute:
-                            "2-digit"
-                    }
-                );
+            getCurrentTimeValue();
 
     }
 
@@ -2821,6 +3124,104 @@ function toggleItem(
     saveData();
 
     render();
+
+}
+
+
+/* ==================================================
+   CURRENT TIME VALUE
+   ================================================== */
+
+function getCurrentTimeValue() {
+
+    const now =
+        new Date();
+
+
+    return (
+
+        String(
+            now.getHours()
+        ).padStart(2, "0") +
+
+        ":" +
+
+        String(
+            now.getMinutes()
+        ).padStart(2, "0")
+
+    );
+
+}
+
+
+/* ==================================================
+   FORMAT COMPLETION TIME
+   ================================================== */
+
+function formatCompletionTime(
+    value
+) {
+
+    if (!value) {
+
+        return "";
+
+    }
+
+
+    if (
+        value.includes(
+            "AM"
+        ) ||
+        value.includes(
+            "PM"
+        )
+    ) {
+
+        return value;
+
+    }
+
+
+    const parts =
+        value.split(":");
+
+
+    if (
+        parts.length !== 2
+    ) {
+
+        return value;
+
+    }
+
+
+    const hour =
+        Number(parts[0]);
+
+
+    const minute =
+        parts[1];
+
+
+    const suffix =
+        hour >= 12
+        ? "PM"
+        : "AM";
+
+
+    const displayHour =
+        hour % 12 || 12;
+
+
+    return (
+        displayHour +
+        ":" +
+        minute +
+        " " +
+        suffix
+    );
 
 }
 
@@ -2866,139 +3267,7 @@ function snoozeItem(
 
 
 /* ==================================================
-   EARLIER TODAY
-   ================================================== */
-
-function renderEarlierToday() {
-
-    const section =
-        document.getElementById(
-            "earlierSection"
-        );
-
-
-    const container =
-        document.getElementById(
-            "earlierRoutine"
-        );
-
-
-    container.innerHTML =
-        "";
-
-
-    const current =
-        getCurrentTimeOfDay();
-
-
-    const earlierSections = {
-
-        morning:
-            current !== "morning",
-
-        afternoon:
-            current === "night"
-
-    };
-
-
-    const earlierItems =
-        sortItems(
-            data.items.filter(
-                item => {
-
-                    if (
-                        !item.completed
-                    ) {
-
-                        return false;
-
-                    }
-
-
-                    if (
-                        !isScheduledToday(item)
-                    ) {
-
-                        return false;
-
-                    }
-
-
-                    if (
-                        item.snoozed
-                    ) {
-
-                        return false;
-
-                    }
-
-
-                    if (
-                        current === "afternoon"
-                    ) {
-
-                        return (
-                            item.timeOfDay ===
-                            "morning"
-                        );
-
-                    }
-
-
-                    if (
-                        current === "night"
-                    ) {
-
-                        return (
-                            item.timeOfDay ===
-                                "morning" ||
-                            item.timeOfDay ===
-                                "afternoon"
-                        );
-
-                    }
-
-
-                    return false;
-
-                }
-            )
-        );
-
-
-    if (
-        earlierItems.length === 0
-    ) {
-
-        section.style.display =
-            "none";
-
-        return;
-
-    }
-
-
-    section.style.display =
-        "block";
-
-
-    earlierItems.forEach(
-        item => {
-
-            renderItem(
-                item,
-                container
-            );
-
-        }
-    );
-
-}
-
-
-/* ==================================================
-   EDIT MODAL
+   EDIT TASK MODAL
    ================================================== */
 
 function openEditModal(
@@ -3026,69 +3295,260 @@ function openEditModal(
         id;
 
 
-    const nameInput =
-        document.getElementById(
-            "editTaskName"
-        );
-
-
-    const detailsInput =
-        document.getElementById(
-            "editTaskDetails"
-        );
-
-
-    nameInput.value =
+    document.getElementById(
+        "editTaskName"
+    ).value =
         item.text;
 
 
-    detailsInput.value =
+    document.getElementById(
+        "editTaskDetails"
+    ).value =
         item.details || "";
 
 
-    selectTimeOfDay(
-        item.timeOfDay || "morning"
+    document.getElementById(
+        "editTaskRecurring"
+    ).checked =
+        item.recurring !== false;
+
+
+    document.getElementById(
+        "editCompletionTime"
+    ).value =
+        item.completedAt || "";
+
+
+    renderEditSchedule(
+        item
     );
 
 
-    document
-        .getElementById(
-            "editModal"
+    updateEditScheduleVisibility();
+
+
+    document.getElementById(
+        "editModal"
+    ).classList.add(
+        "open"
+    );
+
+}
+
+
+/* ==================================================
+   EDIT SCHEDULE
+   ================================================== */
+
+function renderEditSchedule(
+    item
+) {
+
+    const container =
+        document.getElementById(
+            "editScheduleOptions"
+        );
+
+
+    const days = [
+
+        {
+            value: "everyday",
+            label: "Every day"
+        },
+
+        {
+            value: 1,
+            label: "Mon"
+        },
+
+        {
+            value: 2,
+            label: "Tue"
+        },
+
+        {
+            value: 3,
+            label: "Wed"
+        },
+
+        {
+            value: 4,
+            label: "Thu"
+        },
+
+        {
+            value: 5,
+            label: "Fri"
+        },
+
+        {
+            value: 6,
+            label: "Sat"
+        },
+
+        {
+            value: 0,
+            label: "Sun"
+        }
+
+    ];
+
+
+    container.innerHTML =
+        days.map(
+            day => {
+
+                const selected =
+                    item.schedule.includes(
+                        day.value
+                    );
+
+
+                return `
+
+                    <button
+                        type="button"
+                        class="day-button ${
+                            selected
+                            ? "selected"
+                            : ""
+                        }"
+                        data-day="${day.value}"
+                    >
+                        ${day.label}
+                    </button>
+
+                `;
+
+            }
+        ).join("");
+
+
+    container
+        .querySelectorAll(
+            ".day-button"
         )
-        .classList.add(
-            "open"
+        .forEach(
+            button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        toggleEditScheduleButton(
+                            button
+                        );
+
+                    }
+                );
+
+            }
         );
 
 }
 
 
 /* ==================================================
-   TIME SELECTOR
+   EDIT SCHEDULE BUTTON
    ================================================== */
 
-function selectTimeOfDay(
-    value
+function toggleEditScheduleButton(
+    button
 ) {
 
-    selectedTimeOfDay =
-        value;
+    const value =
+        button.dataset.day;
 
 
-    document
-        .querySelectorAll(
-            ".time-option"
-        )
-        .forEach(
-            button => {
+    const buttons =
+        document
+            .getElementById(
+                "editScheduleOptions"
+            )
+            .querySelectorAll(
+                ".day-button"
+            );
 
-                button.classList.toggle(
-                    "selected",
-                    button.dataset.time ===
-                        value
-                );
 
-            }
+    if (
+        value === "everyday"
+    ) {
+
+        buttons.forEach(
+            b =>
+                b.classList.remove(
+                    "selected"
+                )
         );
+
+        button.classList.add(
+            "selected"
+        );
+
+        return;
+
+    }
+
+
+    const everyday =
+        document.querySelector(
+            '#editScheduleOptions .day-button[data-day="everyday"]'
+        );
+
+
+    everyday.classList.remove(
+        "selected"
+    );
+
+
+    button.classList.toggle(
+        "selected"
+    );
+
+
+    const selected =
+        Array.from(
+            buttons
+        ).filter(
+            b =>
+                b.classList.contains(
+                    "selected"
+                )
+        );
+
+
+    if (
+        selected.length === 0
+    ) {
+
+        everyday.classList.add(
+            "selected"
+        );
+
+    }
+
+}
+
+
+/* ==================================================
+   UPDATE EDIT VISIBILITY
+   ================================================== */
+
+function updateEditScheduleVisibility() {
+
+    const recurring =
+        document.getElementById(
+            "editTaskRecurring"
+        ).checked;
+
+
+    document.getElementById(
+        "scheduleGroup"
+    ).style.display =
+        recurring
+        ? "block"
+        : "none";
 
 }
 
@@ -3137,6 +3597,18 @@ function saveEditModal() {
         );
 
 
+    const recurringInput =
+        document.getElementById(
+            "editTaskRecurring"
+        );
+
+
+    const completionInput =
+        document.getElementById(
+            "editCompletionTime"
+        );
+
+
     const newName =
         nameInput.value.trim();
 
@@ -3160,8 +3632,72 @@ function saveEditModal() {
         detailsInput.value.trim();
 
 
-    item.timeOfDay =
-        selectedTimeOfDay;
+    item.recurring =
+        recurringInput.checked;
+
+
+    if (
+        item.recurring
+    ) {
+
+        const selectedButtons =
+            Array.from(
+                document
+                    .getElementById(
+                        "editScheduleOptions"
+                    )
+                    .querySelectorAll(
+                        ".day-button.selected"
+                    )
+            );
+
+
+        const schedule =
+            selectedButtons.map(
+                button => {
+
+                    const value =
+                        button.dataset.day;
+
+
+                    return (
+                        value === "everyday"
+                        ? "everyday"
+                        : Number(value)
+                    );
+
+                }
+            );
+
+
+        item.schedule =
+            schedule.length
+            ? schedule
+            : ["everyday"];
+
+    } else {
+
+        /*
+         * One-time tasks are only valid
+         * for the current calendar day.
+         */
+
+        item.createdDate =
+            todayKey();
+
+    }
+
+
+    if (
+        item.completed
+    ) {
+
+        item.completedAt =
+            completionInput.value ||
+            item.completedAt ||
+            getCurrentTimeValue();
+
+    }
 
 
     saveData();
@@ -3174,7 +3710,21 @@ function saveEditModal() {
 
 
 /* ==================================================
-   CLOSE MODAL
+   RECURRING TOGGLE
+   ================================================== */
+
+document
+    .getElementById(
+        "editTaskRecurring"
+    )
+    .addEventListener(
+        "change",
+        updateEditScheduleVisibility
+    );
+
+
+/* ==================================================
+   CLOSE EDIT MODAL
    ================================================== */
 
 function closeEditModal() {
@@ -3251,11 +3801,19 @@ function addItem() {
         schedule:
             ["everyday"],
 
+        recurring:
+            true,
+
         timeOfDay:
-            getCurrentTimeOfDay(),
+            getCurrentTimeSection(),
+
+        createdDate:
+            todayKey(),
 
         order:
-            getNextOrder()
+            getNextOrder(
+                getCurrentTimeSection()
+            )
 
     };
 
@@ -3267,49 +3825,13 @@ function addItem() {
 
     saveData();
 
-
-    /*
-     * Instead of showing a placeholder
-     * task first, immediately open the
-     * editing window.
-     */
-
-    editingItemId =
-        newItem.id;
+    render();
 
 
-    selectedTimeOfDay =
-        newItem.timeOfDay;
-
-
-    document.getElementById(
-        "editTaskName"
-    ).value = "";
-
-
-    document.getElementById(
-        "editTaskDetails"
-    ).value = "";
-
-
-    selectTimeOfDay(
-        newItem.timeOfDay
+    openEditModal(
+        newItem.id
     );
 
-
-    document
-        .getElementById(
-            "editModal"
-        )
-        .classList.add(
-            "open"
-        );
-
-
-    /*
-     * Put the cursor directly in the
-     * empty task-name field.
-     */
 
     setTimeout(
         () => {
@@ -3321,7 +3843,7 @@ function addItem() {
                 .focus();
 
         },
-        100
+        150
     );
 
 }
@@ -3331,10 +3853,20 @@ function addItem() {
    NEXT ORDER
    ================================================== */
 
-function getNextOrder() {
+function getNextOrder(
+    sectionId
+) {
+
+    const items =
+        data.items.filter(
+            item =>
+                item.timeOfDay ===
+                sectionId
+        );
+
 
     if (
-        data.items.length === 0
+        items.length === 0
     ) {
 
         return 0;
@@ -3343,12 +3875,9 @@ function getNextOrder() {
 
 
     return Math.max(
-        ...data.items.map(
+        ...items.map(
             item =>
-                typeof item.order ===
-                "number"
-                ? item.order
-                : 0
+                item.order || 0
         )
     ) + 1;
 
@@ -3356,7 +3885,7 @@ function getNextOrder() {
 
 
 /* ==================================================
-   DELETE
+   DELETE TASK
    ================================================== */
 
 function deleteItem(
@@ -3382,6 +3911,38 @@ function deleteItem(
             item =>
                 item.id !== id
         );
+
+
+    saveData();
+
+    render();
+
+}
+
+
+/* ==================================================
+   COLLAPSE SECTIONS
+   ================================================== */
+
+function toggleSection(
+    sectionId
+) {
+
+    if (
+        !data.collapsed
+    ) {
+
+        data.collapsed = {};
+
+    }
+
+
+    data.collapsed[
+        sectionId
+    ] =
+        !data.collapsed[
+            sectionId
+        ];
 
 
     saveData();
@@ -3539,329 +4100,205 @@ function escapeHtml(
 
 
 /* ==================================================
-   IPHONE DRAG / REORDER
+   DRAG AND DROP
    ================================================== */
 
-let dragState = null;
+let dragState =
+    null;
 
 
-function attachDragHandlers(
+function setupDragBehavior(
     wrapper,
-    id
+    routine,
+    itemId
 ) {
 
-    let timer = null;
+    const handle =
+        wrapper.querySelector(
+            ".drag-handle"
+        );
 
-    let longPressTriggered =
+
+    if (!handle) {
+
+        return;
+
+    }
+
+
+    let pressTimer =
+        null;
+
+
+    let startY =
+        0;
+
+
+    let dragging =
         false;
 
 
-    function startPress(
-        event
-    ) {
-
-        /*
-         * Don't start dragging when the
-         * user touches a control.
-         */
-
-        if (
-            event.target.closest(
-                "button,input,textarea"
-            )
-        ) {
-
-            return;
-
-        }
-
-
-        const touch =
-            event.touches
-                ? event.touches[0]
-                : event;
-
-
-        timer =
-            setTimeout(
-                () => {
-
-                    longPressTriggered =
-                        true;
-
-                    startDragging(
-                        wrapper,
-                        id,
-                        touch.clientY
-                    );
-
-                },
-                420
-            );
-
-    }
-
-
-    function cancelPress() {
-
-        if (timer) {
-
-            clearTimeout(timer);
-
-            timer =
-                null;
-
-        }
-
-    }
-
-
-    function moveBeforeDrag(
-        event
-    ) {
-
-        if (
-            !longPressTriggered
-        ) {
-
-            cancelPress();
-
-        }
-
-    }
-
-
-    function endPress() {
-
-        cancelPress();
-
-        if (
-            longPressTriggered &&
-            dragState
-        ) {
-
-            finishDragging();
-
-        }
-
-        longPressTriggered =
-            false;
-
-    }
-
-
-    wrapper.addEventListener(
+    handle.addEventListener(
         "touchstart",
-        startPress,
+        event => {
+
+            if (
+                event.touches.length !== 1
+            ) {
+
+                return;
+
+            }
+
+
+            startY =
+                event.touches[0].clientY;
+
+
+            pressTimer =
+                setTimeout(
+                    () => {
+
+                        dragging =
+                            true;
+
+
+                        wrapper
+                            .querySelector(
+                                ".item"
+                            )
+                            .classList.add(
+                                "dragging"
+                            );
+
+
+                        dragState = {
+
+                            wrapper,
+                            routine,
+                            itemId
+
+                        };
+
+                    },
+                    350
+                );
+
+        },
         {
             passive: true
         }
     );
 
 
-    wrapper.addEventListener(
+    handle.addEventListener(
         "touchmove",
-        moveBeforeDrag,
-        {
-            passive: true
-        }
-    );
+        event => {
+
+            if (!dragging) {
+
+                return;
+
+            }
 
 
-    wrapper.addEventListener(
-        "touchend",
-        endPress,
-        {
-            passive: true
-        }
-    );
+            event.preventDefault();
 
 
-    wrapper.addEventListener(
-        "touchcancel",
-        endPress,
-        {
-            passive: true
-        }
-    );
-
-}
+            const touch =
+                event.touches[0];
 
 
-function startDragging(
-    wrapper,
-    id,
-    startY
-) {
-
-    if (
-        dragState
-    ) {
-
-        return;
-
-    }
+            const target =
+                document.elementFromPoint(
+                    touch.clientX,
+                    touch.clientY
+                );
 
 
-    const item =
-        data.items.find(
-            item =>
-                item.id === id
-        );
+            const targetWrapper =
+                target
+                ? target.closest(
+                    ".task-wrapper"
+                )
+                : null;
 
 
-    if (!item) {
+            if (
+                !targetWrapper ||
+                targetWrapper === wrapper ||
+                targetWrapper.parentElement !==
+                    routine
+            ) {
 
-        return;
+                return;
 
-    }
-
-
-    const section =
-        wrapper.closest(
-            ".routine[data-section]"
-        );
-
-
-    if (!section) {
-
-        return;
-
-    }
+            }
 
 
-    dragState = {
-
-        id:
-            id,
-
-        wrapper:
-            wrapper,
-
-        section:
-            section,
-
-        startY:
-            startY
-
-    };
+            const rect =
+                targetWrapper.getBoundingClientRect();
 
 
-    wrapper
-        .querySelector(
-            ".item"
-        )
-        .classList.add(
-            "dragging"
-        );
+            if (
+                touch.clientY <
+                rect.top +
+                rect.height / 2
+            ) {
 
+                routine.insertBefore(
+                    wrapper,
+                    targetWrapper
+                );
 
-    document.body.style
-        .userSelect =
-        "none";
+            } else {
 
-    document.body.style
-        .webkitUserSelect =
-        "none";
+                routine.insertBefore(
+                    wrapper,
+                    targetWrapper.nextSibling
+                );
 
+            }
 
-    document.addEventListener(
-        "touchmove",
-        handleDragMove,
+        },
         {
             passive: false
         }
     );
 
 
-    document.addEventListener(
+    handle.addEventListener(
         "touchend",
-        finishDragging,
-        {
-            passive: true,
-            once: true
-        }
-    );
+        () => {
 
-}
-
-
-function handleDragMove(
-    event
-) {
-
-    if (
-        !dragState
-    ) {
-
-        return;
-
-    }
-
-
-    event.preventDefault();
-
-
-    const touch =
-        event.touches[0];
-
-
-    const y =
-        touch.clientY;
-
-
-    const section =
-        dragState.section;
-
-
-    const wrappers =
-        [
-            ...section.querySelectorAll(
-                ".task-wrapper"
-            )
-        ]
-        .filter(
-            wrapper =>
-                wrapper !==
-                dragState.wrapper
-        );
-
-
-    let closest =
-        null;
-
-    let closestDistance =
-        Infinity;
-
-
-    wrappers.forEach(
-        wrapper => {
-
-            const rect =
-                wrapper.getBoundingClientRect();
-
-
-            const center =
-                rect.top +
-                rect.height / 2;
-
-
-            const distance =
-                Math.abs(
-                    y - center
-                );
+            clearTimeout(
+                pressTimer
+            );
 
 
             if (
-                distance <
-                closestDistance
+                dragging
             ) {
 
-                closestDistance =
-                    distance;
+                dragging =
+                    false;
 
-                closest =
-                    wrapper;
+
+                wrapper
+                    .querySelector(
+                        ".item"
+                    )
+                    .classList.remove(
+                        "dragging"
+                    );
+
+
+                saveRoutineOrder(
+                    routine
+                );
+
+                dragState =
+                    null;
 
             }
 
@@ -3869,138 +4306,36 @@ function handleDragMove(
     );
 
 
-    if (
-        closest
-    ) {
+    handle.addEventListener(
+        "touchcancel",
+        () => {
 
-        const rect =
-            closest.getBoundingClientRect();
-
-
-        if (
-            y <
-            rect.top +
-            rect.height / 2
-        ) {
-
-            section.insertBefore(
-                dragState.wrapper,
-                closest
-            );
-
-        } else {
-
-            section.insertBefore(
-                dragState.wrapper,
-                closest.nextSibling
-            );
-
-        }
-
-    }
-
-
-    saveCurrentVisualOrder();
-
-}
-
-
-function finishDragging() {
-
-    if (
-        !dragState
-    ) {
-
-        return;
-
-    }
-
-
-    document.removeEventListener(
-        "touchmove",
-        handleDragMove
-    );
-
-
-    document.body.style
-        .userSelect =
-        "";
-
-    document.body.style
-        .webkitUserSelect =
-        "";
-
-
-    const itemElement =
-        dragState.wrapper
-            .querySelector(
-                ".item"
+            clearTimeout(
+                pressTimer
             );
 
 
-    if (itemElement) {
+            if (
+                dragging
+            ) {
 
-        itemElement.classList.remove(
-            "dragging"
-        );
-
-    }
-
-
-    saveCurrentVisualOrder();
+                dragging =
+                    false;
 
 
-    dragState =
-        null;
+                wrapper
+                    .querySelector(
+                        ".item"
+                    )
+                    .classList.remove(
+                        "dragging"
+                    );
 
 
-    render();
+                render();
 
-}
-
-
-/* ==================================================
-   SAVE VISUAL ORDER
-   ================================================== */
-
-function saveCurrentVisualOrder() {
-
-    if (
-        !dragState
-    ) {
-
-        return;
-
-    }
-
-
-    const wrappers =
-        [
-            ...dragState.section
-                .querySelectorAll(
-                    ".task-wrapper"
-                )
-        ];
-
-
-    wrappers.forEach(
-        (wrapper, index) => {
-
-            const id =
-                wrapper.dataset.id;
-
-
-            const item =
-                data.items.find(
-                    item =>
-                        item.id === id
-                );
-
-
-            if (item) {
-
-                item.order =
-                    index;
+                dragState =
+                    null;
 
             }
 
@@ -4009,55 +4344,120 @@ function saveCurrentVisualOrder() {
 
 
     /*
-     * Give tasks in other time-of-day
-     * sections enough separation that
-     * moving one section doesn't
-     * accidentally affect another.
+     * Desktop drag support.
      */
 
-    normalizeOrders();
-
-    saveData();
-
-}
+    handle.draggable =
+        true;
 
 
-/* ==================================================
-   NORMALIZE ORDERS
-   ================================================== */
+    handle.addEventListener(
+        "dragstart",
+        event => {
 
-function normalizeOrders() {
-
-    const sections = [
-
-        "morning",
-        "afternoon",
-        "night"
-
-    ];
+            dragging =
+                true;
 
 
-    let order =
-        0;
-
-
-    sections.forEach(
-        section => {
-
-            sortItems(
-                data.items.filter(
-                    item =>
-                        item.timeOfDay ===
-                        section
+            wrapper
+                .querySelector(
+                    ".item"
                 )
-            ).forEach(
-                item => {
+                .classList.add(
+                    "dragging"
+                );
 
-                    item.order =
-                        order++;
 
-                }
-            );
+            dragState = {
+
+                wrapper,
+                routine,
+                itemId
+
+            };
+
+
+            event.dataTransfer.effectAllowed =
+                "move";
+
+        }
+    );
+
+
+    wrapper.addEventListener(
+        "dragover",
+        event => {
+
+            if (
+                !dragging ||
+                !dragState ||
+                dragState.routine !==
+                    routine
+            ) {
+
+                return;
+
+            }
+
+
+            event.preventDefault();
+
+
+            const rect =
+                wrapper.getBoundingClientRect();
+
+
+            if (
+                event.clientY <
+                rect.top +
+                rect.height / 2
+            ) {
+
+                routine.insertBefore(
+                    dragState.wrapper,
+                    wrapper
+                );
+
+            } else {
+
+                routine.insertBefore(
+                    dragState.wrapper,
+                    wrapper.nextSibling
+                );
+
+            }
+
+        }
+    );
+
+
+    handle.addEventListener(
+        "dragend",
+        () => {
+
+            if (
+                dragging
+            ) {
+
+                dragging =
+                    false;
+
+                wrapper
+                    .querySelector(
+                        ".item"
+                    )
+                    .classList.remove(
+                        "dragging"
+                    );
+
+                saveRoutineOrder(
+                    routine
+                );
+
+                dragState =
+                    null;
+
+            }
 
         }
     );
@@ -4065,31 +4465,89 @@ function normalizeOrders() {
 }
 
 
+function saveRoutineOrder(
+    routine
+) {
+
+    const sectionId =
+        routine.dataset.section;
+
+
+    const wrappers =
+        Array.from(
+            routine.querySelectorAll(
+                ".task-wrapper"
+            )
+        );
+
+
+    wrappers.forEach(
+        (
+            wrapper,
+            index
+        ) => {
+
+            const item =
+                data.items.find(
+                    item =>
+                        item.id ===
+                        wrapper.dataset.id
+                );
+
+
+            if (item) {
+
+                item.order =
+                    index;
+
+                item.timeOfDay =
+                    sectionId;
+
+            }
+
+        }
+    );
+
+
+    saveData();
+
+}
+
+
 /* ==================================================
-   PERIODIC TIME CHECK
-   ==================================================
-
-   This allows NovaVesta to move the
-   appropriate section to the top even
-   if the app remains open across noon
-   or 5 PM.
-
+   AUTO REFRESH
    ================================================== */
+
+/*
+ * We check periodically so that if NovaVesta
+ * remains open across noon, 5 PM, or midnight,
+ * it updates without requiring a reload.
+ */
 
 setInterval(
     () => {
 
-        const current =
-            getCurrentTimeOfDay();
+        const oldDate =
+            data.date;
+
+
+        const oldSection =
+            getCurrentTimeSection();
+
+
+        checkForNewDay();
+
+
+        const newSection =
+            getCurrentTimeSection();
 
 
         if (
-            current !==
-            window.lastKnownTimeOfDay
+            oldDate !== data.date ||
+            oldSection !== newSection
         ) {
 
-            window.lastKnownTimeOfDay =
-                current;
+            updateDate();
 
             render();
 
@@ -4107,9 +4565,6 @@ setInterval(
 checkForNewDay();
 
 updateDate();
-
-window.lastKnownTimeOfDay =
-    getCurrentTimeOfDay();
 
 render();
 
