@@ -45,21 +45,15 @@
 :root {
 
     --bg: #07100b;
-
     --panel: #0d1a12;
-
     --panel-active: #102319;
-
     --panel-light: #13271b;
 
     --green: #55d68a;
-
     --green-bright: #7affad;
-
     --green-dim: #347a50;
 
     --text: #edf8f0;
-
     --muted: #789080;
 
     --border:
@@ -88,7 +82,6 @@ html {
     background: var(--bg);
 
     -webkit-text-size-adjust: 100%;
-
     text-size-adjust: 100%;
 
     min-height: 100%;
@@ -101,7 +94,6 @@ body {
     margin: 0;
 
     min-height: 100vh;
-
     min-height: 100dvh;
 
     overflow-x: hidden;
@@ -119,7 +111,6 @@ body {
     color: var(--text);
 
     font-family:
-
         -apple-system,
         BlinkMacSystemFont,
         "SF Pro Display",
@@ -127,16 +118,6 @@ body {
         sans-serif;
 
     touch-action: manipulation;
-
-}
-
-
-button,
-input,
-textarea,
-select {
-
-    font: inherit;
 
 }
 
@@ -236,7 +217,7 @@ h1 {
 
     text-align: center;
 
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 
     color: var(--muted);
 
@@ -253,17 +234,53 @@ h1 {
 
 
 /* ==================================================
-   TIME OF DAY SECTION
+   TIME-OF-DAY SECTION
    ================================================== */
 
 .time-section {
 
-    margin-bottom: 16px;
+    margin-bottom: 22px;
 
 }
 
 
-.time-heading {
+.section-heading {
+
+    margin:
+
+        0
+
+        0
+
+        9px
+
+        3px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    letter-spacing: 1.2px;
+
+    text-transform: uppercase;
+
+}
+
+
+.section-heading {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+}
+
+
+.section-toggle {
 
     display: flex;
 
@@ -273,92 +290,78 @@ h1 {
 
     width: 100%;
 
-    padding: 8px 4px;
+    padding: 0;
 
-    margin: 0;
-
-    border: none;
+    border: 0;
 
     background: transparent;
 
-    color: var(--text);
+    color: inherit;
 
-    cursor: pointer;
+    font: inherit;
+
+    letter-spacing: inherit;
 
     text-align: left;
 
-}
+    text-transform: inherit;
 
-
-.time-heading-left {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 9px;
+    cursor: pointer;
 
 }
 
 
-.time-title {
+.section-toggle::after {
 
-    font-size: 18px;
+    content: "+";
 
-    font-weight: 600;
+    color: var(--green-dim);
 
-    letter-spacing: -0.1px;
+    font-size: 17px;
+
+    font-weight: 400;
 
 }
 
 
-.time-count {
+.section-toggle[aria-expanded="true"]::after {
+
+    content: "−";
+
+}
+
+
+.routine.collapsed {
+
+    display: none;
+
+}
+
+
+.completion-rate {
+
+    margin-top: 3px;
+
+    min-height: 15px;
 
     color: var(--muted);
 
-    font-size: 12px;
+    font-size: 11px;
 
 }
 
 
-.collapse-indicator {
+/* ==================================================
+   ROUTINE
+   ================================================== */
 
-    color: var(--muted);
-
-    font-size: 18px;
-
-    transition:
-        transform 0.18s ease;
-
-}
-
-
-.time-section.collapsed
-.collapse-indicator {
-
-    transform:
-        rotate(-90deg);
-
-}
-
-
-.time-content {
+.routine {
 
     display: flex;
 
     flex-direction: column;
 
     gap: 9px;
-
-    margin-top: 3px;
-
-}
-
-
-.time-section.collapsed
-.time-content {
-
-    display: none;
 
 }
 
@@ -403,8 +406,7 @@ h1 {
     transition:
         background 0.15s ease,
         border-color 0.15s ease,
-        opacity 0.15s ease,
-        transform 0.15s ease;
+        opacity 0.15s ease;
 
 }
 
@@ -428,60 +430,6 @@ h1 {
 
 
 /* ==================================================
-   DRAG HANDLE
-   ================================================== */
-
-.drag-handle {
-
-    width: 20px;
-
-    min-width: 20px;
-
-    color:
-        #405247;
-
-    font-size: 16px;
-
-    text-align: center;
-
-    cursor: grab;
-
-    user-select: none;
-
-    -webkit-user-select: none;
-
-}
-
-
-.drag-handle:active {
-
-    cursor: grabbing;
-
-    color:
-        var(--green);
-
-}
-
-
-.item.dragging {
-
-    opacity: 0.35;
-
-}
-
-
-.item.drag-over {
-
-    border-color:
-        var(--green);
-
-    box-shadow:
-        var(--glow);
-
-}
-
-
-/* ==================================================
    CHECKBOX
    ================================================== */
 
@@ -492,7 +440,6 @@ h1 {
     -webkit-appearance: none;
 
     width: 30px;
-
     height: 30px;
 
     min-width: 30px;
@@ -618,19 +565,6 @@ h1 {
 }
 
 
-.details-preview {
-
-    margin-top: 3px;
-
-    color: #657c6d;
-
-    font-size: 12px;
-
-    line-height: 1.3;
-
-}
-
-
 /* ==================================================
    TASK BUTTONS
    ================================================== */
@@ -638,7 +572,6 @@ h1 {
 .task-action {
 
     width: 32px;
-
     height: 32px;
 
     min-width: 32px;
@@ -646,7 +579,6 @@ h1 {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     padding: 0;
@@ -795,6 +727,13 @@ h1 {
 }
 
 
+.day-button:active {
+
+    transform: scale(0.97);
+
+}
+
+
 /* ==================================================
    ADD BUTTON
    ================================================== */
@@ -893,7 +832,7 @@ h1 {
     color: var(--muted);
 
     padding:
-        25px 20px;
+        34px 20px;
 
     border:
         1px dashed var(--border);
@@ -906,7 +845,7 @@ h1 {
 
 
 /* ==================================================
-   MODAL
+   EDIT MODAL
    ================================================== */
 
 .modal-backdrop {
@@ -924,11 +863,8 @@ h1 {
     justify-content: center;
 
     padding:
-
         18px
-
         18px
-
         max(
             18px,
             env(safe-area-inset-bottom)
@@ -958,10 +894,6 @@ h1 {
     width: 100%;
 
     max-width: 600px;
-
-    max-height: 90vh;
-
-    overflow-y: auto;
 
     background:
         #0d1a12;
@@ -1039,7 +971,6 @@ h1 {
 .modal-close {
 
     width: 36px;
-
     height: 36px;
 
     border: none;
@@ -1059,9 +990,16 @@ h1 {
 }
 
 
-/* ==================================================
-   FORM
-   ================================================== */
+.modal-close:active {
+
+    background:
+        rgba(85, 214, 138, 0.15);
+
+    color:
+        var(--green);
+
+}
+
 
 .form-group {
 
@@ -1123,7 +1061,7 @@ h1 {
 
 .form-textarea {
 
-    min-height: 90px;
+    min-height: 110px;
 
     resize: vertical;
 
@@ -1159,193 +1097,6 @@ h1 {
 }
 
 
-/* ==================================================
-   TOGGLE
-   ================================================== */
-
-.toggle-row {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    padding:
-        4px 0;
-
-}
-
-
-.toggle-description {
-
-    padding-right: 15px;
-
-}
-
-
-.toggle-name {
-
-    color: var(--text);
-
-    font-size: 15px;
-
-}
-
-
-.toggle-subtitle {
-
-    margin-top: 3px;
-
-    color: var(--muted);
-
-    font-size: 12px;
-
-    line-height: 1.3;
-
-}
-
-
-.switch {
-
-    position: relative;
-
-    width: 48px;
-
-    height: 28px;
-
-    min-width: 48px;
-
-}
-
-
-.switch input {
-
-    opacity: 0;
-
-    width: 0;
-
-    height: 0;
-
-}
-
-
-.slider {
-
-    position: absolute;
-
-    inset: 0;
-
-    cursor: pointer;
-
-    border-radius: 30px;
-
-    background:
-        #23372b;
-
-    border:
-        1px solid
-        rgba(85, 214, 138, 0.18);
-
-    transition:
-        0.18s ease;
-
-}
-
-
-.slider::before {
-
-    content: "";
-
-    position: absolute;
-
-    width: 20px;
-
-    height: 20px;
-
-    left: 3px;
-
-    top: 3px;
-
-    border-radius: 50%;
-
-    background:
-        #789080;
-
-    transition:
-        0.18s ease;
-
-}
-
-
-.switch input:checked + .slider {
-
-    background:
-        rgba(85, 214, 138, 0.28);
-
-    border-color:
-        var(--green-dim);
-
-}
-
-
-.switch input:checked + .slider::before {
-
-    transform:
-        translateX(20px);
-
-    background:
-        var(--green);
-
-    box-shadow:
-        0 0 10px
-        rgba(85, 214, 138, 0.35);
-
-}
-
-
-/* ==================================================
-   COMPLETION TIME
-   ================================================== */
-
-.time-edit-row {
-
-    display: flex;
-
-    gap: 9px;
-
-}
-
-
-.time-edit-row .form-input {
-
-    flex: 1;
-
-}
-
-
-.clear-time {
-
-    min-width: 80px;
-
-    border:
-        1px solid var(--border);
-
-    border-radius: 11px;
-
-    background:
-        rgba(85, 214, 138, 0.05);
-
-    color:
-        var(--muted);
-
-}
-
-
-/* ==================================================
-   MODAL ACTIONS
-   ================================================== */
-
 .modal-actions {
 
     display: flex;
@@ -1378,7 +1129,8 @@ h1 {
         rgba(85, 214, 138, 0.05);
 
     border:
-        1px solid var(--border);
+        1px solid
+        var(--border);
 
     color:
         var(--muted);
@@ -1392,7 +1144,8 @@ h1 {
         rgba(85, 214, 138, 0.15);
 
     border:
-        1px solid var(--green-dim);
+        1px solid
+        var(--green-dim);
 
     color:
         var(--green-bright);
@@ -1442,7 +1195,7 @@ h1 {
 
         min-height: 64px;
 
-        gap: 7px;
+        gap: 8px;
 
     }
 
@@ -1457,7 +1210,6 @@ h1 {
     .checkbox {
 
         width: 28px;
-
         height: 28px;
 
         min-width: 28px;
@@ -1467,20 +1219,10 @@ h1 {
 
     .task-action {
 
-        width: 29px;
+        width: 30px;
+        height: 30px;
 
-        height: 29px;
-
-        min-width: 29px;
-
-    }
-
-
-    .drag-handle {
-
-        width: 16px;
-
-        min-width: 16px;
+        min-width: 30px;
 
     }
 
@@ -1498,7 +1240,6 @@ h1 {
         padding-top: 50px;
 
         padding-left: 20px;
-
         padding-right: 20px;
 
     }
@@ -1600,7 +1341,7 @@ h1 {
 
 
 <!-- ==================================================
-     EDIT MODAL
+     EDIT TASK MODAL
      ================================================== -->
 
 <div
@@ -1650,7 +1391,6 @@ h1 {
                 id="editTaskName"
                 type="text"
                 autocomplete="off"
-                placeholder="Task name"
             >
 
         </div>
@@ -1678,14 +1418,14 @@ h1 {
 
             <label
                 class="form-label"
-                for="editTimeOfDay"
+                for="editTaskPeriod"
             >
                 Time of day
             </label>
 
             <select
                 class="form-select"
-                id="editTimeOfDay"
+                id="editTaskPeriod"
             >
 
                 <option value="morning">
@@ -1696,92 +1436,11 @@ h1 {
                     Afternoon
                 </option>
 
-                <option value="evening">
-                    Evening
+                <option value="night">
+                    Night
                 </option>
 
             </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-            <div class="toggle-row">
-
-                <div class="toggle-description">
-
-                    <div class="toggle-name">
-                        Recurring task
-                    </div>
-
-                    <div class="toggle-subtitle">
-                        Recurring tasks return according to their schedule.
-                        One-time tasks disappear at midnight.
-                    </div>
-
-                </div>
-
-
-                <label class="switch">
-
-                    <input
-                        type="checkbox"
-                        id="editRecurring"
-                    >
-
-                    <span class="slider"></span>
-
-                </label>
-
-            </div>
-
-        </div>
-
-
-        <div
-            class="form-group"
-            id="scheduleGroup"
-        >
-
-            <label class="form-label">
-                Repeat on
-            </label>
-
-            <div
-                class="schedule-options"
-                id="modalScheduleOptions"
-            ></div>
-
-        </div>
-
-
-        <div
-            class="form-group"
-            id="completionGroup"
-        >
-
-            <label class="form-label">
-                Completion time
-            </label>
-
-            <div class="time-edit-row">
-
-                <input
-                    class="form-input"
-                    id="editCompletionTime"
-                    type="time"
-                >
-
-                <button
-                    class="clear-time"
-                    onclick="clearCompletionTime()"
-                    type="button"
-                >
-                    Clear
-                </button>
-
-            </div>
 
         </div>
 
@@ -1821,19 +1480,40 @@ const STORAGE_KEY =
 
 const DEFAULT_ITEMS = [
 
-    "Get dressed",
+    {
+        text: "Get dressed",
+        period: "morning"
+    },
 
-    "Brush teeth",
+    {
+        text: "Brush teeth",
+        period: "morning"
+    },
 
-    "Take medications / vitamins",
+    {
+        text: "Take medications / vitamins",
+        period: "morning"
+    },
 
-    "Eat breakfast",
+    {
+        text: "Eat breakfast",
+        period: "morning"
+    },
 
-    "Pack everything I need",
+    {
+        text: "Pack everything I need",
+        period: "morning"
+    },
 
-    "Check today's schedule",
+    {
+        text: "Check today's schedule",
+        period: "morning"
+    },
 
-    "Leave for the day"
+    {
+        text: "Leave for the day",
+        period: "morning"
+    }
 
 ];
 
@@ -1842,21 +1522,24 @@ let data =
     loadData();
 
 
+const HISTORY_KEY =
+    "novavesta-task-completion-history";
+
+
+const TRACKING_START_DATE =
+    "2026-11-07";
+
+
+let historyData =
+    loadHistory();
+
+
+let expandedPeriods =
+    new Set([currentPeriod()]);
+
+
 let editingItemId =
     null;
-
-
-let draggedItemId =
-    null;
-
-
-/*
- * These collapse states are intentionally
- * stored separately from the tasks.
- */
-
-let collapsedSections =
-    loadCollapsedSections();
 
 
 /* ==================================================
@@ -1893,27 +1576,37 @@ function currentDay() {
 
 
 /* ==================================================
-   TIME OF DAY
-   ==================================================
-
-   Morning:
-   2:00 AM - 11:59 AM
-
-   Afternoon:
-   12:00 PM - 4:59 PM
-
-   Evening:
-   5:00 PM - 1:59 AM
-
-   This determines which section appears first.
-   It does NOT determine which section a task
-   belongs to.
+   CURRENT TIME PERIOD
    ================================================== */
 
-function currentTimeSection() {
+function currentPeriod() {
+
+    const now =
+        new Date();
 
     const hour =
-        new Date().getHours();
+        now.getHours();
+
+
+    /*
+     * Morning:
+     * 2:00 AM through 11:59 AM
+     */
+
+    if (
+        hour >= 2 &&
+        hour < 12
+    ) {
+
+        return "morning";
+
+    }
+
+
+    /*
+     * Afternoon:
+     * 12:00 PM through 4:59 PM
+     */
 
     if (
         hour >= 12 &&
@@ -1924,53 +1617,89 @@ function currentTimeSection() {
 
     }
 
-    if (
-        hour >= 17
-    ) {
 
-        return "evening";
+    /*
+     * Night:
+     * 5:00 PM through 1:59 AM
+     */
 
-    }
-
-    return "morning";
+    return "night";
 
 }
 
 
 /* ==================================================
-   SECTION ORDER
+   PERIOD ORDER
    ================================================== */
 
-function getSectionOrder() {
+function getPeriodOrder() {
 
     const current =
-        currentTimeSection();
+        currentPeriod();
 
-    if (current === "morning") {
+
+    if (
+        current === "morning"
+    ) {
 
         return [
             "morning",
             "afternoon",
-            "evening"
+            "night"
         ];
 
     }
 
-    if (current === "afternoon") {
+
+    if (
+        current === "afternoon"
+    ) {
 
         return [
             "afternoon",
-            "evening",
-            "morning"
+            "morning",
+            "night"
         ];
 
     }
 
+
     return [
-        "evening",
-        "morning",
-        "afternoon"
+        "night",
+        "afternoon",
+        "morning"
     ];
+
+}
+
+
+/* ==================================================
+   PERIOD LABEL
+   ================================================== */
+
+function periodLabel(
+    period
+) {
+
+    if (
+        period === "morning"
+    ) {
+
+        return "Morning";
+
+    }
+
+
+    if (
+        period === "afternoon"
+    ) {
+
+        return "Afternoon";
+
+    }
+
+
+    return "Night";
 
 }
 
@@ -2003,39 +1732,7 @@ function loadData() {
             ) {
 
                 parsed.items.forEach(
-                    (item, index) => {
-
-                        if (
-                            !item.id
-                        ) {
-
-                            item.id =
-                                createId();
-
-                        }
-
-
-                        if (
-                            typeof item.text !==
-                            "string"
-                        ) {
-
-                            item.text =
-                                "Untitled Task";
-
-                        }
-
-
-                        if (
-                            typeof item.details !==
-                            "string"
-                        ) {
-
-                            item.details =
-                                "";
-
-                        }
-
+                    item => {
 
                         if (
                             typeof item.completed !==
@@ -2082,6 +1779,17 @@ function loadData() {
 
 
                         if (
+                            typeof item.details !==
+                            "string"
+                        ) {
+
+                            item.details =
+                                "";
+
+                        }
+
+
+                        if (
                             !Array.isArray(
                                 item.schedule
                             )
@@ -2094,61 +1802,22 @@ function loadData() {
 
 
                         /*
-                         * New property:
-                         * recurring.
+                         * Existing NovaVesta
+                         * tasks did not have
+                         * a time period.
                          *
-                         * Existing tasks are treated
-                         * as recurring so that updating
-                         * the app does not unexpectedly
-                         * delete them at midnight.
+                         * Put those tasks
+                         * into Morning.
                          */
 
                         if (
-                            typeof item.recurring !==
-                            "boolean"
+                            item.period !== "morning" &&
+                            item.period !== "afternoon" &&
+                            item.period !== "night"
                         ) {
 
-                            item.recurring =
-                                true;
-
-                        }
-
-
-                        /*
-                         * New property:
-                         * timeOfDay.
-                         *
-                         * Older tasks did not have this.
-                         * Give them a sensible default.
-                         */
-
-                        if (
-                            ![
-                                "morning",
-                                "afternoon",
-                                "evening"
-                            ].includes(
-                                item.timeOfDay
-                            )
-                        ) {
-
-                            item.timeOfDay =
+                            item.period =
                                 "morning";
-
-                        }
-
-
-                        /*
-                         * Saved ordering.
-                         */
-
-                        if (
-                            typeof item.order !==
-                            "number"
-                        ) {
-
-                            item.order =
-                                index;
 
                         }
 
@@ -2164,17 +1833,6 @@ function loadData() {
                         todayKey();
 
                 }
-
-
-                /*
-                 * Sort legacy data once so that
-                 * the stored order becomes stable.
-                 */
-
-                parsed.items.sort(
-                    (a, b) =>
-                        a.order - b.order
-                );
 
 
                 return parsed;
@@ -2200,16 +1858,19 @@ function loadData() {
 
         items:
             DEFAULT_ITEMS.map(
-                (text, index) => ({
+                item => ({
 
                     id:
                         createId(),
 
                     text:
-                        text,
+                        item.text,
 
                     details:
                         "",
+
+                    period:
+                        item.period,
 
                     completed:
                         false,
@@ -2224,92 +1885,12 @@ function loadData() {
                         null,
 
                     schedule:
-                        ["everyday"],
-
-                    recurring:
-                        true,
-
-                    timeOfDay:
-                        "morning",
-
-                    order:
-                        index
+                        ["everyday"]
 
                 })
             )
 
     };
-
-}
-
-
-/* ==================================================
-   COLLAPSED SECTION STORAGE
-   ================================================== */
-
-function loadCollapsedSections() {
-
-    try {
-
-        const saved =
-            localStorage.getItem(
-                "novavesta-collapsed-sections"
-            );
-
-
-        if (saved) {
-
-            const parsed =
-                JSON.parse(saved);
-
-
-            if (
-                parsed &&
-                typeof parsed === "object"
-            ) {
-
-                return parsed;
-
-            }
-
-        }
-
-    } catch (error) {
-
-        console.error(
-            error
-        );
-
-    }
-
-
-    return {
-
-        morning:
-            false,
-
-        afternoon:
-            true,
-
-        evening:
-            true
-
-    };
-
-}
-
-
-function saveCollapsedSections() {
-
-    localStorage.setItem(
-
-        "novavesta-collapsed-sections",
-
-        JSON.stringify(
-            collapsedSections
-        )
-
-    );
 
 }
 
@@ -2349,20 +1930,6 @@ function createId() {
 
 function saveData() {
 
-    /*
-     * Normalize ordering before saving.
-     */
-
-    data.items.forEach(
-        (item, index) => {
-
-            item.order =
-                index;
-
-        }
-    );
-
-
     localStorage.setItem(
 
         STORAGE_KEY,
@@ -2375,7 +1942,208 @@ function saveData() {
 
 
 /* ==================================================
-   NEW DAY / MIDNIGHT RESET
+   TASK COMPLETION HISTORY
+   ================================================== */
+
+function loadHistory() {
+
+    try {
+
+        const saved =
+            localStorage.getItem(HISTORY_KEY);
+
+        if (saved) {
+
+            const parsed =
+                JSON.parse(saved);
+
+            if (
+                parsed &&
+                parsed.days &&
+                typeof parsed.days === "object"
+            ) {
+
+                return parsed;
+
+            }
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "NovaVesta could not read completion history:",
+            error
+        );
+
+    }
+
+    return {
+        trackingStartDate: TRACKING_START_DATE,
+        days: {}
+    };
+
+}
+
+
+function saveHistory() {
+
+    localStorage.setItem(
+        HISTORY_KEY,
+        JSON.stringify(historyData)
+    );
+
+}
+
+
+function isScheduledOnDate(item, dateKey) {
+
+    if (
+        !Array.isArray(item.schedule) ||
+        item.schedule.length === 0 ||
+        item.schedule.includes("everyday")
+    ) {
+
+        return true;
+
+    }
+
+    const parts =
+        dateKey.split("-").map(Number);
+
+    const weekday =
+        new Date(
+            parts[0],
+            parts[1] - 1,
+            parts[2]
+        ).getDay();
+
+    return item.schedule.includes(weekday);
+
+}
+
+
+function syncHistoryForDate(dateKey) {
+
+    if (dateKey < TRACKING_START_DATE) {
+
+        return;
+
+    }
+
+    if (!historyData.days[dateKey]) {
+
+        historyData.days[dateKey] = {
+            tasks: []
+        };
+
+    }
+
+    const dayRecord =
+        historyData.days[dateKey];
+
+    if (!Array.isArray(dayRecord.tasks)) {
+
+        dayRecord.tasks = [];
+
+    }
+
+    data.items.forEach(item => {
+
+        if (!isScheduledOnDate(item, dateKey)) {
+
+            return;
+
+        }
+
+        let taskRecord =
+            dayRecord.tasks.find(
+                record => record.id === item.id
+            );
+
+        if (!taskRecord) {
+
+            taskRecord = {
+                id: item.id,
+                text: item.text,
+                period: item.period,
+                completed: false
+            };
+
+            dayRecord.tasks.push(taskRecord);
+
+        }
+
+        taskRecord.text =
+            item.text;
+
+        taskRecord.period =
+            item.period;
+
+        taskRecord.completed =
+            Boolean(item.completed);
+
+    });
+
+    saveHistory();
+
+}
+
+
+function getTaskCompletionRate(itemId) {
+
+    let scheduled = 0;
+
+    let completed = 0;
+
+    Object.entries(historyData.days).forEach(
+        ([dateKey, dayRecord]) => {
+
+            if (dateKey < TRACKING_START_DATE) {
+
+                return;
+
+            }
+
+            const taskRecord =
+                dayRecord.tasks?.find(
+                    record => record.id === itemId
+                );
+
+            if (taskRecord) {
+
+                scheduled += 1;
+
+                if (taskRecord.completed) {
+
+                    completed += 1;
+
+                }
+
+            }
+
+        }
+    );
+
+    if (scheduled === 0) {
+
+        return null;
+
+    }
+
+    return {
+        scheduled,
+        completed,
+        percentage: Math.round(
+            (completed / scheduled) * 100
+        )
+    };
+
+}
+
+
+/* ==================================================
+   NEW DAY
    ================================================== */
 
 function checkForNewDay() {
@@ -2393,50 +2161,43 @@ function checkForNewDay() {
     }
 
 
+    /*
+     * Preserve the previous day's final task
+     * states before the daily reset.
+     */
+    syncHistoryForDate(data.date);
+
+
     data.date =
         today;
 
 
-    /*
-     * Recurring tasks:
-     * reset completion and snooze state.
-     *
-     * One-time tasks:
-     * disappear permanently.
-     */
+    data.items.forEach(
+        item => {
 
-    data.items =
-        data.items.filter(
-            item => {
+            item.completed =
+                false;
 
-                if (
-                    item.recurring
-                ) {
+            item.completedAt =
+                null;
 
-                    item.completed =
-                        false;
+            item.snoozed =
+                false;
 
-                    item.completedAt =
-                        null;
+            item.snoozedUntil =
+                null;
 
-                    item.snoozed =
-                        false;
-
-                    item.snoozedUntil =
-                        null;
-
-                    return true;
-
-                }
-
-
-                return false;
-
-            }
-        );
+        }
+    );
 
 
     saveData();
+
+    /*
+     * Start a fresh record for today, but only
+     * from the agreed tracking start date onward.
+     */
+    syncHistoryForDate(today);
 
 }
 
@@ -2483,11 +2244,15 @@ function isScheduledToday(
    VISIBLE ITEMS
    ================================================== */
 
-function getVisibleItems() {
+function getVisibleItems(
+    period
+) {
 
     return data.items.filter(
 
         item =>
+
+            item.period === period &&
 
             isScheduledToday(item) &&
 
@@ -2499,34 +2264,14 @@ function getVisibleItems() {
 
 
 /* ==================================================
-   ITEMS BY SECTION
-   ================================================== */
-
-function getItemsForSection(
-    section
-) {
-
-    return getVisibleItems()
-        .filter(
-            item =>
-                item.timeOfDay ===
-                section
-        )
-        .sort(
-            (a, b) =>
-                a.order - b.order
-        );
-
-}
-
-
-/* ==================================================
    RENDER
    ================================================== */
 
 function render() {
 
     checkForNewDay();
+
+    syncHistoryForDate(todayKey());
 
 
     const routine =
@@ -2540,14 +2285,35 @@ function render() {
 
 
     const order =
-        getSectionOrder();
+        getPeriodOrder();
 
 
     order.forEach(
-        section => {
+        period => {
+
+            const items =
+                getVisibleItems(
+                    period
+                );
+
+
+            /*
+             * Do not display completely
+             * empty sections.
+             */
+
+            if (
+                items.length === 0
+            ) {
+
+                return;
+
+            }
+
 
             renderSection(
-                section,
+                period,
+                items,
                 routine
             );
 
@@ -2565,150 +2331,111 @@ function render() {
    ================================================== */
 
 function renderSection(
-    section,
-    container
+    period,
+    items,
+    routine
 ) {
 
-    const items =
-        getItemsForSection(
-            section
-        );
-
-
-    const sectionElement =
+    const section =
         document.createElement(
             "section"
         );
 
 
-    sectionElement.className =
+    section.className =
         "time-section";
 
 
-    if (
-        collapsedSections[section]
-    ) {
-
-        sectionElement.classList.add(
-            "collapsed"
-        );
-
-    }
-
-
-    const title =
-        section.charAt(0).toUpperCase() +
-        section.slice(1);
-
-
-    const completed =
-        items.filter(
-            item =>
-                item.completed
-        ).length;
-
-
-    sectionElement.innerHTML = `
-
-        <button
-            class="time-heading"
-            onclick="
-                toggleSection(
-                    '${section}'
-                )
-            "
-            aria-label="
-                Toggle ${title} section
-            "
-        >
-
-            <span class="time-heading-left">
-
-                <span class="time-title">
-                    ${title}
-                </span>
-
-                <span class="time-count">
-                    ${completed}/${items.length}
-                </span>
-
-            </span>
-
-
-            <span class="collapse-indicator">
-                ›
-            </span>
-
-        </button>
-
-
-        <div
-            class="time-content"
-            id="content-${section}"
-        ></div>
-
-    `;
-
-
-    const content =
-        sectionElement.querySelector(
-            ".time-content"
+    const heading =
+        document.createElement(
+            "h2"
         );
 
 
-    if (
-        items.length === 0
-    ) {
+    heading.className =
+        "section-heading";
 
-        content.innerHTML = `
 
-            <div class="empty">
-
-                No tasks scheduled for
-                ${title.toLowerCase()}.
-
-            </div>
-
-        `;
-
-    } else {
-
-        items.forEach(
-            item => {
-
-                renderItem(
-                    item,
-                    content
-                );
-
-            }
+    const toggle =
+        document.createElement(
+            "button"
         );
 
-    }
 
+    toggle.type =
+        "button";
 
-    container.appendChild(
-        sectionElement
+    toggle.className =
+        "section-toggle";
+
+    toggle.textContent =
+        periodLabel(period);
+
+    toggle.setAttribute(
+        "aria-expanded",
+        expandedPeriods.has(period) ? "true" : "false"
     );
 
-}
+    toggle.onclick = () => {
+
+        if (expandedPeriods.has(period)) {
+
+            expandedPeriods.delete(period);
+
+        } else {
+
+            expandedPeriods.add(period);
+
+        }
+
+        render();
+
+    };
 
 
-/* ==================================================
-   COLLAPSE / EXPAND
-   ================================================== */
-
-function toggleSection(
-    section
-) {
-
-    collapsedSections[section] =
-        !collapsedSections[section];
+    heading.appendChild(toggle);
 
 
-    saveCollapsedSections();
+    section.appendChild(
+        heading
+    );
 
-    render();
+
+    const list =
+        document.createElement(
+            "div"
+        );
+
+
+    list.className =
+        "routine" +
+        (
+            expandedPeriods.has(period)
+            ? ""
+            : " collapsed"
+        );
+
+
+    items.forEach(
+        item => {
+
+            renderItem(
+                item,
+                list
+            );
+
+        }
+    );
+
+
+    section.appendChild(
+        list
+    );
+
+
+    routine.appendChild(
+        section
+    );
 
 }
 
@@ -2748,24 +2475,7 @@ function renderItem(
         );
 
 
-    element.draggable =
-        true;
-
-
-    element.dataset.id =
-        item.id;
-
-
     element.innerHTML = `
-
-        <div
-            class="drag-handle"
-            title="Drag to rearrange"
-            aria-label="Drag to rearrange"
-        >
-            ⋮⋮
-        </div>
-
 
         <input
             class="checkbox"
@@ -2792,29 +2502,28 @@ function renderItem(
             </div>
 
 
-            ${
-                item.details
-                ? `
-                    <div class="details-preview">
-                        ${escapeHtml(
-                            item.details
-                        )}
-                    </div>
-                  `
-                : ""
-            }
-
-
             <div class="timestamp">
 
                 ${
-                    item.completed &&
-                    item.completedAt
+                    item.completed
                     ? "Completed at " +
                       escapeHtml(
                           item.completedAt
                       )
                     : ""
+                }
+
+            </div>
+
+            <div class="completion-rate">
+
+                ${
+                    (() => {
+                        const rate = getTaskCompletionRate(item.id);
+                        return rate
+                            ? `Completion: ${rate.percentage}%`
+                            : "";
+                    })()
                 }
 
             </div>
@@ -2864,133 +2573,6 @@ function renderItem(
         </button>
 
     `;
-
-
-    /*
-     * Desktop drag events.
-     */
-
-    element.addEventListener(
-        "dragstart",
-        event => {
-
-            draggedItemId =
-                item.id;
-
-            element.classList.add(
-                "dragging"
-            );
-
-            event.dataTransfer.effectAllowed =
-                "move";
-
-            event.dataTransfer.setData(
-                "text/plain",
-                item.id
-            );
-
-        }
-    );
-
-
-    element.addEventListener(
-        "dragend",
-        () => {
-
-            draggedItemId =
-                null;
-
-            document
-                .querySelectorAll(
-                    ".item.dragging"
-                )
-                .forEach(
-                    el =>
-                        el.classList.remove(
-                            "dragging"
-                        )
-                );
-
-            document
-                .querySelectorAll(
-                    ".item.drag-over"
-                )
-                .forEach(
-                    el =>
-                        el.classList.remove(
-                            "drag-over"
-                        )
-                );
-
-        }
-    );
-
-
-    element.addEventListener(
-        "dragover",
-        event => {
-
-            event.preventDefault();
-
-            if (
-                draggedItemId &&
-                draggedItemId !== item.id
-            ) {
-
-                element.classList.add(
-                    "drag-over"
-                );
-
-            }
-
-        }
-    );
-
-
-    element.addEventListener(
-        "dragleave",
-        () => {
-
-            element.classList.remove(
-                "drag-over"
-            );
-
-        }
-    );
-
-
-    element.addEventListener(
-        "drop",
-        event => {
-
-            event.preventDefault();
-
-            const sourceId =
-                event.dataTransfer.getData(
-                    "text/plain"
-                ) ||
-                draggedItemId;
-
-
-            element.classList.remove(
-                "drag-over"
-            );
-
-
-            if (
-                sourceId &&
-                sourceId !== item.id
-            ) {
-
-                moveItemBefore(
-                    sourceId,
-                    item.id
-                );
-
-            }
-
-        }
-    );
 
 
     const schedulePanel =
@@ -3272,12 +2854,6 @@ function toggleSchedule(
     saveData();
 
 
-    /*
-     * Do not render here.
-     * This prevents the task from disappearing
-     * while its schedule is being edited.
-     */
-
     const panel =
         document.getElementById(
             "schedule-" + id
@@ -3340,9 +2916,18 @@ function toggleItem(
         item.completed =
             true;
 
-
         item.completedAt =
-            formatCurrentTime();
+            new Date()
+                .toLocaleTimeString(
+                    [],
+                    {
+                        hour:
+                            "numeric",
+
+                        minute:
+                            "2-digit"
+                    }
+                );
 
     }
 
@@ -3350,27 +2935,6 @@ function toggleItem(
     saveData();
 
     render();
-
-}
-
-
-/* ==================================================
-   FORMAT CURRENT TIME
-   ================================================== */
-
-function formatCurrentTime() {
-
-    return new Date()
-        .toLocaleTimeString(
-            [],
-            {
-                hour:
-                    "numeric",
-
-                minute:
-                    "2-digit"
-            }
-        );
 
 }
 
@@ -3457,31 +3021,9 @@ function openEditModal(
 
 
     document.getElementById(
-        "editTimeOfDay"
+        "editTaskPeriod"
     ).value =
-        item.timeOfDay || "morning";
-
-
-    document.getElementById(
-        "editRecurring"
-    ).checked =
-        item.recurring !== false;
-
-
-    document.getElementById(
-        "editCompletionTime"
-    ).value =
-        convertDisplayTimeToInput(
-            item.completedAt
-        );
-
-
-    renderModalSchedule(
-        item
-    );
-
-
-    updateScheduleVisibility();
+        item.period || "morning";
 
 
     document.getElementById(
@@ -3491,226 +3033,6 @@ function openEditModal(
     );
 
 }
-
-
-/* ==================================================
-   MODAL SCHEDULE
-   ================================================== */
-
-function renderModalSchedule(
-    item
-) {
-
-    const days = [
-
-        {
-            value: "everyday",
-            label: "Every day"
-        },
-
-        {
-            value: 1,
-            label: "Mon"
-        },
-
-        {
-            value: 2,
-            label: "Tue"
-        },
-
-        {
-            value: 3,
-            label: "Wed"
-        },
-
-        {
-            value: 4,
-            label: "Thu"
-        },
-
-        {
-            value: 5,
-            label: "Fri"
-        },
-
-        {
-            value: 6,
-            label: "Sat"
-        },
-
-        {
-            value: 0,
-            label: "Sun"
-        }
-
-    ];
-
-
-    const container =
-        document.getElementById(
-            "modalScheduleOptions"
-        );
-
-
-    container.innerHTML =
-        days.map(
-            day => {
-
-                const selected =
-                    item.schedule.includes(
-                        day.value
-                    );
-
-
-                return `
-
-                    <button
-                        type="button"
-                        class="day-button ${
-                            selected
-                            ? "selected"
-                            : ""
-                        }"
-                        onclick="
-                            toggleModalSchedule(
-                                '${day.value}'
-                            )
-                        "
-                    >
-                        ${day.label}
-                    </button>
-
-                `;
-
-            }
-        ).join("");
-
-}
-
-
-/* ==================================================
-   MODAL SCHEDULE TOGGLE
-   ================================================== */
-
-function toggleModalSchedule(
-    value
-) {
-
-    const item =
-        data.items.find(
-            item =>
-                item.id ===
-                editingItemId
-        );
-
-
-    if (!item) {
-
-        return;
-
-    }
-
-
-    if (
-        value !== "everyday"
-    ) {
-
-        value =
-            Number(value);
-
-    }
-
-
-    if (
-        value === "everyday"
-    ) {
-
-        item.schedule =
-            ["everyday"];
-
-    } else {
-
-        if (
-            item.schedule.includes(
-                "everyday"
-            )
-        ) {
-
-            item.schedule =
-                [value];
-
-        } else if (
-            item.schedule.includes(
-                value
-            )
-        ) {
-
-            item.schedule =
-                item.schedule.filter(
-                    day =>
-                        day !== value
-                );
-
-        } else {
-
-            item.schedule.push(
-                value
-            );
-
-        }
-
-
-        if (
-            item.schedule.length === 0
-        ) {
-
-            item.schedule =
-                ["everyday"];
-
-        }
-
-    }
-
-
-    renderModalSchedule(
-        item
-    );
-
-}
-
-
-/* ==================================================
-   RECURRING VISIBILITY
-   ================================================== */
-
-function updateScheduleVisibility() {
-
-    const recurring =
-        document.getElementById(
-            "editRecurring"
-        ).checked;
-
-
-    const group =
-        document.getElementById(
-            "scheduleGroup"
-        );
-
-
-    group.style.display =
-        recurring
-        ? "block"
-        : "none";
-
-}
-
-
-document.getElementById(
-    "editRecurring"
-).addEventListener(
-    "change",
-    updateScheduleVisibility
-);
 
 
 /* ==================================================
@@ -3757,21 +3079,9 @@ function saveEditModal() {
         );
 
 
-    const timeOfDay =
+    const periodInput =
         document.getElementById(
-            "editTimeOfDay"
-        ).value;
-
-
-    const recurring =
-        document.getElementById(
-            "editRecurring"
-        ).checked;
-
-
-    const completionInput =
-        document.getElementById(
-            "editCompletionTime"
+            "editTaskPeriod"
         );
 
 
@@ -3798,39 +3108,8 @@ function saveEditModal() {
         detailsInput.value.trim();
 
 
-    item.timeOfDay =
-        timeOfDay;
-
-
-    item.recurring =
-        recurring;
-
-
-    /*
-     * Completion timestamp.
-     */
-
-    if (
-        item.completed
-    ) {
-
-        if (
-            completionInput.value
-        ) {
-
-            item.completedAt =
-                convertInputTimeToDisplay(
-                    completionInput.value
-                );
-
-        } else {
-
-            item.completedAt =
-                null;
-
-        }
-
-    }
+    item.period =
+        periodInput.value;
 
 
     saveData();
@@ -3857,174 +3136,6 @@ function closeEditModal() {
 
     editingItemId =
         null;
-
-}
-
-
-/* ==================================================
-   CLEAR COMPLETION TIME
-   ================================================== */
-
-function clearCompletionTime() {
-
-    document.getElementById(
-        "editCompletionTime"
-    ).value =
-        "";
-
-}
-
-
-/* ==================================================
-   TIME CONVERSION
-   ================================================== */
-
-function convertDisplayTimeToInput(
-    display
-) {
-
-    if (
-        !display
-    ) {
-
-        return "";
-
-    }
-
-
-    /*
-     * Parse common browser-generated
-     * 12-hour strings such as:
-     * "9:35 AM"
-     * "12:10 PM"
-     */
-
-    const match =
-        display.match(
-            /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i
-        );
-
-
-    if (!match) {
-
-        return "";
-
-    }
-
-
-    let hour =
-        Number(match[1]);
-
-
-    const minute =
-        match[2];
-
-
-    const period =
-        match[3].toUpperCase();
-
-
-    if (
-        period === "AM" &&
-        hour === 12
-    ) {
-
-        hour = 0;
-
-    }
-
-
-    if (
-        period === "PM" &&
-        hour !== 12
-    ) {
-
-        hour += 12;
-
-    }
-
-
-    return (
-
-        String(hour).padStart(2, "0") +
-
-        ":" +
-
-        minute
-
-    );
-
-}
-
-
-function convertInputTimeToDisplay(
-    input
-) {
-
-    if (
-        !input
-    ) {
-
-        return "";
-
-    }
-
-
-    const parts =
-        input.split(":");
-
-
-    if (
-        parts.length !== 2
-    ) {
-
-        return "";
-
-    }
-
-
-    let hour =
-        Number(parts[0]);
-
-
-    const minute =
-        parts[1];
-
-
-    const period =
-        hour >= 12
-        ? "PM"
-        : "AM";
-
-
-    if (
-        hour === 0
-    ) {
-
-        hour = 12;
-
-    } else if (
-        hour > 12
-    ) {
-
-        hour -= 12;
-
-    }
-
-
-    return (
-
-        hour +
-
-        ":" +
-
-        minute +
-
-        " " +
-
-        period
-
-    );
 
 }
 
@@ -4058,22 +3169,19 @@ function addItem() {
     checkForNewDay();
 
 
-    /*
-     * New tasks are initially placed in the
-     * current section, but the user can change
-     * this immediately in the editor.
-     */
-
     const newItem = {
 
         id:
             createId(),
 
         text:
-            "",
+            "New Routine Item",
 
         details:
             "",
+
+        period:
+            currentPeriod(),
 
         completed:
             false,
@@ -4088,16 +3196,7 @@ function addItem() {
             null,
 
         schedule:
-            ["everyday"],
-
-        recurring:
-            true,
-
-        timeOfDay:
-            currentTimeSection(),
-
-        order:
-            data.items.length
+            ["everyday"]
 
     };
 
@@ -4109,30 +3208,19 @@ function addItem() {
 
     saveData();
 
+    syncHistoryForDate(todayKey());
+
+    render();
+
 
     /*
-     * Open the editor immediately rather than
-     * forcing the user to delete placeholder text.
+     * Open the editor immediately so
+     * the user can name the new task
+     * and change its time period.
      */
 
     openEditModal(
         newItem.id
-    );
-
-
-    /*
-     * Focus the title field for convenience.
-     */
-
-    setTimeout(
-        () => {
-
-            document.getElementById(
-                "editTaskName"
-            ).focus();
-
-        },
-        100
     );
 
 }
@@ -4175,77 +3263,21 @@ function deleteItem(
 
 
 /* ==================================================
-   MOVE / REORDER
-   ================================================== */
-
-function moveItemBefore(
-    sourceId,
-    targetId
-) {
-
-    const sourceIndex =
-        data.items.findIndex(
-            item =>
-                item.id === sourceId
-        );
-
-
-    const targetIndex =
-        data.items.findIndex(
-            item =>
-                item.id === targetId
-        );
-
-
-    if (
-        sourceIndex === -1 ||
-        targetIndex === -1 ||
-        sourceIndex === targetIndex
-    ) {
-
-        return;
-
-    }
-
-
-    const [
-        moved
-    ] =
-        data.items.splice(
-            sourceIndex,
-            1
-        );
-
-
-    const newTargetIndex =
-        data.items.findIndex(
-            item =>
-                item.id === targetId
-        );
-
-
-    data.items.splice(
-        newTargetIndex,
-        0,
-        moved
-    );
-
-
-    saveData();
-
-    render();
-
-}
-
-
-/* ==================================================
    PROGRESS
    ================================================== */
 
 function updateProgress() {
 
     const visibleItems =
-        getVisibleItems();
+        data.items.filter(
+
+            item =>
+
+                isScheduledToday(item) &&
+
+                !item.snoozed
+
+        );
 
 
     const total =
@@ -4386,64 +3418,47 @@ function escapeHtml(
 
 
 /* ==================================================
-   MIDNIGHT REFRESH
-   ==================================================
-
-   Rather than relying on the app being open at
-   exactly midnight, schedule a check for the next
-   calendar day.
-
-   If Safari suspends the page, the next interaction
-   will also call checkForNewDay().
+   AUTOMATIC TIME UPDATE
    ================================================== */
 
-function scheduleMidnightRefresh() {
+/*
+ * This does NOT constantly reset anything.
+ *
+ * It simply checks periodically whether
+ * the current time-of-day section has changed.
+ *
+ * This means NovaVesta can automatically
+ * move from Morning → Afternoon → Night
+ * while the app is open.
+ */
 
-    const now =
-        new Date();
-
-
-    const tomorrow =
-        new Date(now);
-
-
-    tomorrow.setDate(
-        now.getDate() + 1
-    );
-
-
-    tomorrow.setHours(
-        0,
-        0,
-        1,
-        0
-    );
+let lastPeriod =
+    currentPeriod();
 
 
-    const delay =
-        tomorrow.getTime() -
-        now.getTime();
+setInterval(
+    () => {
+
+        checkForNewDay();
+
+        const period =
+            currentPeriod();
 
 
-    setTimeout(
-        () => {
+        if (
+            period !== lastPeriod
+        ) {
 
-            checkForNewDay();
-
-            updateDate();
+            lastPeriod =
+                period;
 
             render();
 
-            scheduleMidnightRefresh();
+        }
 
-        },
-        Math.max(
-            delay,
-            1000
-        )
-    );
-
-}
+    },
+    30000
+);
 
 
 /* ==================================================
@@ -4455,33 +3470,6 @@ checkForNewDay();
 updateDate();
 
 render();
-
-scheduleMidnightRefresh();
-
-
-/*
- * Refresh the section ordering when the app
- * returns to the foreground.
- */
-
-document.addEventListener(
-    "visibilitychange",
-    () => {
-
-        if (
-            !document.hidden
-        ) {
-
-            checkForNewDay();
-
-            updateDate();
-
-            render();
-
-        }
-
-    }
-);
 
 </script>
 
