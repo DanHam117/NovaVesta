@@ -376,6 +376,21 @@ h1 {
 
 }
 
+.task-wrapper.dragging {
+    opacity: 0.45;
+}
+
+.task-wrapper.drop-target .item {
+    border-color: var(--green);
+}
+
+.item {
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+
 
 .item {
 
@@ -726,6 +741,33 @@ h1 {
 
 }
 
+
+.schedule-actions {
+    display: flex;
+    gap: 9px;
+    margin-top: 12px;
+}
+
+.schedule-action {
+    flex: 1;
+    min-height: 40px;
+    border-radius: 9px;
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.schedule-cancel {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+}
+
+.schedule-save {
+    background: rgba(85, 214, 138, 0.15);
+    border: 1px solid var(--green-dim);
+    color: var(--green-bright);
+}
 
 .day-button:active {
 
@@ -1445,6 +1487,15 @@ h1 {
         </div>
 
 
+        <div class="form-group" id="newTaskScheduleGroup" style="display:none">
+
+            <label class="form-label">Repeat on</label>
+
+            <div class="schedule-options" id="newTaskSchedule"></div>
+
+        </div>
+
+
         <div class="modal-actions">
 
             <button
@@ -1465,6 +1516,19 @@ h1 {
 
     </div>
 
+</div>
+
+
+<div class="modal-backdrop" id="snoozeModal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="snoozeTitle">
+        <div class="modal-header">
+            <h2 class="modal-title" id="snoozeTitle">Why are you snoozing this task?</h2>
+            <button class="modal-close" onclick="closeSnoozeModal()" aria-label="Close">×</button>
+        </div>
+        <p style="color:var(--muted);line-height:1.5;margin:0 0 16px">Choose how this task should affect your completion percentage.</p>
+        <button class="modal-button modal-save" style="width:100%;margin-bottom:10px" onclick="confirmSnooze('excused')">Not needed today</button>
+        <button class="modal-button modal-cancel" style="width:100%" onclick="confirmSnooze('missed')">Not completed</button>
+    </div>
 </div>
 
 
@@ -1540,6 +1604,15 @@ let expandedPeriods =
 
 let editingItemId =
     null;
+
+let isCreatingTask = false;
+let newTaskSchedule = ["everyday"];
+let scheduleDrafts = {};
+let snoozeTargetId = null;
+let pressTimer = null;
+let pressOrigin = null;
+let activeDrag = null;
+let suppressTaskClickUntil = 0;
 
 
 /* ==================================================
@@ -1777,6 +1850,10 @@ function loadData() {
 
                         }
 
+                        if (typeof item.snoozeReason === "undefined") {
+                            item.snoozeReason = item.snoozed ? "missed" : null;
+                        }
+
 
                         if (
                             typeof item.details !==
@@ -1882,6 +1959,9 @@ function loadData() {
                         false,
 
                     snoozedUntil:
+                        null,
+
+                    snoozeReason:
                         null,
 
                     schedule:
@@ -2067,7 +2147,8 @@ function syncHistoryForDate(dateKey) {
                 id: item.id,
                 text: item.text,
                 period: item.period,
-                completed: false
+                completed: false,
+                status: "pending"
             };
 
             dayRecord.tasks.push(taskRecord);
@@ -2082,6 +2163,12 @@ function syncHistoryForDate(dateKey) {
 
         taskRecord.completed =
             Boolean(item.completed);
+
+        taskRecord.status = item.completed
+            ? "completed"
+            : (item.snoozed
+                ? (item.snoozeReason === "excused" ? "excused" : "missed")
+                : "pending");
 
     });
 
@@ -2110,11 +2197,11 @@ function getTaskCompletionRate(itemId) {
                     record => record.id === itemId
                 );
 
-            if (taskRecord) {
+            if (taskRecord && taskRecord.status !== "excused") {
 
                 scheduled += 1;
 
-                if (taskRecord.completed) {
+                if (taskRecord.completed || taskRecord.status === "completed") {
 
                     completed += 1;
 
@@ -2186,6 +2273,8 @@ function checkForNewDay() {
 
             item.snoozedUntil =
                 null;
+
+            item.snoozeReason = null;
 
         }
     );
@@ -2475,6 +2564,13 @@ function renderItem(
         );
 
 
+    element.dataset.taskId = item.id;
+    element.addEventListener("pointerdown", event => startTaskPress(event, item, wrapper, element));
+    element.addEventListener("touchstart", event => startTouchTaskPress(event, item, wrapper, element), {passive:true});
+    element.addEventListener("touchmove", moveTouchTaskPress, {passive:false});
+    element.addEventListener("touchend", finishTaskPress);
+    element.addEventListener("touchcancel", finishTaskPress);
+
     element.innerHTML = `
 
         <input
@@ -2618,7 +2714,8 @@ function renderItem(
    ================================================== */
 
 function createSchedulePicker(
-    item
+    item,
+    selectedSchedule = item.schedule
 ) {
 
     const days = [
@@ -2679,7 +2776,7 @@ function createSchedulePicker(
                 day => {
 
                     const selected =
-                        item.schedule.includes(
+                        selectedSchedule.includes(
                             day.value
                         );
 
@@ -2709,6 +2806,11 @@ function createSchedulePicker(
 
         </div>
 
+        <div class="schedule-actions">
+            <button class="schedule-action schedule-cancel" onclick="cancelSchedule('${item.id}')">Cancel</button>
+            <button class="schedule-action schedule-save" onclick="saveSchedule('${item.id}')">Save</button>
+        </div>
+
     `;
 
 }
@@ -2718,52 +2820,17 @@ function createSchedulePicker(
    SCHEDULE PANEL
    ================================================== */
 
-function toggleSchedulePanel(
-    id
-) {
+function toggleSchedulePanel(id) {
+    const panel = document.getElementById("schedule-" + id);
+    const item = data.items.find(item => item.id === id);
+    if (!panel || !item) return;
 
-    const panel =
-        document.getElementById(
-            "schedule-" + id
-        );
+    if (panel.classList.contains("open")) return;
 
-
-    if (!panel) {
-
-        return;
-
-    }
-
-
-    const wasOpen =
-        panel.classList.contains(
-            "open"
-        );
-
-
-    document
-        .querySelectorAll(
-            ".schedule-panel"
-        )
-        .forEach(
-            panel => {
-
-                panel.classList.remove(
-                    "open"
-                );
-
-            }
-        );
-
-
-    if (!wasOpen) {
-
-        panel.classList.add(
-            "open"
-        );
-
-    }
-
+    document.querySelectorAll(".schedule-panel").forEach(other => other.classList.remove("open"));
+    scheduleDrafts[id] = [...(item.schedule || ["everyday"])];
+    panel.innerHTML = createSchedulePicker(item, scheduleDrafts[id]);
+    panel.classList.add("open");
 }
 
 
@@ -2771,108 +2838,64 @@ function toggleSchedulePanel(
    CHANGE SCHEDULE
    ================================================== */
 
-function toggleSchedule(
-    id,
-    value
-) {
+function toggleSchedule(id, value) {
+    const item = data.items.find(item => item.id === id);
+    if (!item) return;
 
-    const item =
-        data.items.find(
-            item =>
-                item.id === id
-        );
+    if (value !== "everyday") value = Number(value);
+    let draft = scheduleDrafts[id] || [...(item.schedule || ["everyday"])];
 
-
-    if (!item) {
-
-        return;
-
-    }
-
-
-    if (
-        value !== "everyday"
-    ) {
-
-        value =
-            Number(value);
-
-    }
-
-
-    if (
-        value === "everyday"
-    ) {
-
-        item.schedule =
-            ["everyday"];
-
+    if (value === "everyday") {
+        draft = ["everyday"];
     } else {
-
-        if (
-            item.schedule.includes(
-                "everyday"
-            )
-        ) {
-
-            item.schedule =
-                [value];
-
-        } else if (
-            item.schedule.includes(
-                value
-            )
-        ) {
-
-            item.schedule =
-                item.schedule.filter(
-                    day =>
-                        day !== value
-                );
-
-        } else {
-
-            item.schedule.push(
-                value
-            );
-
-        }
-
-
-        if (
-            item.schedule.length === 0
-        ) {
-
-            item.schedule =
-                ["everyday"];
-
-        }
-
+        if (draft.includes("everyday")) draft = [value];
+        else if (draft.includes(value)) draft = draft.filter(day => day !== value);
+        else draft.push(value);
+        if (draft.length === 0) draft = ["everyday"];
     }
 
+    scheduleDrafts[id] = draft;
+    const panel = document.getElementById("schedule-" + id);
+    if (panel) panel.innerHTML = createSchedulePicker(item, draft);
+}
 
+function saveSchedule(id) {
+    const item = data.items.find(item => item.id === id);
+    if (!item) return;
+    item.schedule = [...(scheduleDrafts[id] || item.schedule || ["everyday"])];
+    delete scheduleDrafts[id];
     saveData();
+    syncHistoryForDate(todayKey());
+    render();
+}
 
+function cancelSchedule(id) {
+    delete scheduleDrafts[id];
+    const panel = document.getElementById("schedule-" + id);
+    if (panel) panel.classList.remove("open");
+}
 
-    const panel =
-        document.getElementById(
-            "schedule-" + id
-        );
+function renderNewTaskSchedule() {
+    const days = [
+        {value:"everyday", label:"Every day"},
+        {value:1,label:"Mon"},{value:2,label:"Tue"},{value:3,label:"Wed"},
+        {value:4,label:"Thu"},{value:5,label:"Fri"},{value:6,label:"Sat"},{value:0,label:"Sun"}
+    ];
+    const host = document.getElementById("newTaskSchedule");
+    if (!host) return;
+    host.innerHTML = days.map(day => `<button type="button" class="day-button ${newTaskSchedule.includes(day.value) ? "selected" : ""}" onclick="toggleNewTaskSchedule('${day.value}')">${day.label}</button>`).join("");
+}
 
-
-    if (panel) {
-
-        panel.innerHTML =
-            createSchedulePicker(
-                item
-            );
-
-        panel.classList.add(
-            "open"
-        );
-
+function toggleNewTaskSchedule(value) {
+    if (value !== "everyday") value = Number(value);
+    if (value === "everyday") newTaskSchedule = ["everyday"];
+    else {
+        if (newTaskSchedule.includes("everyday")) newTaskSchedule = [value];
+        else if (newTaskSchedule.includes(value)) newTaskSchedule = newTaskSchedule.filter(day => day !== value);
+        else newTaskSchedule.push(value);
+        if (!newTaskSchedule.length) newTaskSchedule = ["everyday"];
     }
-
+    renderNewTaskSchedule();
 }
 
 
@@ -2943,39 +2966,28 @@ function toggleItem(
    SNOOZE
    ================================================== */
 
-function snoozeItem(
-    id
-) {
-
+function snoozeItem(id) {
     checkForNewDay();
+    if (!data.items.some(item => item.id === id)) return;
+    snoozeTargetId = id;
+    document.getElementById("snoozeModal").classList.add("open");
+}
 
+function closeSnoozeModal() {
+    document.getElementById("snoozeModal").classList.remove("open");
+    snoozeTargetId = null;
+}
 
-    const item =
-        data.items.find(
-            item =>
-                item.id === id
-        );
-
-
-    if (!item) {
-
-        return;
-
-    }
-
-
-    item.snoozed =
-        true;
-
-
-    item.snoozedUntil =
-        todayKey();
-
-
+function confirmSnooze(reason) {
+    const item = data.items.find(item => item.id === snoozeTargetId);
+    if (!item) { closeSnoozeModal(); return; }
+    item.snoozed = true;
+    item.snoozedUntil = todayKey();
+    item.snoozeReason = reason;
     saveData();
-
+    syncHistoryForDate(todayKey());
+    closeSnoozeModal();
     render();
-
 }
 
 
@@ -3007,6 +3019,12 @@ function openEditModal(
     editingItemId =
         id;
 
+    const creationGroup = document.getElementById("newTaskScheduleGroup");
+    if (creationGroup) creationGroup.style.display = isCreatingTask ? "block" : "none";
+    if (isCreatingTask) {
+        newTaskSchedule = [...(item.schedule || ["everyday"])];
+        renderNewTaskSchedule();
+    }
 
     document.getElementById(
         "editTaskName"
@@ -3111,9 +3129,17 @@ function saveEditModal() {
     item.period =
         periodInput.value;
 
+    if (isCreatingTask) item.schedule = [...newTaskSchedule];
+
+    if (!isScheduledOnDate(item, todayKey())) {
+        const todayRecord = historyData.days[todayKey()];
+        if (todayRecord) todayRecord.tasks = (todayRecord.tasks || []).filter(record => record.id !== item.id);
+    }
 
     saveData();
+    syncHistoryForDate(todayKey());
 
+    isCreatingTask = false;
     closeEditModal();
 
     render();
@@ -3136,6 +3162,9 @@ function closeEditModal() {
 
     editingItemId =
         null;
+    isCreatingTask = false;
+    const creationGroup = document.getElementById("newTaskScheduleGroup");
+    if (creationGroup) creationGroup.style.display = "none";
 
 }
 
@@ -3148,14 +3177,8 @@ function handleBackdropClick(
     event
 ) {
 
-    if (
-        event.target.id ===
-        "editModal"
-    ) {
-
-        closeEditModal();
-
-    }
+    if (event.target.id === "editModal") closeEditModal();
+    if (event.target.id === "snoozeModal") closeSnoozeModal();
 
 }
 
@@ -3195,6 +3218,9 @@ function addItem() {
         snoozedUntil:
             null,
 
+        snoozeReason:
+            null,
+
         schedule:
             ["everyday"]
 
@@ -3212,6 +3238,7 @@ function addItem() {
 
     render();
 
+    isCreatingTask = true;
 
     /*
      * Open the editor immediately so
@@ -3263,6 +3290,92 @@ function deleteItem(
 
 
 /* ==================================================
+   LONG-PRESS TASK REORDERING
+   ================================================== */
+
+function handleTaskNameClick(id) {
+    if (Date.now() < suppressTaskClickUntil) return;
+    openEditModal(id);
+}
+
+function startTaskPress(event, item, wrapper, element) {
+    if (event.target.closest("button, input")) return;
+    if (event.pointerType === "touch") return;
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    clearTimeout(pressTimer);
+    pressOrigin = {x:event.clientX, y:event.clientY};
+    pressTimer = setTimeout(() => {
+        activeDrag = {id:item.id, period:item.period, wrapper, element};
+        wrapper.classList.add("dragging");
+        suppressTaskClickUntil = Date.now() + 700;
+        if (navigator.vibrate) navigator.vibrate(25);
+    }, 380);
+}
+
+function moveTaskPress(event) {
+    if (!activeDrag) {
+        if (pressTimer && pressOrigin && Math.hypot(event.clientX - pressOrigin.x, event.clientY - pressOrigin.y) > 10) {
+            clearTimeout(pressTimer);
+            pressTimer = null;
+        }
+        return;
+    }
+    event.preventDefault();
+    const under = document.elementFromPoint(event.clientX, event.clientY);
+    const target = under && under.closest(".task-wrapper");
+    if (!target || target === activeDrag.wrapper || !activeDrag.wrapper.parentElement || target.parentElement !== activeDrag.wrapper.parentElement) return;
+    const targetItem = data.items.find(item => item.id === target.querySelector(".item")?.dataset.taskId);
+    if (targetItem && targetItem.period !== activeDrag.period) return;
+    const rect = target.getBoundingClientRect();
+    const before = event.clientY < rect.top + rect.height / 2;
+    target.parentElement.insertBefore(activeDrag.wrapper, before ? target : target.nextSibling);
+}
+
+function startTouchTaskPress(event, item, wrapper, element) {
+    if (event.target.closest("button, input")) return;
+    const touch = event.touches[0];
+    clearTimeout(pressTimer);
+    pressOrigin = {x:touch.clientX, y:touch.clientY};
+    pressTimer = setTimeout(() => {
+        activeDrag = {id:item.id, period:item.period, wrapper, element};
+        wrapper.classList.add("dragging");
+        suppressTaskClickUntil = Date.now() + 700;
+        if (navigator.vibrate) navigator.vibrate(25);
+    }, 380);
+}
+
+function moveTouchTaskPress(event) {
+    const touch = event.touches[0];
+    if (!activeDrag) {
+        if (pressTimer && pressOrigin && Math.hypot(touch.clientX - pressOrigin.x, touch.clientY - pressOrigin.y) > 10) {
+            clearTimeout(pressTimer);
+            pressTimer = null;
+        }
+        return;
+    }
+    event.preventDefault();
+    moveTaskPress({clientX:touch.clientX, clientY:touch.clientY, preventDefault() {}});
+}
+
+function finishTaskPress() {
+    clearTimeout(pressTimer);
+    pressTimer = null;
+    pressOrigin = null;
+    if (!activeDrag) return;
+    const {wrapper, period} = activeDrag;
+    wrapper.classList.remove("dragging");
+    const orderedIds = [...wrapper.parentElement.querySelectorAll(":scope > .task-wrapper")]
+        .map(node => node.querySelector(".item")?.dataset.taskId).filter(Boolean);
+    const orderedItems = orderedIds.map(id => data.items.find(item => item.id === id)).filter(Boolean);
+    const visibleIdSet = new Set(orderedIds);
+    let index = 0;
+    data.items = data.items.map(item => visibleIdSet.has(item.id) ? orderedItems[index++] : item);
+    saveData();
+    activeDrag = null;
+    render();
+}
+
+/* ==================================================
    PROGRESS
    ================================================== */
 
@@ -3275,7 +3388,7 @@ function updateProgress() {
 
                 isScheduledToday(item) &&
 
-                !item.snoozed
+                !(item.snoozed && item.snoozeReason === "excused")
 
         );
 
@@ -3351,6 +3464,8 @@ function resetToday() {
 
             item.snoozedUntil =
                 null;
+
+            item.snoozeReason = null;
 
         }
     );
@@ -3464,6 +3579,10 @@ setInterval(
 /* ==================================================
    START
    ================================================== */
+
+document.addEventListener("pointermove", moveTaskPress, {passive:false});
+document.addEventListener("pointerup", finishTaskPress);
+document.addEventListener("pointercancel", finishTaskPress);
 
 checkForNewDay();
 
