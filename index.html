@@ -2113,8 +2113,8 @@ function syncHistoryForDate(dateKey) {
         taskRecord.period =
             item.period;
 
-        taskRecord.completed =
-            Boolean(item.completed);
+        taskRecord.excluded = Boolean(item.excludedToday);
+        taskRecord.completed = !taskRecord.excluded && Boolean(item.completed);
 
     });
 
@@ -2143,7 +2143,7 @@ function getTaskCompletionRate(itemId) {
                     record => record.id === itemId
                 );
 
-            if (taskRecord) {
+            if (taskRecord && !taskRecord.excluded) {
 
                 scheduled += 1;
 
@@ -2214,6 +2214,7 @@ function checkForNewDay() {
             item.completedAt =
                 null;
 
+            item.excludedToday = false;
             item.snoozed =
                 false;
 
@@ -2585,11 +2586,12 @@ function renderItem(
                     '${item.id}'
                 )
             "
-            title="Snooze until tomorrow"
-            aria-label="Snooze until tomorrow"
+            title="Did not complete"
+            aria-label="Did not complete"
         >
-            ◷
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8 12h8"/></svg>
         </button>
+        <button class="task-action" onclick="snoozeItem('${item.id}', true)" title="Not needed today" aria-label="Not needed today"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18m-13 5h8"/></svg></button>
 
 
         <button
@@ -2602,7 +2604,7 @@ function renderItem(
             title="Delete permanently"
             aria-label="Delete permanently"
         >
-            ×
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7"/></svg>
         </button>
 
     `;
@@ -2977,7 +2979,7 @@ function toggleItem(
    ================================================== */
 
 function snoozeItem(
-    id
+    id, excluded = false
 ) {
 
     checkForNewDay();
@@ -2997,6 +2999,9 @@ function snoozeItem(
     }
 
 
+    item.completed = false;
+    item.completedAt = null;
+    item.excludedToday = excluded;
     item.snoozed =
         true;
 
@@ -3266,6 +3271,7 @@ function addItem() {
 function deleteItem(
     id
 ) {
+    checkForNewDay();
 
     const item =
         data.items.find(
@@ -3281,6 +3287,8 @@ function deleteItem(
     }
 
 
+    if (!confirm("Delete this task from future routines? Its history will be preserved.")) return;
+    syncHistoryForDate(todayKey());
     data.items =
         data.items.filter(
             item =>
@@ -3300,59 +3308,12 @@ function deleteItem(
    ================================================== */
 
 function updateProgress() {
-
-    const visibleItems =
-        data.items.filter(
-
-            item =>
-
-                isScheduledToday(item) &&
-
-                !item.snoozed
-
-        );
-
-
-    const total =
-        visibleItems.length;
-
-
-    const completed =
-        visibleItems.filter(
-            item =>
-                item.completed
-        ).length;
-
-
-    const progress =
-        document.getElementById(
-            "progress"
-        );
-
-
-    if (
-        total === 0
-    ) {
-
-        progress.innerHTML =
-            "";
-
-        return;
-
-    }
-
-
-    progress.innerHTML =
-
-        `<strong>${completed}</strong>
-         of ${total} completed`;
-
+    const record = historyData.days[todayKey()];
+    const tasks = record ? record.tasks.filter(t => !t.excluded) : data.items.filter(i => isScheduledToday(i) && !i.excludedToday);
+    const total = tasks.length;
+    const completed = tasks.filter(t => t.completed).length;
+    document.getElementById('progress').innerHTML = total ? `<strong>${completed}</strong> of ${total} completed` : '';
 }
-
-
-/* ==================================================
-   RESET TODAY
-   ================================================== */
 
 function resetToday() {
 
@@ -3379,6 +3340,7 @@ function resetToday() {
             item.completedAt =
                 null;
 
+            item.excludedToday = false;
             item.snoozed =
                 false;
 
@@ -3537,8 +3499,8 @@ function renderHistory() {
         const button=document.createElement('button'); button.type='button'; button.className='history-day'+(key===historySelected?' selected':'');
         button.disabled=key>today || key<TRACKING_START_DATE;
         const number=document.createElement('span');number.textContent=d;button.append(number);
-        const count=document.createElement('small');count.textContent=record?`(${record.tasks.filter(t=>t.completed).length})`:'—';button.append(count);
-        button.setAttribute('aria-label',`${key}, ${record?record.tasks.filter(t=>t.completed).length+' completed tasks':'no record'}`);
+        const count=document.createElement('small');count.textContent=record?`(${record.tasks.filter(t=>t.completed && !t.excluded).length})`:'—';button.append(count);
+        button.setAttribute('aria-label',`${key}, ${record?record.tasks.filter(t=>t.completed && !t.excluded).length+' completed tasks':'no record'}`);
         button.onclick=()=>{historySelected=key;renderHistory();};grid.append(button);
     }
     const detail=document.getElementById('historyDetail');detail.replaceChildren();
@@ -3547,28 +3509,53 @@ function renderHistory() {
     const record=historyData.days[historySelected];
     const info=document.createElement('p');detail.append(info);
     if(!record){info.textContent='No history was recorded for this date.';return;}
-    const total=record.tasks.length, done=record.tasks.filter(t=>t.completed).length;
+    const total=record.tasks.filter(t=>!t.excluded).length, done=record.tasks.filter(t=>t.completed && !t.excluded).length;
     info.textContent=`${done} of ${total} completed${total?' · '+Math.round(done/total*100)+'%':''}. Tap a checkbox to correct the record.`;
+    function changeStatus(task, status) {
+        const selected = historySelected;
+        checkForNewDay();
+        task.excluded = status === 'excluded';
+        task.completed = status === 'complete';
+        if (selected === todayKey()) {
+            const item = data.items.find(i => i.id === task.id);
+            if (item) {
+                item.excludedToday = task.excluded;
+                item.completed = task.completed;
+                item.completedAt = item.completed ? (item.completedAt || new Date().toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})) : null;
+                item.snoozed = task.excluded;
+                item.snoozedUntil = task.excluded ? selected : null;
+                saveData();
+            }
+        }
+        saveHistory(); render(); renderHistory();
+    }
+    function statusPicker(task) {
+        const select = document.createElement('select');
+        select.setAttribute('aria-label', 'Correct status for '+task.text);
+        select.style.cssText = 'max-width:135px;background:#14251a;color:#d9eee0;border:1px solid #405247;border-radius:5px;padding:4px;font-size:12px';
+        for (const [value,text] of [['complete','Completed'],['incomplete','Incomplete'],['excluded','Not needed']]) {
+            const option = document.createElement('option'); option.value=value;option.textContent=text;select.append(option);
+        }
+        select.value=task.excluded?'excluded':task.completed?'complete':'incomplete';
+        select.onchange=()=>changeStatus(task,select.value);
+        return select;
+    }
     for(const completed of [true,false]) {
         const heading=document.createElement('div');heading.className='history-group';heading.textContent=completed?'Completed':'Incomplete';detail.append(heading);
-        const tasks=record.tasks.filter(t=>Boolean(t.completed)===completed);
+        const tasks=record.tasks.filter(t=>!t.excluded && Boolean(t.completed)===completed);
         if(!tasks.length){const empty=document.createElement('p');empty.textContent='None';detail.append(empty);}
         tasks.forEach(task=>{
             const label=document.createElement('label');label.className='history-task';
             const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.checked=Boolean(task.completed);
             const name=document.createElement('span');name.textContent=task.text;
-            checkbox.onchange=()=>{
-                const selected=historySelected;
-                checkForNewDay();
-                if(selected===todayKey()) {
-                    const item=data.items.find(i=>i.id===task.id);
-                    if(item){item.completed=checkbox.checked;item.completedAt=item.completed?new Date().toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}):'';saveData();}
-                }
-                task.completed=checkbox.checked;saveHistory();render();renderHistory();
-            };
-            label.append(checkbox,name);detail.append(label);
+            checkbox.onchange=()=>changeStatus(task,checkbox.checked?'complete':'incomplete');
+            label.append(checkbox,name,statusPicker(task));detail.append(label);
         });
     }
+    const excludedHeading=document.createElement('div');excludedHeading.className='history-group';excludedHeading.textContent='Not needed today (excluded from score)';detail.append(excludedHeading);
+    const excluded=record.tasks.filter(t=>t.excluded);
+    if(!excluded.length){const empty=document.createElement('p');empty.textContent='None';detail.append(empty);}
+    excluded.forEach(task=>{const row=document.createElement('div');row.className='history-task';const name=document.createElement('span');name.textContent=task.text;row.append(name,statusPicker(task));detail.append(row);});
 }
 
 </script>
