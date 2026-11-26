@@ -340,9 +340,9 @@ h1 {
 
 .completion-rate {
 
-    margin-top: 0;
+    margin-top: 3px;
 
-    min-height: 0;
+    min-height: 15px;
 
     color: var(--muted);
 
@@ -375,21 +375,6 @@ h1 {
     width: 100%;
 
 }
-
-.task-wrapper.dragging {
-    opacity: 0.45;
-}
-
-.task-wrapper.drop-target .item {
-    border-color: var(--green);
-}
-
-.item {
-    touch-action: pan-y;
-    user-select: none;
-    -webkit-user-select: none;
-}
-
 
 
 .item {
@@ -741,33 +726,6 @@ h1 {
 
 }
 
-
-.schedule-actions {
-    display: flex;
-    gap: 9px;
-    margin-top: 12px;
-}
-
-.schedule-action {
-    flex: 1;
-    min-height: 40px;
-    border-radius: 9px;
-    font: inherit;
-    font-size: 13px;
-    cursor: pointer;
-}
-
-.schedule-cancel {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--muted);
-}
-
-.schedule-save {
-    background: rgba(85, 214, 138, 0.15);
-    border: 1px solid var(--green-dim);
-    color: var(--green-bright);
-}
 
 .day-button:active {
 
@@ -1320,6 +1278,27 @@ h1 {
 
 }
 
+
+header { position: relative; }
+.history-launch { position:absolute; left:0; top:8px; background:transparent; color:var(--green-bright); border:1px solid rgba(85,214,138,.3); border-radius:10px; padding:9px; cursor:pointer; }
+.history-launch svg { display:block; }
+.history-modal { max-height:85vh; max-height:85dvh; overflow-y:auto; }
+.history-nav { display:flex; align-items:center; justify-content:space-between; margin:12px 0; }
+.history-nav button { background:transparent; color:var(--green-bright); border:1px solid rgba(85,214,138,.3); border-radius:8px; padding:8px 14px; font-size:18px; }
+.history-nav button:disabled { opacity:.3; }
+.history-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:3px; }
+.history-weekday { text-align:center; color:var(--muted); font-size:11px; padding:5px 0; }
+.history-day { min-width:0; min-height:49px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; background:transparent; border:1px solid rgba(85,214,138,.13); border-radius:7px; color:inherit; font:inherit; font-size:13px; padding:3px 0; }
+.history-day small { color:var(--green-bright); font-size:11px; }
+.history-day:disabled { opacity:.35; }
+.history-day.selected { border-color:var(--green-bright); background:rgba(85,214,138,.12); }
+.history-detail { margin-top:18px; }
+.history-detail h3 { margin:0 0 8px; font-size:15px; }
+.history-detail p { color:var(--muted); font-size:12px; margin:8px 0; }
+.history-task { display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid rgba(85,214,138,.12); font-size:14px; overflow-wrap:anywhere; }
+.history-task input { width:20px; height:20px; flex-shrink:0; accent-color:#55d68a; }
+.history-group { margin-top:15px; color:var(--green-bright); font-size:12px; }
+
 </style>
 
 </head>
@@ -1332,6 +1311,9 @@ h1 {
 
 
 <header>
+    <button class="history-launch" onclick="openHistory()" aria-label="Open history calendar" title="History calendar">
+      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M8 14h1M12 14h1M16 14h1M8 17h1M12 17h1"/></svg>
+    </button>
 
     <div class="flame">✦</div>
 
@@ -1487,15 +1469,6 @@ h1 {
         </div>
 
 
-        <div class="form-group" id="newTaskScheduleGroup" style="display:none">
-
-            <label class="form-label">Repeat on</label>
-
-            <div class="schedule-options" id="newTaskSchedule"></div>
-
-        </div>
-
-
         <div class="modal-actions">
 
             <button
@@ -1519,18 +1492,14 @@ h1 {
 </div>
 
 
-<div class="modal-backdrop" id="snoozeModal">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="snoozeTitle">
-        <div class="modal-header">
-            <h2 class="modal-title" id="snoozeTitle">Why are you snoozing this task?</h2>
-            <button class="modal-close" onclick="closeSnoozeModal()" aria-label="Close">×</button>
-        </div>
-        <p style="color:var(--muted);line-height:1.5;margin:0 0 16px">Choose how this task should affect your completion percentage.</p>
-        <button class="modal-button modal-save" style="width:100%;margin-bottom:10px" onclick="confirmSnooze('excused')">Not needed today</button>
-        <button class="modal-button modal-cancel" style="width:100%" onclick="confirmSnooze('missed')">Not completed</button>
-    </div>
+<div class="modal-backdrop" id="historyModal" onclick="if(event.target===this) closeHistory()">
+ <div class="modal history-modal" role="dialog" aria-modal="true" aria-labelledby="historyTitle">
+  <div class="modal-header"><h2 class="modal-title" id="historyTitle">History</h2><button class="modal-close" onclick="closeHistory()" aria-label="Close history">×</button></div>
+  <div class="history-nav"><button id="historyPrev" onclick="moveHistoryMonth(-1)" aria-label="Previous month">‹</button><strong id="historyMonth"></strong><button id="historyNext" onclick="moveHistoryMonth(1)" aria-label="Next month">›</button></div>
+  <div class="history-grid" id="historyGrid"></div>
+  <div class="history-detail" id="historyDetail"></div>
+ </div>
 </div>
-
 
 <script>
 
@@ -1604,15 +1573,6 @@ let expandedPeriods =
 
 let editingItemId =
     null;
-
-let isCreatingTask = false;
-let newTaskSchedule = ["everyday"];
-let scheduleDrafts = {};
-let snoozeTargetId = null;
-let pressTimer = null;
-let pressOrigin = null;
-let activeDrag = null;
-let suppressTaskClickUntil = 0;
 
 
 /* ==================================================
@@ -1850,10 +1810,6 @@ function loadData() {
 
                         }
 
-                        if (typeof item.snoozeReason === "undefined") {
-                            item.snoozeReason = item.snoozed ? "missed" : null;
-                        }
-
 
                         if (
                             typeof item.details !==
@@ -1959,9 +1915,6 @@ function loadData() {
                         false,
 
                     snoozedUntil:
-                        null,
-
-                    snoozeReason:
                         null,
 
                     schedule:
@@ -2147,8 +2100,7 @@ function syncHistoryForDate(dateKey) {
                 id: item.id,
                 text: item.text,
                 period: item.period,
-                completed: false,
-                status: "pending"
+                completed: false
             };
 
             dayRecord.tasks.push(taskRecord);
@@ -2163,12 +2115,6 @@ function syncHistoryForDate(dateKey) {
 
         taskRecord.completed =
             Boolean(item.completed);
-
-        taskRecord.status = item.completed
-            ? "completed"
-            : (item.snoozed
-                ? (item.snoozeReason === "excused" ? "excused" : "missed")
-                : "pending");
 
     });
 
@@ -2197,11 +2143,11 @@ function getTaskCompletionRate(itemId) {
                     record => record.id === itemId
                 );
 
-            if (taskRecord && taskRecord.status !== "excused") {
+            if (taskRecord) {
 
                 scheduled += 1;
 
-                if (taskRecord.completed || taskRecord.status === "completed") {
+                if (taskRecord.completed) {
 
                     completed += 1;
 
@@ -2273,8 +2219,6 @@ function checkForNewDay() {
 
             item.snoozedUntil =
                 null;
-
-            item.snoozeReason = null;
 
         }
     );
@@ -2564,13 +2508,6 @@ function renderItem(
         );
 
 
-    element.dataset.taskId = item.id;
-    element.addEventListener("pointerdown", event => startTaskPress(event, item, wrapper, element));
-    element.addEventListener("touchstart", event => startTouchTaskPress(event, item, wrapper, element), {passive:true});
-    element.addEventListener("touchmove", moveTouchTaskPress, {passive:false});
-    element.addEventListener("touchend", finishTaskPress);
-    element.addEventListener("touchcancel", finishTaskPress);
-
     element.innerHTML = `
 
         <input
@@ -2714,8 +2651,7 @@ function renderItem(
    ================================================== */
 
 function createSchedulePicker(
-    item,
-    selectedSchedule = item.schedule
+    item
 ) {
 
     const days = [
@@ -2776,7 +2712,7 @@ function createSchedulePicker(
                 day => {
 
                     const selected =
-                        selectedSchedule.includes(
+                        item.schedule.includes(
                             day.value
                         );
 
@@ -2806,11 +2742,6 @@ function createSchedulePicker(
 
         </div>
 
-        <div class="schedule-actions">
-            <button class="schedule-action schedule-cancel" onclick="cancelSchedule('${item.id}')">Cancel</button>
-            <button class="schedule-action schedule-save" onclick="saveSchedule('${item.id}')">Save</button>
-        </div>
-
     `;
 
 }
@@ -2820,17 +2751,52 @@ function createSchedulePicker(
    SCHEDULE PANEL
    ================================================== */
 
-function toggleSchedulePanel(id) {
-    const panel = document.getElementById("schedule-" + id);
-    const item = data.items.find(item => item.id === id);
-    if (!panel || !item) return;
+function toggleSchedulePanel(
+    id
+) {
 
-    if (panel.classList.contains("open")) return;
+    const panel =
+        document.getElementById(
+            "schedule-" + id
+        );
 
-    document.querySelectorAll(".schedule-panel").forEach(other => other.classList.remove("open"));
-    scheduleDrafts[id] = [...(item.schedule || ["everyday"])];
-    panel.innerHTML = createSchedulePicker(item, scheduleDrafts[id]);
-    panel.classList.add("open");
+
+    if (!panel) {
+
+        return;
+
+    }
+
+
+    const wasOpen =
+        panel.classList.contains(
+            "open"
+        );
+
+
+    document
+        .querySelectorAll(
+            ".schedule-panel"
+        )
+        .forEach(
+            panel => {
+
+                panel.classList.remove(
+                    "open"
+                );
+
+            }
+        );
+
+
+    if (!wasOpen) {
+
+        panel.classList.add(
+            "open"
+        );
+
+    }
+
 }
 
 
@@ -2838,64 +2804,108 @@ function toggleSchedulePanel(id) {
    CHANGE SCHEDULE
    ================================================== */
 
-function toggleSchedule(id, value) {
-    const item = data.items.find(item => item.id === id);
-    if (!item) return;
+function toggleSchedule(
+    id,
+    value
+) {
 
-    if (value !== "everyday") value = Number(value);
-    let draft = scheduleDrafts[id] || [...(item.schedule || ["everyday"])];
+    const item =
+        data.items.find(
+            item =>
+                item.id === id
+        );
 
-    if (value === "everyday") {
-        draft = ["everyday"];
+
+    if (!item) {
+
+        return;
+
+    }
+
+
+    if (
+        value !== "everyday"
+    ) {
+
+        value =
+            Number(value);
+
+    }
+
+
+    if (
+        value === "everyday"
+    ) {
+
+        item.schedule =
+            ["everyday"];
+
     } else {
-        if (draft.includes("everyday")) draft = [value];
-        else if (draft.includes(value)) draft = draft.filter(day => day !== value);
-        else draft.push(value);
-        if (draft.length === 0) draft = ["everyday"];
+
+        if (
+            item.schedule.includes(
+                "everyday"
+            )
+        ) {
+
+            item.schedule =
+                [value];
+
+        } else if (
+            item.schedule.includes(
+                value
+            )
+        ) {
+
+            item.schedule =
+                item.schedule.filter(
+                    day =>
+                        day !== value
+                );
+
+        } else {
+
+            item.schedule.push(
+                value
+            );
+
+        }
+
+
+        if (
+            item.schedule.length === 0
+        ) {
+
+            item.schedule =
+                ["everyday"];
+
+        }
+
     }
 
-    scheduleDrafts[id] = draft;
-    const panel = document.getElementById("schedule-" + id);
-    if (panel) panel.innerHTML = createSchedulePicker(item, draft);
-}
 
-function saveSchedule(id) {
-    const item = data.items.find(item => item.id === id);
-    if (!item) return;
-    item.schedule = [...(scheduleDrafts[id] || item.schedule || ["everyday"])];
-    delete scheduleDrafts[id];
     saveData();
-    syncHistoryForDate(todayKey());
-    render();
-}
 
-function cancelSchedule(id) {
-    delete scheduleDrafts[id];
-    const panel = document.getElementById("schedule-" + id);
-    if (panel) panel.classList.remove("open");
-}
 
-function renderNewTaskSchedule() {
-    const days = [
-        {value:"everyday", label:"Every day"},
-        {value:1,label:"Mon"},{value:2,label:"Tue"},{value:3,label:"Wed"},
-        {value:4,label:"Thu"},{value:5,label:"Fri"},{value:6,label:"Sat"},{value:0,label:"Sun"}
-    ];
-    const host = document.getElementById("newTaskSchedule");
-    if (!host) return;
-    host.innerHTML = days.map(day => `<button type="button" class="day-button ${newTaskSchedule.includes(day.value) ? "selected" : ""}" onclick="toggleNewTaskSchedule('${day.value}')">${day.label}</button>`).join("");
-}
+    const panel =
+        document.getElementById(
+            "schedule-" + id
+        );
 
-function toggleNewTaskSchedule(value) {
-    if (value !== "everyday") value = Number(value);
-    if (value === "everyday") newTaskSchedule = ["everyday"];
-    else {
-        if (newTaskSchedule.includes("everyday")) newTaskSchedule = [value];
-        else if (newTaskSchedule.includes(value)) newTaskSchedule = newTaskSchedule.filter(day => day !== value);
-        else newTaskSchedule.push(value);
-        if (!newTaskSchedule.length) newTaskSchedule = ["everyday"];
+
+    if (panel) {
+
+        panel.innerHTML =
+            createSchedulePicker(
+                item
+            );
+
+        panel.classList.add(
+            "open"
+        );
+
     }
-    renderNewTaskSchedule();
+
 }
 
 
@@ -2966,28 +2976,39 @@ function toggleItem(
    SNOOZE
    ================================================== */
 
-function snoozeItem(id) {
+function snoozeItem(
+    id
+) {
+
     checkForNewDay();
-    if (!data.items.some(item => item.id === id)) return;
-    snoozeTargetId = id;
-    document.getElementById("snoozeModal").classList.add("open");
-}
 
-function closeSnoozeModal() {
-    document.getElementById("snoozeModal").classList.remove("open");
-    snoozeTargetId = null;
-}
 
-function confirmSnooze(reason) {
-    const item = data.items.find(item => item.id === snoozeTargetId);
-    if (!item) { closeSnoozeModal(); return; }
-    item.snoozed = true;
-    item.snoozedUntil = todayKey();
-    item.snoozeReason = reason;
+    const item =
+        data.items.find(
+            item =>
+                item.id === id
+        );
+
+
+    if (!item) {
+
+        return;
+
+    }
+
+
+    item.snoozed =
+        true;
+
+
+    item.snoozedUntil =
+        todayKey();
+
+
     saveData();
-    syncHistoryForDate(todayKey());
-    closeSnoozeModal();
+
     render();
+
 }
 
 
@@ -3019,12 +3040,6 @@ function openEditModal(
     editingItemId =
         id;
 
-    const creationGroup = document.getElementById("newTaskScheduleGroup");
-    if (creationGroup) creationGroup.style.display = isCreatingTask ? "block" : "none";
-    if (isCreatingTask) {
-        newTaskSchedule = [...(item.schedule || ["everyday"])];
-        renderNewTaskSchedule();
-    }
 
     document.getElementById(
         "editTaskName"
@@ -3129,17 +3144,9 @@ function saveEditModal() {
     item.period =
         periodInput.value;
 
-    if (isCreatingTask) item.schedule = [...newTaskSchedule];
-
-    if (!isScheduledOnDate(item, todayKey())) {
-        const todayRecord = historyData.days[todayKey()];
-        if (todayRecord) todayRecord.tasks = (todayRecord.tasks || []).filter(record => record.id !== item.id);
-    }
 
     saveData();
-    syncHistoryForDate(todayKey());
 
-    isCreatingTask = false;
     closeEditModal();
 
     render();
@@ -3162,9 +3169,6 @@ function closeEditModal() {
 
     editingItemId =
         null;
-    isCreatingTask = false;
-    const creationGroup = document.getElementById("newTaskScheduleGroup");
-    if (creationGroup) creationGroup.style.display = "none";
 
 }
 
@@ -3177,8 +3181,14 @@ function handleBackdropClick(
     event
 ) {
 
-    if (event.target.id === "editModal") closeEditModal();
-    if (event.target.id === "snoozeModal") closeSnoozeModal();
+    if (
+        event.target.id ===
+        "editModal"
+    ) {
+
+        closeEditModal();
+
+    }
 
 }
 
@@ -3218,9 +3228,6 @@ function addItem() {
         snoozedUntil:
             null,
 
-        snoozeReason:
-            null,
-
         schedule:
             ["everyday"]
 
@@ -3238,7 +3245,6 @@ function addItem() {
 
     render();
 
-    isCreatingTask = true;
 
     /*
      * Open the editor immediately so
@@ -3290,92 +3296,6 @@ function deleteItem(
 
 
 /* ==================================================
-   LONG-PRESS TASK REORDERING
-   ================================================== */
-
-function handleTaskNameClick(id) {
-    if (Date.now() < suppressTaskClickUntil) return;
-    openEditModal(id);
-}
-
-function startTaskPress(event, item, wrapper, element) {
-    if (event.target.closest("button, input")) return;
-    if (event.pointerType === "touch") return;
-    if (event.pointerType === "mouse" && event.button !== 0) return;
-    clearTimeout(pressTimer);
-    pressOrigin = {x:event.clientX, y:event.clientY};
-    pressTimer = setTimeout(() => {
-        activeDrag = {id:item.id, period:item.period, wrapper, element};
-        wrapper.classList.add("dragging");
-        suppressTaskClickUntil = Date.now() + 700;
-        if (navigator.vibrate) navigator.vibrate(25);
-    }, 380);
-}
-
-function moveTaskPress(event) {
-    if (!activeDrag) {
-        if (pressTimer && pressOrigin && Math.hypot(event.clientX - pressOrigin.x, event.clientY - pressOrigin.y) > 10) {
-            clearTimeout(pressTimer);
-            pressTimer = null;
-        }
-        return;
-    }
-    event.preventDefault();
-    const under = document.elementFromPoint(event.clientX, event.clientY);
-    const target = under && under.closest(".task-wrapper");
-    if (!target || target === activeDrag.wrapper || !activeDrag.wrapper.parentElement || target.parentElement !== activeDrag.wrapper.parentElement) return;
-    const targetItem = data.items.find(item => item.id === target.querySelector(".item")?.dataset.taskId);
-    if (targetItem && targetItem.period !== activeDrag.period) return;
-    const rect = target.getBoundingClientRect();
-    const before = event.clientY < rect.top + rect.height / 2;
-    target.parentElement.insertBefore(activeDrag.wrapper, before ? target : target.nextSibling);
-}
-
-function startTouchTaskPress(event, item, wrapper, element) {
-    if (event.target.closest("button, input")) return;
-    const touch = event.touches[0];
-    clearTimeout(pressTimer);
-    pressOrigin = {x:touch.clientX, y:touch.clientY};
-    pressTimer = setTimeout(() => {
-        activeDrag = {id:item.id, period:item.period, wrapper, element};
-        wrapper.classList.add("dragging");
-        suppressTaskClickUntil = Date.now() + 700;
-        if (navigator.vibrate) navigator.vibrate(25);
-    }, 380);
-}
-
-function moveTouchTaskPress(event) {
-    const touch = event.touches[0];
-    if (!activeDrag) {
-        if (pressTimer && pressOrigin && Math.hypot(touch.clientX - pressOrigin.x, touch.clientY - pressOrigin.y) > 10) {
-            clearTimeout(pressTimer);
-            pressTimer = null;
-        }
-        return;
-    }
-    event.preventDefault();
-    moveTaskPress({clientX:touch.clientX, clientY:touch.clientY, preventDefault() {}});
-}
-
-function finishTaskPress() {
-    clearTimeout(pressTimer);
-    pressTimer = null;
-    pressOrigin = null;
-    if (!activeDrag) return;
-    const {wrapper, period} = activeDrag;
-    wrapper.classList.remove("dragging");
-    const orderedIds = [...wrapper.parentElement.querySelectorAll(":scope > .task-wrapper")]
-        .map(node => node.querySelector(".item")?.dataset.taskId).filter(Boolean);
-    const orderedItems = orderedIds.map(id => data.items.find(item => item.id === id)).filter(Boolean);
-    const visibleIdSet = new Set(orderedIds);
-    let index = 0;
-    data.items = data.items.map(item => visibleIdSet.has(item.id) ? orderedItems[index++] : item);
-    saveData();
-    activeDrag = null;
-    render();
-}
-
-/* ==================================================
    PROGRESS
    ================================================== */
 
@@ -3388,7 +3308,7 @@ function updateProgress() {
 
                 isScheduledToday(item) &&
 
-                !(item.snoozed && item.snoozeReason === "excused")
+                !item.snoozed
 
         );
 
@@ -3464,8 +3384,6 @@ function resetToday() {
 
             item.snoozedUntil =
                 null;
-
-            item.snoozeReason = null;
 
         }
     );
@@ -3580,15 +3498,78 @@ setInterval(
    START
    ================================================== */
 
-document.addEventListener("pointermove", moveTaskPress, {passive:false});
-document.addEventListener("pointerup", finishTaskPress);
-document.addEventListener("pointercancel", finishTaskPress);
-
 checkForNewDay();
 
 updateDate();
 
 render();
+
+
+let historyMonth = null;
+let historySelected = null;
+function historyDateKey(y,m,d) { return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`; }
+function openHistory() {
+    checkForNewDay();
+    syncHistoryForDate(todayKey());
+    const now = new Date();
+    historyMonth = new Date(now.getFullYear(),now.getMonth(),1);
+    historySelected = todayKey();
+    document.getElementById('historyModal').classList.add('open');
+    renderHistory();
+}
+function closeHistory() { document.getElementById('historyModal').classList.remove('open'); }
+function moveHistoryMonth(delta) {
+    historyMonth = new Date(historyMonth.getFullYear(),historyMonth.getMonth()+delta,1);
+    historySelected = null;
+    renderHistory();
+}
+function renderHistory() {
+    const y=historyMonth.getFullYear(), m=historyMonth.getMonth();
+    const today=todayKey();
+    document.getElementById('historyMonth').textContent=historyMonth.toLocaleDateString(undefined,{month:'long',year:'numeric'});
+    document.getElementById('historyNext').disabled=historyDateKey(y,m,1).slice(0,7)>=today.slice(0,7);
+    document.getElementById('historyPrev').disabled=historyDateKey(y,m,1).slice(0,7)<=TRACKING_START_DATE.slice(0,7);
+    const grid=document.getElementById('historyGrid'); grid.replaceChildren();
+    ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(name=>{const el=document.createElement('div');el.className='history-weekday';el.textContent=name;grid.append(el);});
+    for(let i=0;i<historyMonth.getDay();i++) grid.append(document.createElement('div'));
+    for(let d=1;d<=new Date(y,m+1,0).getDate();d++) {
+        const key=historyDateKey(y,m,d), record=historyData.days[key];
+        const button=document.createElement('button'); button.type='button'; button.className='history-day'+(key===historySelected?' selected':'');
+        button.disabled=key>today || key<TRACKING_START_DATE;
+        const number=document.createElement('span');number.textContent=d;button.append(number);
+        const count=document.createElement('small');count.textContent=record?`(${record.tasks.filter(t=>t.completed).length})`:'—';button.append(count);
+        button.setAttribute('aria-label',`${key}, ${record?record.tasks.filter(t=>t.completed).length+' completed tasks':'no record'}`);
+        button.onclick=()=>{historySelected=key;renderHistory();};grid.append(button);
+    }
+    const detail=document.getElementById('historyDetail');detail.replaceChildren();
+    if(!historySelected) {detail.textContent='Select a date to view its tasks.';return;}
+    const title=document.createElement('h3');title.textContent=new Date(historySelected+'T12:00:00').toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric',year:'numeric'});detail.append(title);
+    const record=historyData.days[historySelected];
+    const info=document.createElement('p');detail.append(info);
+    if(!record){info.textContent='No history was recorded for this date.';return;}
+    const total=record.tasks.length, done=record.tasks.filter(t=>t.completed).length;
+    info.textContent=`${done} of ${total} completed${total?' · '+Math.round(done/total*100)+'%':''}. Tap a checkbox to correct the record.`;
+    for(const completed of [true,false]) {
+        const heading=document.createElement('div');heading.className='history-group';heading.textContent=completed?'Completed':'Incomplete';detail.append(heading);
+        const tasks=record.tasks.filter(t=>Boolean(t.completed)===completed);
+        if(!tasks.length){const empty=document.createElement('p');empty.textContent='None';detail.append(empty);}
+        tasks.forEach(task=>{
+            const label=document.createElement('label');label.className='history-task';
+            const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.checked=Boolean(task.completed);
+            const name=document.createElement('span');name.textContent=task.text;
+            checkbox.onchange=()=>{
+                const selected=historySelected;
+                checkForNewDay();
+                if(selected===todayKey()) {
+                    const item=data.items.find(i=>i.id===task.id);
+                    if(item){item.completed=checkbox.checked;item.completedAt=item.completed?new Date().toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}):'';saveData();}
+                }
+                task.completed=checkbox.checked;saveHistory();render();renderHistory();
+            };
+            label.append(checkbox,name);detail.append(label);
+        });
+    }
+}
 
 </script>
 
